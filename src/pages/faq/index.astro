@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config/site.js';
 
 const items = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
 const categories = ['게임플레이', '저장과 동기화', '앱과 설치'];
@@ -24,6 +25,6 @@ const rendered = await Promise.all(
     </section>
   ))}
   <p style="margin-top: 32px;">
-    원하는 답을 찾지 못하셨나요? <a href="/support/">문의하기</a>
+    원하는 답을 찾지 못하셨나요? <a href={withBase('/support/')}>문의하기</a>
   </p>
 </Base>
