@@ -19,7 +19,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   background:
-    radial-gradient(1000px 480px at 18% -10%, rgba(123, 188, 255, 0.25), transparent 60%),
+    radial-gradient(1000px 480px at 18% 0%, rgba(123, 188, 255, 0.25), transparent 60%),
     radial-gradient(720px 420px at 90% 8%, rgba(82, 231, 209, 0.18), transparent 62%),
     linear-gradient(180deg, #081526 0%, var(--bg) 48%, #050b14 100%);
   color: var(--text);
