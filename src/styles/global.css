@@ -90,11 +90,10 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   padding: 8px 18px;
   border-radius: var(--radius-pill);
   box-shadow: 0 8px 22px var(--accent-glow);
-  transition: transform var(--motion-fast) ease, filter var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+  transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
 }
 .play-btn:hover {
   text-decoration: none;
-  filter: brightness(1.06);
   transform: translateY(-1px);
   box-shadow: 0 12px 28px var(--accent-glow);
 }
@@ -120,12 +119,12 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   border-radius: 14px;
   padding: 16px 18px;
   box-shadow: var(--shadow);
-  transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, background var(--motion-fast) ease;
+  transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, background-color var(--motion-fast) ease;
 }
 .card:hover {
   text-decoration: none;
   border-color: var(--accent-aqua-soft);
-  background: rgba(38, 56, 78, 0.85);
+  background-color: rgba(38, 56, 78, 0.85);
   transform: translateY(-2px);
   box-shadow: 0 16px 30px rgba(5, 12, 21, 0.48);
 }
