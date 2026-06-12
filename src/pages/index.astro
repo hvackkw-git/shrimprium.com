@@ -1,36 +1,68 @@
 ---
 import Base from '../layouts/Base.astro';
-import { GAME_URL, withBase } from '../config/site.js';
+import { MENU_GROUPS, GAME_URL, withBase } from '../config/site.js';
 ---
 <Base>
-  <section class="hero">
-    <h1>🦐 Shrimprium</h1>
-    <p>
-      나만의 수조에서 새우를 키우는 시뮬레이션 게임.
-      수질을 관리하고, 장비를 설치하고, 교배로 새로운 품종을 만들어보세요.
-    </p>
-    <div class="actions">
-      <a class="play-btn" href={GAME_URL}>브라우저에서 플레이</a>
-      <a class="secondary" href={withBase('/guide/')}>초보자 가이드 보기</a>
+  <!-- 히어로: 게임 메뉴 창(.lab-center-modal .card) 스타일 -->
+  <section class="px-card hero-card">
+    <div class="px-head">
+      <span class="px-ico">🦐</span>
+      <p class="px-title">SHRIMPRIUM</p>
+      <span class="px-meta">새우 키우기 시뮬레이션</span>
+    </div>
+    <div class="px-body">
+      <img class="hero-shrimp" src={withBase('/assets/shrimp-gold.png')} alt="황금 새우 픽셀 아트" width="168" height="168" />
+      <p class="tagline">나만의 수조에서 새우를 키우는 시뮬레이션 게임</p>
+      <p class="desc">
+        수질을 관리하고, 장비를 설치하고, 교배로 새로운 품종을 만들어보세요.
+      </p>
+      <div class="actions">
+        <a class="px-btn primary" href={GAME_URL}>▶ 브라우저에서 플레이</a>
+        <a class="px-btn" href={withBase('/guide/')}>초보자 가이드 보기</a>
+      </div>
+    </div>
+    <div class="swim-strip" aria-hidden="true">
+      <i class="swim-shrimp red"></i>
+      <i class="swim-shrimp blue"></i>
     </div>
   </section>
 
+  <!-- 피처: 그룹 테마색 카드 4종 -->
   <section class="feature-grid">
-    <div class="card">
-      <p class="card-title">💧 수질 시뮬레이션</p>
-      <p class="card-desc">온도, 용존산소, 암모니아까지 — 실제 새우 사육처럼 수질을 관리하세요.</p>
+    <div class="px-card theme-cyan">
+      <div class="px-head"><span class="px-ico">💧</span><p class="px-title">수질 시뮬레이션</p></div>
+      <div class="px-body"><p>온도, 용존산소, 암모니아까지 — 실제 새우 사육처럼 수질을 관리하세요.</p></div>
     </div>
-    <div class="card">
-      <p class="card-title">🧬 유전과 교배</p>
-      <p class="card-desc">체리부터 크리스탈 레드까지, 교배를 통해 희귀 품종을 발견하세요.</p>
+    <div class="px-card theme-pink">
+      <div class="px-head"><span class="px-ico">🧬</span><p class="px-title">유전과 교배</p></div>
+      <div class="px-body"><p>체리부터 크리스탈 레드까지, 교배를 통해 희귀 품종을 발견하세요.</p></div>
     </div>
-    <div class="card">
-      <p class="card-title">🛠️ 장비와 꾸미기</p>
-      <p class="card-desc">히터, 쿨러, 조명, 장식 블록으로 수조를 자유롭게 꾸밀 수 있습니다.</p>
+    <div class="px-card">
+      <div class="px-head"><span class="px-ico">🛠️</span><p class="px-title">장비와 꾸미기</p></div>
+      <div class="px-body"><p>히터, 쿨러, 조명, 장식 블록으로 수조를 자유롭게 꾸밀 수 있습니다.</p></div>
     </div>
-    <div class="card">
-      <p class="card-title">📱 어디서나</p>
-      <p class="card-desc">브라우저, iOS, Android 어디서든 플레이하고 클라우드로 이어하세요.</p>
+    <div class="px-card theme-gold">
+      <div class="px-head"><span class="px-ico">📱</span><p class="px-title">어디서나</p></div>
+      <div class="px-body"><p>브라우저, iOS, Android 어디서든 플레이하고 클라우드로 이어하세요.</p></div>
+    </div>
+  </section>
+
+  <!-- 바로가기: 게임 햄버거 메뉴를 펼쳐놓은 패널 -->
+  <section class="px-card theme-gold home-menu" style="margin-top: 24px;">
+    <div class="px-head"><span class="px-ico">☰</span><p class="px-title">MENU</p><span class="px-meta">바로가기</span></div>
+    <div class="px-body">
+      {MENU_GROUPS.map((group) => (
+        <div class={`panel-group ${group.theme}`}>
+          <p class="group-label">{group.label}</p>
+          {group.items.map((item) => (
+            <a class="panel-toggle-btn" href={withBase(item.href)}>{item.label}</a>
+          ))}
+        </div>
+      ))}
+      <div class="panel-group">
+        <p class="group-label">PLAY</p>
+        <a class="rainbow-btn" href={GAME_URL}><span class="rainbow-label">플레이하기</span></a>
+      </div>
     </div>
   </section>
 </Base>
