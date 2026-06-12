@@ -80,7 +80,6 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 .site-logo:hover { text-decoration: none; }
 .site-nav { display: flex; gap: 16px; flex-wrap: wrap; }
 .site-nav a { color: var(--text); font-size: 0.92rem; transition: color var(--motion-fast) ease; }
-.site-nav a:hover { text-decoration: none; }
 .site-nav a[aria-current="true"] { color: var(--accent-aqua); font-weight: 600; }
 .play-btn {
   margin-left: auto;
