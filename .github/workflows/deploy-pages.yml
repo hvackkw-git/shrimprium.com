@@ -1,0 +1,48 @@
+# GitHub Pages 미리보기 배포 (https://hvackkw-git.github.io/shrimprium.com/)
+# 정식 배포(Cloudflare Pages, shrimprium.com)로 전환하면 이 워크플로는 삭제해도 됩니다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, claude/great-turing-jdukei]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_URL: https://hvackkw-git.github.io
+          BASE_PATH: /shrimprium.com
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

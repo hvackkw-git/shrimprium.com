@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { GAME_URL } from '../config/site.js';
+import { GAME_URL, withBase } from '../config/site.js';
 ---
 <Base>
   <section class="hero">
@@ -11,7 +11,7 @@ import { GAME_URL } from '../config/site.js';
     </p>
     <div class="actions">
       <a class="play-btn" href={GAME_URL}>브라우저에서 플레이</a>
-      <a class="secondary" href="/guide/">초보자 가이드 보기</a>
+      <a class="secondary" href={withBase('/guide/')}>초보자 가이드 보기</a>
     </div>
   </section>
 

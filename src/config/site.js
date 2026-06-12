@@ -13,3 +13,6 @@ export const NAV = [
   // 커뮤니티는 백엔드 도입 시 주석 해제
   // { label: '커뮤니티', href: '/community/' },
 ];
+
+// 서브경로 배포(GitHub Pages 등)에서도 루트 절대경로 링크가 동작하도록 base를 붙여줌.
+export const withBase = (path) => import.meta.env.BASE_URL.replace(/\/$/, '') + path;

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config/site.js';
 
 const docs = (await getCollection('guide')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -9,7 +10,7 @@ const docs = (await getCollection('guide')).sort((a, b) => a.data.order - b.data
   <ul class="card-list">
     {docs.map((doc) => (
       <li>
-        <a class="card" href={`/guide/${doc.id}/`}>
+        <a class="card" href={withBase(`/guide/${doc.id}/`)}>
           <p class="card-title">{doc.data.title}</p>
           {doc.data.description && <p class="card-desc">{doc.data.description}</p>}
         </a>
