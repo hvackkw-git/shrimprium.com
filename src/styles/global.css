@@ -12,6 +12,7 @@
   --accent-aqua: #52e7d1;
   --accent-glow: rgba(82, 231, 209, 0.28);
   --shadow: 0 12px 30px rgba(2, 8, 16, 0.42);
+  --radius-pill: 999px;
 }
 
 html { scroll-behavior: smooth; }
@@ -86,7 +87,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   font-weight: 700;
   font-size: 0.88rem;
   padding: 8px 18px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   box-shadow: 0 8px 22px var(--accent-glow);
   transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
 }
@@ -123,8 +124,8 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 }
 .card:hover {
   text-decoration: none;
-  border-color: color-mix(in srgb, var(--accent-aqua) 76%, white);
-  background: color-mix(in srgb, var(--bg-card) 84%, #ffffff 16%);
+  border-color: rgba(129, 243, 227, 0.78);
+  background: rgba(38, 56, 78, 0.85);
   transform: translateY(-2px);
   box-shadow: 0 16px 30px rgba(5, 12, 21, 0.48);
 }
@@ -179,7 +180,7 @@ details.faq-item[open] summary { margin-bottom: 8px; }
   background: linear-gradient(135deg, rgba(19, 36, 57, 0.8) 0%, rgba(13, 26, 44, 0.86) 100%);
   color: var(--text);
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-size: 0.88rem;
   transition: transform 140ms ease, border-color 140ms ease, color 140ms ease;
 }
