@@ -14,6 +14,7 @@
   --accent-glow: rgba(82, 231, 209, 0.28);
   --shadow: 0 12px 30px rgba(2, 8, 16, 0.42);
   --radius-pill: 999px;
+  --motion-fast: 160ms;
 }
 
 html { scroll-behavior: smooth; }
@@ -31,7 +32,7 @@ body {
   flex-direction: column;
 }
 
-a { color: var(--accent); text-decoration: none; transition: color 180ms ease; }
+a { color: var(--accent); text-decoration: none; transition: color var(--motion-fast) ease; }
 a:hover { text-decoration: underline; }
 
 main {
@@ -78,8 +79,8 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 }
 .site-logo:hover { text-decoration: none; }
 .site-nav { display: flex; gap: 16px; flex-wrap: wrap; }
-.site-nav a { color: var(--text); font-size: 0.92rem; opacity: 1; transition: color 160ms ease; }
-.site-nav a:hover { opacity: 1; text-decoration: none; }
+.site-nav a { color: var(--text); font-size: 0.92rem; transition: color var(--motion-fast) ease; }
+.site-nav a:hover { text-decoration: none; }
 .site-nav a[aria-current="true"] { color: var(--accent-aqua); font-weight: 600; }
 .play-btn {
   margin-left: auto;
@@ -90,7 +91,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   padding: 8px 18px;
   border-radius: var(--radius-pill);
   box-shadow: 0 8px 22px var(--accent-glow);
-  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+  transition: transform var(--motion-fast) ease, filter var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
 }
 .play-btn:hover {
   text-decoration: none;
@@ -120,7 +121,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   border-radius: 14px;
   padding: 16px 18px;
   box-shadow: var(--shadow);
-  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease, background-color 170ms ease;
+  transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, background var(--motion-fast) ease;
 }
 .card:hover {
   text-decoration: none;
@@ -181,7 +182,7 @@ details.faq-item[open] summary { margin-bottom: 8px; }
   padding: 8px 16px;
   border-radius: var(--radius-pill);
   font-size: 0.88rem;
-  transition: transform 140ms ease, border-color 140ms ease, color 140ms ease;
+  transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease, color var(--motion-fast) ease;
 }
 .hero .actions .secondary:hover {
   text-decoration: none;
