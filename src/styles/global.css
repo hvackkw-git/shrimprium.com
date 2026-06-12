@@ -10,6 +10,7 @@
   --text-dim: rgba(215, 228, 243, 0.72);
   --accent: #7bbcff;
   --accent-aqua: #52e7d1;
+  --accent-aqua-soft: rgba(129, 243, 227, 0.78);
   --accent-glow: rgba(82, 231, 209, 0.28);
   --shadow: 0 12px 30px rgba(2, 8, 16, 0.42);
   --radius-pill: 999px;
@@ -20,8 +21,8 @@ html { scroll-behavior: smooth; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
   background:
-    radial-gradient(1000px 480px at 18% 0%, rgba(123, 188, 255, 0.25), transparent 60%),
-    radial-gradient(720px 420px at 90% 8%, rgba(82, 231, 209, 0.18), transparent 62%),
+    radial-gradient(clamp(560px, 70vw, 1000px) clamp(280px, 36vw, 480px) at 18% 0%, rgba(123, 188, 255, 0.25), transparent 60%),
+    radial-gradient(clamp(440px, 54vw, 720px) clamp(240px, 30vw, 420px) at 90% 8%, rgba(82, 231, 209, 0.18), transparent 62%),
     linear-gradient(180deg, #081526 0%, var(--bg) 48%, #050b14 100%);
   color: var(--text);
   line-height: 1.7;
@@ -53,7 +54,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   background: rgba(7, 16, 29, 0.74);
   position: sticky;
   top: 0;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(10px);
   z-index: 10;
   box-shadow: 0 8px 22px rgba(5, 10, 18, 0.35);
 }
@@ -77,7 +78,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 }
 .site-logo:hover { text-decoration: none; }
 .site-nav { display: flex; gap: 16px; flex-wrap: wrap; }
-.site-nav a { color: var(--text); font-size: 0.92rem; opacity: 0.82; transition: opacity 160ms ease, color 160ms ease; }
+.site-nav a { color: var(--text); font-size: 0.92rem; opacity: 1; transition: color 160ms ease; }
 .site-nav a:hover { opacity: 1; text-decoration: none; }
 .site-nav a[aria-current="true"] { color: var(--accent-aqua); font-weight: 600; }
 .play-btn {
@@ -119,12 +120,11 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   border-radius: 14px;
   padding: 16px 18px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
   transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease, background-color 170ms ease;
 }
 .card:hover {
   text-decoration: none;
-  border-color: rgba(129, 243, 227, 0.78);
+  border-color: var(--accent-aqua-soft);
   background: rgba(38, 56, 78, 0.85);
   transform: translateY(-2px);
   box-shadow: 0 16px 30px rgba(5, 12, 21, 0.48);
@@ -161,7 +161,6 @@ details.faq-item[open] summary { margin-bottom: 8px; }
   padding: 14px 16px;
   height: 100%;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(8px);
 }
 .shrimp-card .name { color: var(--text-strong); font-weight: 600; }
 .shrimp-card .grade { font-size: 0.78rem; color: var(--accent-aqua); }
