@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { SUPPORT_EMAIL } from '../config/site.js';
+---
+<Base title="문의/지원" description="Shrimprium 문의 및 지원">
+  <h1>문의/지원</h1>
+  <p>게임 이용 중 문제가 있거나 제안하고 싶은 내용이 있다면 이메일로 보내주세요.</p>
+  <p>
+    📧 <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+  </p>
+  <h2>문의 전 확인해주세요</h2>
+  <ul>
+    <li>자주 묻는 질문은 <a href="/faq/">FAQ</a>에 정리되어 있습니다.</li>
+    <li>버그 제보 시 사용 중인 기기와 브라우저(또는 앱 버전)를 함께 알려주시면 빠른 처리에 도움이 됩니다.</li>
+  </ul>
+</Base>

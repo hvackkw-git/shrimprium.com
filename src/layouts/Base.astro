@@ -1,0 +1,44 @@
+---
+import { NAV, GAME_URL } from '../config/site.js';
+import '../styles/global.css';
+
+const { title, description = '새우 키우기 시뮬레이션 게임 Shrimprium 공식 사이트' } = Astro.props;
+const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 새우 키우기 시뮬레이션';
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={new URL(currentPath, Astro.site)} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="site-logo" href="/">🦐 Shrimprium</a>
+      <nav class="site-nav">
+        {NAV.map((item) => (
+          <a href={item.href} aria-current={currentPath.startsWith(item.href) ? 'true' : undefined}>{item.label}</a>
+        ))}
+      </nav>
+      <a class="play-btn" href={GAME_URL}>플레이하기</a>
+    </div>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer class="site-footer">
+    <nav>
+      <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/support/">문의/지원</a>
+    </nav>
+    <p>© {new Date().getFullYear()} Shrimprium</p>
+  </footer>
+</body>
+</html>

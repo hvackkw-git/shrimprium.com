@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { GAME_URL } from '../config/site.js';
+---
+<Base>
+  <section class="hero">
+    <h1>🦐 Shrimprium</h1>
+    <p>
+      나만의 수조에서 새우를 키우는 시뮬레이션 게임.
+      수질을 관리하고, 장비를 설치하고, 교배로 새로운 품종을 만들어보세요.
+    </p>
+    <div class="actions">
+      <a class="play-btn" href={GAME_URL}>브라우저에서 플레이</a>
+      <a class="secondary" href="/guide/">초보자 가이드 보기</a>
+    </div>
+  </section>
+
+  <section class="feature-grid">
+    <div class="card">
+      <p class="card-title">💧 수질 시뮬레이션</p>
+      <p class="card-desc">온도, 용존산소, 암모니아까지 — 실제 새우 사육처럼 수질을 관리하세요.</p>
+    </div>
+    <div class="card">
+      <p class="card-title">🧬 유전과 교배</p>
+      <p class="card-desc">체리부터 크리스탈 레드까지, 교배를 통해 희귀 품종을 발견하세요.</p>
+    </div>
+    <div class="card">
+      <p class="card-title">🛠️ 장비와 꾸미기</p>
+      <p class="card-desc">히터, 쿨러, 조명, 장식 블록으로 수조를 자유롭게 꾸밀 수 있습니다.</p>
+    </div>
+    <div class="card">
+      <p class="card-title">📱 어디서나</p>
+      <p class="card-desc">브라우저, iOS, Android 어디서든 플레이하고 클라우드로 이어하세요.</p>
+    </div>
+  </section>
+</Base>

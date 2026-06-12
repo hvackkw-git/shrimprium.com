@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const docs = (await getCollection('guide')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="가이드" description="Shrimprium 게임 가이드 — 수질, 교배, 장비 시스템 설명">
+  <h1>가이드</h1>
+  <ul class="card-list">
+    {docs.map((doc) => (
+      <li>
+        <a class="card" href={`/guide/${doc.id}/`}>
+          <p class="card-title">{doc.data.title}</p>
+          {doc.data.description && <p class="card-desc">{doc.data.description}</p>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

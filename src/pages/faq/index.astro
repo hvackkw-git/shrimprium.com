@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const items = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const categories = ['게임플레이', '저장과 동기화', '앱과 설치'];
+const rendered = await Promise.all(
+  items.map(async (item) => ({ item, Content: (await render(item)).Content }))
+);
+---
+<Base title="FAQ" description="Shrimprium 자주 묻는 질문">
+  <h1>자주 묻는 질문</h1>
+  {categories.map((cat) => (
+    <section>
+      <h2>{cat}</h2>
+      {rendered
+        .filter(({ item }) => item.data.category === cat)
+        .map(({ item, Content }) => (
+          <details class="faq-item">
+            <summary>{item.data.question}</summary>
+            <div class="prose"><Content /></div>
+          </details>
+        ))}
+    </section>
+  ))}
+  <p style="margin-top: 32px;">
+    원하는 답을 찾지 못하셨나요? <a href="/support/">문의하기</a>
+  </p>
+</Base>
