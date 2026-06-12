@@ -5,13 +5,21 @@ export const GAME_URL = 'https://shrimprium.com';
 
 export const SUPPORT_EMAIL = 'hvackkw@naver.com';
 
-export const NAV = [
-  { label: '가이드', href: '/guide/' },
-  { label: '새우 도감', href: '/shrimpedia/' },
-  { label: '소식', href: '/news/' },
-  { label: 'FAQ', href: '/faq/' },
-  // 커뮤니티는 백엔드 도입 시 주석 해제
-  // { label: '커뮤니티', href: '/community/' },
+// 햄버거 메뉴 그룹 — 게임의 패널 그룹 색상(초록=배우기 / 골드=구경하기 / 시안=지원)
+export const MENU_GROUPS = [
+  { label: 'LEARN', theme: 'theme-green', items: [
+    { label: '가이드', href: '/guide/' },
+    { label: 'FAQ', href: '/faq/' },
+  ]},
+  { label: 'EXPLORE', theme: 'theme-yellow', items: [
+    { label: '새우 도감', href: '/shrimpedia/' },
+    { label: '소식', href: '/news/' },
+    // 커뮤니티는 백엔드 도입 시 주석 해제
+    // { label: '커뮤니티', href: '/community/' },
+  ]},
+  { label: 'SUPPORT', theme: 'theme-blue', items: [
+    { label: '문의/지원', href: '/support/' },
+  ]},
 ];
 
 // 서브경로 배포(GitHub Pages 등)에서도 루트 절대경로 링크가 동작하도록 base를 붙여줌.

@@ -1,16 +1,18 @@
 ---
-import { NAV, GAME_URL, withBase } from '../config/site.js';
+import { MENU_GROUPS, GAME_URL, withBase } from '../config/site.js';
 import '../styles/global.css';
 
 const { title, description = '새우 키우기 시뮬레이션 게임 Shrimprium 공식 사이트' } = Astro.props;
 const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 새우 키우기 시뮬레이션';
 const currentPath = Astro.url.pathname;
+const isCurrent = (href) => currentPath.startsWith(withBase(href));
 ---
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f14" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <meta property="og:title" content={pageTitle} />
@@ -19,26 +21,74 @@ const currentPath = Astro.url.pathname;
   <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
 </head>
 <body>
+  <!-- 배경 픽셀 기포 -->
+  <div class="bubble-layer" aria-hidden="true">
+    <i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i>
+  </div>
+
   <header class="site-header">
     <div class="inner">
-      <a class="site-logo" href={withBase('/')}>🦐 Shrimprium</a>
-      <nav class="site-nav">
-        {NAV.map((item) => (
-          <a href={withBase(item.href)} aria-current={currentPath.startsWith(withBase(item.href)) ? 'true' : undefined}>{item.label}</a>
-        ))}
-      </nav>
-      <a class="play-btn" href={GAME_URL}>플레이하기</a>
+      <a class="site-logo" href={withBase('/')}>
+        <span class="logo-ico">🦐</span>SHRIMPRIUM
+      </a>
+      <a class="play-btn" href={GAME_URL}>▶ 플레이하기</a>
+      <button id="menuToggleBtn" class="hamburger-toggle-btn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="gameMenuOverlay">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- 게임 햄버거 메뉴 (lab-menu-overlay 이식) -->
+  <div id="gameMenuOverlay" class="game-menu-overlay" hidden>
+    <nav class="game-menu-column" aria-label="사이트 메뉴">
+      <div class="game-menu-header">
+        <span class="game-menu-title">MENU</span>
+        <button id="menuCloseBtn" class="game-menu-close-btn" aria-label="메뉴 닫기">✕</button>
+      </div>
+      {MENU_GROUPS.map((group) => (
+        <div class={`panel-group ${group.theme}`}>
+          <p class="group-label">{group.label}</p>
+          {group.items.map((item) => (
+            <a class="panel-toggle-btn" href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'true' : undefined}>{item.label}</a>
+          ))}
+        </div>
+      ))}
+      <div class="panel-group">
+        <a class="rainbow-btn" href={GAME_URL}><span class="rainbow-label">플레이하기</span></a>
+      </div>
+      <div class="game-menu-credits">
+        © {new Date().getFullYear()} Shrimprium<br />
+        <a href={withBase('/privacy.html')}>개인정보처리방침</a> ·
+        <a href={withBase('/support/')}>문의/지원</a>
+      </div>
+    </nav>
+  </div>
+
   <main>
     <slot />
   </main>
+
   <footer class="site-footer">
     <nav>
       <a href={withBase('/privacy.html')}>개인정보처리방침</a>
       <a href={withBase('/support/')}>문의/지원</a>
     </nav>
     <p>© {new Date().getFullYear()} Shrimprium</p>
+    <p class="font-credit">Galmuri font © Minseo Lee · SIL OFL 1.1</p>
   </footer>
+
+  <script>
+    const overlay = document.getElementById('gameMenuOverlay');
+    const toggleBtn = document.getElementById('menuToggleBtn');
+    const closeBtn = document.getElementById('menuCloseBtn');
+    const setOpen = (open) => {
+      overlay.hidden = !open;
+      toggleBtn.setAttribute('aria-expanded', String(open));
+    };
+    toggleBtn.addEventListener('click', () => setOpen(overlay.hidden));
+    closeBtn.addEventListener('click', () => setOpen(false));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) setOpen(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) setOpen(false); });
+  </script>
 </body>
 </html>
