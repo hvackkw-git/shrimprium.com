@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import shrimps from '../../data/shrimpedia.json';
+---
+<Base title="새우 도감" description="Shrimprium에 등장하는 새우 품종 도감">
+  <h1>새우 도감</h1>
+  <p style="color: var(--text-dim);">게임에서 만날 수 있는 새우 품종들입니다. 교배를 통해 더 희귀한 품종을 발견해보세요.</p>
+  <ul class="shrimp-grid">
+    {shrimps.map((s) => (
+      <li>
+        <div class="shrimp-card">
+          <p class="name">{s.name}</p>
+          <p class="grade">{s.grade}</p>
+          <p class="desc">{s.desc}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</Base>
