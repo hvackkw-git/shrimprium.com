@@ -6,8 +6,8 @@ import { withBase } from '../../config/site.js';
 const posts = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date);
 const fmt = (d) => d.toISOString().slice(0, 10);
 ---
-<Base title="소식" description="Shrimprium 업데이트 소식과 공지사항">
-  <h1>소식</h1>
+<Base title="개발로그" description="Shrimprium 개발로그 — 업데이트 소식과 개발 이야기">
+  <h1>개발로그</h1>
   <ul class="card-list">
     {posts.map((post) => (
       <li>
