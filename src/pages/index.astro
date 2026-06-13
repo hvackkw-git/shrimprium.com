@@ -1,120 +1,148 @@
 ---
 import Base from '../layouts/Base.astro';
-import { withBase } from '../config/site.js';
 ---
 <Base>
-  <!-- 장식용 수조: 수초 3개 + 새우 2마리가 무작위로 헤엄치고 뛴다. 게임 기능은 없음. -->
-  <section
-    class="tank"
-    aria-label="새우가 헤엄치는 장식용 수조"
-    data-red={withBase('/assets/shrimp-swim-red.png')}
-    data-blue={withBase('/assets/shrimp-swim-blue.png')}
-  >
-    <div class="tank-water">
-      <i class="tank-surface" aria-hidden="true"></i>
-
-      <!-- 수초 3개 -->
-      <div class="tank-plant" style="left: 16%;" aria-hidden="true">
-        <i class="blade b1"></i><i class="blade b2"></i><i class="blade b3"></i>
-      </div>
-      <div class="tank-plant tall" style="left: 50%;" aria-hidden="true">
-        <i class="blade b1"></i><i class="blade b2"></i><i class="blade b3"></i><i class="blade b4"></i>
-      </div>
-      <div class="tank-plant short" style="left: 82%;" aria-hidden="true">
-        <i class="blade b1"></i><i class="blade b2"></i><i class="blade b3"></i>
-      </div>
-
-      <!-- 새우 2마리 (위치는 스크립트가 제어) -->
-      <div class="tank-shrimp" data-color="red" aria-hidden="true"><i class="sprite"></i></div>
-      <div class="tank-shrimp" data-color="blue" aria-hidden="true"><i class="sprite"></i></div>
+  <!-- 반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
+       폭이 넓어지면 새우는 크기 그대로 더 넓은 수조를 돌아다닌다. 게임 기능 없음. -->
+  <section class="gametank" id="gametank" aria-label="새우가 헤엄치는 수조">
+    <div class="gt-snow-back" aria-hidden="true"></div>
+    <div class="gt-gravel" id="gtGravel" aria-hidden="true"></div>
+    <div class="gt-plants" aria-hidden="true">
+      <img src="/assets/seaweed/seaweed_s03.png" alt="" draggable="false" />
+      <img src="/assets/seaweed/seaweed_s08.png" alt="" draggable="false" />
+      <img src="/assets/seaweed/seaweed_s11.png" alt="" draggable="false" />
     </div>
-    <div class="tank-substrate" aria-hidden="true"></div>
+    <div class="gt-shrimp-layer" id="gtShrimp" aria-hidden="true">
+      <div class="gt-shrimp" data-color="red"><i class="sprite"></i></div>
+      <div class="gt-shrimp" data-color="blue"><i class="sprite"></i></div>
+    </div>
+    <div class="gt-snow-front" aria-hidden="true"></div>
   </section>
 
   <script>
-    const tank = document.querySelector('.tank');
-    const water = tank.querySelector('.tank-water');
-    const shrimps = [...tank.querySelectorAll('.tank-shrimp')];
+    const tank = document.getElementById('gametank');
+    const gravelLayer = document.getElementById('gtGravel');
 
-    // 스프라이트 시트 경로를 data-속성에서 주입 (base 경로 대응)
-    shrimps.forEach((s) => {
-      const url = tank.dataset[s.dataset.color === 'red' ? 'red' : 'blue'];
-      s.querySelector('.sprite').style.backgroundImage = `url(${url})`;
-    });
+    // ── 자갈: 게임 본체(mountAquarium)의 캔버스 베이크를 이식. 현재 폭에 맞춰 생성 ──
+    const makeRng = (seed) => { let s = seed >>> 0; return () => { s = (Math.imul(s, 1664525) + 1013904223) | 0; return (s >>> 0) / 0x100000000; }; };
+    const shades = [
+      ['#384d65', '#1f2b38', '#17202a', '#10161c'],
+      ['#415c77', '#243342', '#1b2632', '#121a21'],
+      ['#202f3b', '#121a21', '#0e1419', '#090d11'],
+      ['#58687c', '#313a45', '#252c34', '#191d23'],
+    ];
+    const buildGravel = (W) => {
+      const old = gravelLayer.querySelector('.gravel-sprite');
+      if (old) old.remove();
+      const H = 50;
+      const cv = document.createElement('canvas');
+      cv.className = 'gravel-sprite';
+      cv.width = W; cv.height = H;
+      const c = cv.getContext('2d');
+      const rng = makeRng(0x6B5A47); // 시드 고정 — 같은 폭이면 같은 자갈밭
+      const pebble = (cx, cy, rx, ry, alpha) => {
+        const [hi, base, mid, sh] = shades[Math.floor(rng() * shades.length)];
+        c.globalAlpha = alpha;
+        const X = Math.round(cx), Y = Math.round(cy);
+        for (let dy = -ry; dy <= ry; dy++) {
+          const t = dy / (ry + 0.5);
+          const hw = Math.round(rx * Math.sqrt(1 - t * t));
+          const y = Y + dy;
+          const ringHw = (s, o) => { const tt = (dy + ry * o) / (ry * s + 0.5); return tt >= -1 && tt <= 1 ? Math.min(hw, Math.round(rx * s * Math.sqrt(1 - tt * tt))) : -1; };
+          let w1 = ringHw(0.88, 0.22); const w2 = ringHw(0.7, 0.4);
+          if (w1 < w2) w1 = w2;
+          if (w2 >= 0) { c.fillStyle = base; c.fillRect(X - w2, y, w2 * 2 + 1, 1); }
+          if (w1 >= 0) {
+            if (w1 > w2) {
+              c.fillStyle = mid;
+              if (w2 >= 0) { c.fillRect(X - w1, y, w1 - w2, 1); c.fillRect(X + w2 + 1, y, w1 - w2, 1); }
+              else { c.fillRect(X - w1, y, w1 * 2 + 1, 1); }
+            }
+            if (hw > w1) { c.fillStyle = sh; c.fillRect(X - hw, y, hw - w1, 1); c.fillRect(X + w1 + 1, y, hw - w1, 1); }
+          } else { c.fillStyle = sh; c.fillRect(X - hw, y, hw * 2 + 1, 1); }
+          const th = (dy + ry * 0.45) / (ry * 0.38 + 0.5);
+          if (th >= -1 && th <= 1) {
+            const hhw = Math.round(rx * 0.42 * Math.sqrt(1 - th * th));
+            const hx = X - Math.round(rx * 0.15);
+            const x0 = Math.max(X - hw, hx - hhw), x1 = Math.min(X + hw, hx + hhw);
+            c.fillStyle = hi; c.fillRect(x0, y, x1 - x0 + 1, 1);
+          }
+        }
+      };
+      const count = Math.round(W * 0.875); // 게임과 같은 밀도(320px당 280알갱이)
+      for (let i = 0; i < count; i++) {
+        const size = 5 + rng() * 11;
+        const rx = Math.max(2, Math.round(size / 2));
+        const ry = Math.max(2, Math.round((size * 0.85) / 2));
+        const h = ry * 2 + 1;
+        const bottom = rng() * Math.max(0, H - h);
+        pebble(rng() * W, H - bottom - ry - 0.5, rx, ry, 0.55 + rng() * 0.4);
+      }
+      c.globalAlpha = 1;
+      gravelLayer.appendChild(cv);
+    };
+    if (!gravelLayer.querySelector('.gravel-underlay')) {
+      const u = document.createElement('div');
+      u.className = 'gravel-underlay';
+      gravelLayer.appendChild(u);
+    }
 
+    // ── 새우 2마리: 크기 고정. 수조가 넓어지면 더 넓게 돌아다닌다 ──
+    const shrimps = [...document.querySelectorAll('.gt-shrimp')];
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const SIZE = 32;          // 스프라이트 한 프레임 크기
+    const SIZE = 32, GRAVEL = 50, SURFACE = 16;
     const rand = (a, b) => a + Math.random() * (b - a);
 
-    function bounds() {
-      return { w: water.clientWidth - SIZE, h: water.clientHeight - SIZE };
-    }
+    const fish = shrimps.map((el, i) => ({
+      el,
+      sprite: el.querySelector('.sprite'),
+      x: rand(40, 160),
+      y: rand(60, 160),
+      vx: rand(-0.4, 0.4) || 0.3,
+      vy: rand(-0.2, 0.2),
+      turnAt: 0,
+      jumpAt: rand(1500, 4000) * (i + 1),
+      face: 1,
+    }));
 
-    const fish = shrimps.map((el, i) => {
-      const b = bounds();
-      return {
-        el,
-        sprite: el.querySelector('.sprite'),
-        x: rand(b.w * 0.2, b.w * 0.8),
-        y: rand(b.h * 0.25, b.h * 0.7),
-        vx: rand(-0.4, 0.4) || 0.3,
-        vy: rand(-0.2, 0.2),
-        turnAt: 0,
-        jumpAt: rand(1500, 4000) * (i + 1),
-        face: 1,
-      };
-    });
-
-    function draw(f) {
+    const draw = (f) => {
       f.el.style.transform = `translate(${f.x}px, ${f.y}px)`;
-      // 스프라이트는 왼쪽을 바라봄 → 오른쪽으로 갈 때 좌우 반전
-      f.sprite.style.transform = `scale(${1.7 * f.face}, 1.7)`;
-    }
+      f.sprite.style.transform = `scale(${1.5 * f.face}, 1.5)`; // 왼쪽 바라봄 → 오른쪽 갈 때 반전
+    };
+
+    // 자갈 재생성(폭 변화 시) + 새우 경계 적용
+    let lastW = 0;
+    const onResize = () => {
+      const W = Math.round(gravelLayer.clientWidth);
+      if (W && Math.abs(W - lastW) > 8) { lastW = W; buildGravel(W); }
+    };
+    onResize();
+    new ResizeObserver(onResize).observe(tank);
 
     if (reduce) {
-      // 모션 최소화: 가만히 배치만 한다
       fish.forEach(draw);
     } else {
       let last = performance.now();
-      function tick(now) {
-        const dt = Math.min(now - last, 50);
-        last = now;
-        const b = bounds();
+      const tick = (now) => {
+        const dt = Math.min(now - last, 50); last = now;
+        const xMax = tank.clientWidth - SIZE;
+        const yMin = SURFACE, yMax = tank.clientHeight - GRAVEL - SIZE;
         for (const f of fish) {
-          // 가끔 방향/속도를 부드럽게 바꿈 (무작위 유영)
-          if (now > f.turnAt) {
-            f.vx += rand(-0.25, 0.25);
-            f.vy += rand(-0.15, 0.15);
-            f.turnAt = now + rand(700, 2200);
-          }
-          // 가끔 폭발적으로 튀어오름 (뛰기)
-          if (now > f.jumpAt) {
-            f.vx += rand(-1.6, 1.6);
-            f.vy -= rand(1.4, 2.6);
-            f.jumpAt = now + rand(2500, 6000);
-          }
-          // 약한 부력 + 속도 감쇠로 자연스럽게
-          f.vy += 0.012;
-          f.vx *= 0.985;
-          f.vy *= 0.99;
-          // 최대 속도 제한
+          if (now > f.turnAt) { f.vx += rand(-0.25, 0.25); f.vy += rand(-0.15, 0.15); f.turnAt = now + rand(700, 2200); }
+          if (now > f.jumpAt) { f.vx += rand(-1.6, 1.6); f.vy -= rand(1.4, 2.6); f.jumpAt = now + rand(2500, 6000); }
+          f.vy += 0.012; f.vx *= 0.985; f.vy *= 0.99;
           f.vx = Math.max(-2.4, Math.min(2.4, f.vx));
           f.vy = Math.max(-3, Math.min(2.4, f.vy));
-
-          f.x += f.vx * dt * 0.06;
-          f.y += f.vy * dt * 0.06;
-
-          // 벽에서 튕김
+          f.x += f.vx * dt * 0.06; f.y += f.vy * dt * 0.06;
           if (f.x < 0) { f.x = 0; f.vx = Math.abs(f.vx); }
-          if (f.x > b.w) { f.x = b.w; f.vx = -Math.abs(f.vx); }
-          if (f.y < 0) { f.y = 0; f.vy = Math.abs(f.vy) * 0.6; }
-          if (f.y > b.h) { f.y = b.h; f.vy = -Math.abs(f.vy); }
-
+          if (f.x > xMax) { f.x = xMax; f.vx = -Math.abs(f.vx); }
+          if (f.y < yMin) { f.y = yMin; f.vy = Math.abs(f.vy) * 0.6; }
+          if (f.y > yMax) { f.y = yMax; f.vy = -Math.abs(f.vy); }
           if (Math.abs(f.vx) > 0.05) f.face = f.vx > 0 ? -1 : 1;
           draw(f);
         }
         requestAnimationFrame(tick);
-      }
+      };
       requestAnimationFrame(tick);
     }
   </script>

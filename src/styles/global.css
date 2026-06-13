@@ -445,103 +445,93 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 .feature-grid .px-body { min-height: 86px; }
 .feature-grid .px-body p { font-size: 13px; margin: 0; }
 
-/* ---------- 홈 장식용 수조 ---------- */
-.tank {
+/* ---------- 홈: 반응형 수조 (자갈 · 수초 · 마린 스노우 · 새우 2마리) ----------
+   폭은 컨테이너에 맞춰 반응형. 새우는 크기 고정이라 넓어지면 더 넓은
+   수조를 그대로 돌아다닌다. 게임 기능은 없는 순수 연출. */
+.gametank {
   position: relative;
-  margin-top: 8px;
-  height: clamp(320px, 56vh, 460px);
-  border: 3px solid #000;
-  box-shadow:
-    inset 0 0 0 2px rgba(121, 215, 255, 0.45),
-    inset 2px 2px 0 rgba(255, 255, 255, 0.12),
-    inset -2px -2px 0 rgba(0, 0, 0, 0.55),
-    var(--px-pop);
+  margin: 8px 0 0;
+  width: 100%;
+  height: clamp(300px, 52vh, 440px);
   overflow: hidden;
+  border: 3px solid #000;
+  box-shadow: inset 0 0 0 2px rgba(121, 215, 255, 0.30), var(--px-pop);
+  background: linear-gradient(180deg, #0e3346 0%, #0a2433 55%, #071824 100%);
 }
-/* 물 */
-.tank-water {
-  position: absolute;
-  inset: 0 0 26px 0;
-  background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 16px),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 16px),
-    linear-gradient(180deg, #11384b 0%, #0d2434 55%, #0a1a26 100%);
+.gametank > * { position: absolute; pointer-events: none; }
+
+/* 마린 스노우(부유물) — 뒤(흐림·느림) / 앞(밝음·빠름) 2겹 패럴랙스 */
+.gt-snow-back, .gt-snow-front {
+  inset: 0;
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  image-rendering: pixelated;
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 95px), transparent calc(100% - 60px));
+  mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 95px), transparent calc(100% - 60px));
 }
-/* 수면 하이라이트 */
-.tank-surface {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(180deg, rgba(121, 215, 255, 0.35), transparent);
+.gt-snow-back {
+  z-index: 9;
+  background-image: url('/assets/underwater_snow_b.png');
+  opacity: 0.45;
+  animation: gt-snow-back 110s linear infinite;
 }
-/* 바닥재 (모래/자갈) */
-.tank-substrate {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 26px;
-  background:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.25) 0 3px, transparent 3px 7px),
-    linear-gradient(180deg, #4a3a2a 0%, #36281b 100%);
-  border-top: 3px solid #000;
+.gt-snow-front {
+  z-index: 240;
+  background-image: url('/assets/underwater_snow_a.png');
+  opacity: 0.55;
+  animation: gt-snow-front 72s linear infinite;
+}
+@keyframes gt-snow-back { from { background-position: 0 0; } to { background-position: -240px 240px; } }
+@keyframes gt-snow-front { from { background-position: 0 0; } to { background-position: 240px 480px; } }
+
+/* 자갈 — 캔버스에 베이크한 스프라이트 (스크립트가 현재 폭에 맞춰 생성) */
+.gt-gravel { bottom: 0; left: 0; right: 0; height: 50px; z-index: 15; }
+.gt-gravel .gravel-underlay {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 80px; z-index: 1;
+  background: linear-gradient(180deg, rgba(38,52,66,0.88) 0%, rgba(26,37,47,0.96) 58%, rgba(20,30,40,0.98) 100%);
+  clip-path: polygon(0% 30%,7% 26%,14% 31%,22% 25%,31% 32%,40% 27%,50% 33%,60% 28%,70% 34%,80% 29%,89% 35%,100% 30%,100% 100%,0% 100%);
+}
+.gt-gravel .gravel-sprite {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: 50px; z-index: 2;
+  image-rendering: pixelated;
 }
 
-/* 수초 */
-.tank-plant {
-  position: absolute;
-  bottom: -2px;
-  width: 28px;
-  margin-left: -14px;
-  height: 110px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 2px;
-  pointer-events: none;
-}
-.tank-plant.tall { height: 160px; }
-.tank-plant.short { height: 78px; }
-.tank-plant .blade {
-  display: block;
-  width: 8px;
-  background: linear-gradient(180deg, #4cc07a 0%, #2f7d52 100%);
-  border: 2px solid #0c2a1a;
-  border-radius: 6px 6px 0 0;
+/* 수초 — 실제 게임 seaweed 스프라이트, 바닥에 뿌리내려 흔들림(크기 고정) */
+.gt-plants { inset: 0; z-index: 100; }
+.gt-plants img {
+  position: absolute; bottom: 44px;
+  width: auto;
+  image-rendering: pixelated;
   transform-origin: bottom center;
-  animation: plant-sway 4.5s ease-in-out infinite;
+  animation: gt-sway 5.2s ease-in-out infinite;
 }
-.tank-plant .blade.b1 { height: 60%; animation-delay: -0.2s; }
-.tank-plant .blade.b2 { height: 100%; animation-delay: -1.1s; }
-.tank-plant .blade.b3 { height: 75%; animation-delay: -0.6s; }
-.tank-plant .blade.b4 { height: 88%; animation-delay: -1.6s; }
-@keyframes plant-sway {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
+.gt-plants img:nth-child(1) { left: 8%;  height: 116px; filter: blur(1.2px); opacity: 0.82; animation-delay: -0.5s; }
+.gt-plants img:nth-child(2) { left: 44%; height: 146px; filter: blur(0.8px); opacity: 0.9;  animation-delay: -2.1s; }
+.gt-plants img:nth-child(3) { left: 76%; height: 126px; filter: blur(0.5px); opacity: 0.95; animation-delay: -1.2s; }
+@keyframes gt-sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
 }
 
-/* 새우 (위치는 스크립트가 transform 으로 제어) */
-.tank-shrimp {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
+/* 새우 2마리 — 크기 고정. 위치는 스크립트가 transform 으로 제어 */
+.gt-shrimp-layer { inset: 0; z-index: 160; }
+.gt-shrimp {
+  position: absolute; top: 0; left: 0;
+  width: 32px; height: 32px;
   will-change: transform;
 }
-.tank-shrimp .sprite {
+.gt-shrimp .sprite {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
   background-repeat: no-repeat;
   background-size: 256px 32px;
   image-rendering: pixelated;
-  transform: scale(1.7);
+  transform: scale(1.5);
   transform-origin: center;
   animation: swim-frames 0.8s steps(8) infinite;
 }
+.gt-shrimp[data-color="red"]  .sprite { background-image: url('/assets/shrimp-swim-red.png'); }
+.gt-shrimp[data-color="blue"] .sprite { background-image: url('/assets/shrimp-swim-blue.png'); }
 
 /* ---------- 카드 목록 (가이드/소식) ---------- */
 .card-list { list-style: none; padding: 0; display: grid; gap: 12px; }
@@ -676,7 +666,9 @@ details.faq-item:hover { border-color: rgba(255, 214, 102, 0.45); }
 
 /* ---------- 모션 줄이기 ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .px-bubble, .hero-shrimp, .tank-plant .blade, .tank-shrimp .sprite { animation: none !important; }
+  .px-bubble, .hero-shrimp,
+  .gt-bg, .gt-ripple, .gt-snow-back, .gt-snow-front, .gt-caustics,
+  .gt-plants img, .gt-shrimp .sprite { animation: none !important; }
 }
 
 @media (max-width: 560px) {
