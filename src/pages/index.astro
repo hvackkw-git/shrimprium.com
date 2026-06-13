@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { withBase } from '../config/site.js';
 ---
 <Base>
   <!-- 반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
@@ -8,9 +9,9 @@ import Base from '../layouts/Base.astro';
     <div class="gt-snow-back" aria-hidden="true"></div>
     <div class="gt-gravel" id="gtGravel" aria-hidden="true"></div>
     <div class="gt-plants" aria-hidden="true">
-      <img src="/assets/seaweed/seaweed_s03.png" alt="" draggable="false" />
-      <img src="/assets/seaweed/seaweed_s08.png" alt="" draggable="false" />
-      <img src="/assets/seaweed/seaweed_s11.png" alt="" draggable="false" />
+      <img src={withBase('/assets/seaweed/seaweed_s03.png')} alt="" draggable="false" />
+      <img src={withBase('/assets/seaweed/seaweed_s08.png')} alt="" draggable="false" />
+      <img src={withBase('/assets/seaweed/seaweed_s11.png')} alt="" draggable="false" />
     </div>
     <div class="gt-shrimp-layer" id="gtShrimp" aria-hidden="true">
       <div class="gt-shrimp" data-color="red"><i class="sprite"></i></div>
