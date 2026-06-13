@@ -5,8 +5,11 @@ import { withBase } from '../../config/site.js';
 
 const docs = (await getCollection('guide')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="가이드" description="Shrimprium 게임 가이드 — 수질, 교배, 장비 시스템 설명">
-  <h1>가이드</h1>
+<Base title="새우백과" description="Shrimprium 새우백과 — 가이드, 새우 도감, 자주 묻는 질문">
+  <h1>새우백과</h1>
+  <p>게임을 시작하고 즐기는 데 필요한 가이드와 자료를 모았습니다.</p>
+
+  <h2>가이드</h2>
   <ul class="card-list">
     {docs.map((doc) => (
       <li>
@@ -16,5 +19,21 @@ const docs = (await getCollection('guide')).sort((a, b) => a.data.order - b.data
         </a>
       </li>
     ))}
+  </ul>
+
+  <h2>더 알아보기</h2>
+  <ul class="card-list">
+    <li>
+      <a class="card" href={withBase('/shrimpedia/')}>
+        <p class="card-title">새우 도감</p>
+        <p class="card-desc">게임에 등장하는 새우 품종과 등급을 한눈에 살펴보세요.</p>
+      </a>
+    </li>
+    <li>
+      <a class="card" href={withBase('/faq/')}>
+        <p class="card-title">자주 묻는 질문</p>
+        <p class="card-desc">게임플레이, 저장과 동기화, 앱 설치에 대한 답을 모았습니다.</p>
+      </a>
+    </li>
   </ul>
 </Base>

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../config/site.js';
+---
+<Base title="커뮤니티" description="Shrimprium 자유 커뮤니티">
+  <h1>커뮤니티</h1>
+  <p>플레이어들이 자유롭게 수조를 자랑하고 이야기를 나누는 공간입니다.</p>
+
+  <div class="px-card theme-gold" style="margin-top: 20px;">
+    <div class="px-head"><span class="px-ico">💬</span><p class="px-title">준비 중</p></div>
+    <div class="px-body">
+      <p>자유 커뮤니티는 현재 준비 중입니다. 백엔드가 연결되면 이곳에서 글을 쓰고 댓글을 남길 수 있게 됩니다.</p>
+    </div>
+  </div>
+
+  <p style="margin-top: 24px;">
+    그동안의 소식은 <a href={withBase('/news/')}>개발로그</a>에서 확인할 수 있어요.
+  </p>
+</Base>

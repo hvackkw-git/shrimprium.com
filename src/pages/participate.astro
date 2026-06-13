@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { SUPPORT_EMAIL, withBase } from '../config/site.js';
+---
+<Base title="개발참여" description="Shrimprium 개발에 참여하기 — 새우 그리기, 블록 제안, 배경 제출, 개발 건의">
+  <h1>개발참여</h1>
+  <p>Shrimprium은 플레이어와 함께 만들어가는 게임입니다. 아래 방법으로 게임에 직접 참여할 수 있어요.</p>
+
+  <h2>이런 걸 함께 만들 수 있어요</h2>
+  <ul class="card-list">
+    <li>
+      <div class="card">
+        <p class="card-title">새우 그리기</p>
+        <p class="card-desc">직접 디자인한 새우 도트 아트를 제안하고, 게임 속 품종으로 만나보세요.</p>
+      </div>
+    </li>
+    <li>
+      <div class="card">
+        <p class="card-title">블록 제안</p>
+        <p class="card-desc">수조를 꾸밀 장식 블록·장비 아이디어를 제안할 수 있습니다.</p>
+      </div>
+    </li>
+    <li>
+      <div class="card">
+        <p class="card-title">배경 제출</p>
+        <p class="card-desc">수조 뒤를 채울 배경 이미지를 올려 다른 플레이어와 공유하세요.</p>
+      </div>
+    </li>
+    <li>
+      <div class="card">
+        <p class="card-title">개발 건의</p>
+        <p class="card-desc">새로운 기능이나 개선 아이디어를 자유롭게 건의해주세요.</p>
+      </div>
+    </li>
+  </ul>
+
+  <p style="margin-top: 24px;">
+    제출·투표 기능은 준비 중입니다. 그때까지는 <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> 또는
+    <a href={withBase('/support/')}>문의/지원</a>으로 아이디어를 보내주세요.
+  </p>
+</Base>
