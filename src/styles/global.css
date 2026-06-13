@@ -445,57 +445,20 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 .feature-grid .px-body { min-height: 86px; }
 .feature-grid .px-body p { font-size: 13px; margin: 0; }
 
-/* ---------- 홈: 게임 화면 그대로의 수조 (320×640 월드를 스케일) ----------
-   게임 본체(aquariumTankShell)의 시각 레이어를 실제 에셋으로 이식.
-   코스믹 배경(가르강튀아) · 수면 윤슬(리플) · 마린 스노우 · 자갈 ·
-   바닥 윤슬(코스틱) · 수초 · 새우 2마리. 게임 기능은 없는 순수 연출. */
+/* ---------- 홈: 반응형 수조 (자갈 · 수초 · 마린 스노우 · 새우 2마리) ----------
+   폭은 컨테이너에 맞춰 반응형. 새우는 크기 고정이라 넓어지면 더 넓은
+   수조를 그대로 돌아다닌다. 게임 기능은 없는 순수 연출. */
 .gametank {
   position: relative;
-  margin: 8px auto 0;
-  width: min(360px, 100%);
-  aspect-ratio: 320 / 640;
+  margin: 8px 0 0;
+  width: 100%;
+  height: clamp(300px, 52vh, 440px);
   overflow: hidden;
-  background: #05070a;
   border: 3px solid #000;
   box-shadow: inset 0 0 0 2px rgba(121, 215, 255, 0.30), var(--px-pop);
+  background: linear-gradient(180deg, #0e3346 0%, #0a2433 55%, #071824 100%);
 }
-.gametank-scene {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 320px;
-  height: 640px;
-  transform-origin: top left;
-  transform: scale(var(--gt-scale, 1));
-}
-.gametank-scene > * { position: absolute; pointer-events: none; }
-
-/* 코스믹 배경(가르강튀아) — 320×7680, 12프레임 세로 스프라이트가 회전 */
-.gt-bg {
-  bottom: 0; left: 0; z-index: 0;
-  width: 320px; height: 640px;
-  background: url('/assets/tank-bg-blackhole.png') 0 0 / 320px 7680px no-repeat;
-  image-rendering: pixelated;
-  animation: gt-bh-spin 4.8s steps(12) infinite;
-}
-@keyframes gt-bh-spin { from { background-position: 0 0; } to { background-position: 0 -7680px; } }
-.gt-bg-overlay {
-  top: 0; left: 0; z-index: 1;
-  width: 320px; height: 640px;
-  background: linear-gradient(180deg,
-    rgba(5,3,8,0.28) 0%, rgba(4,2,6,0.45) 40%, rgba(2,1,4,0.62) 75%, rgba(0,0,2,0.80) 100%);
-}
-
-/* 수면 윤슬(리플) — 상단 16프레임 애니메이션 */
-.gt-ripple {
-  top: 0; left: 0; z-index: 2;
-  width: 320px; height: 240px;
-  background: url('/assets/tank-bg-ripple.png') 0 0 / 320px 3840px no-repeat;
-  image-rendering: pixelated;
-  opacity: 0.42;
-  animation: gt-ripple 2.4s steps(16, end) infinite;
-}
-@keyframes gt-ripple { from { background-position: 0 0; } to { background-position: 0 -3840px; } }
+.gametank > * { position: absolute; pointer-events: none; }
 
 /* 마린 스노우(부유물) — 뒤(흐림·느림) / 앞(밝음·빠름) 2겹 패럴랙스 */
 .gt-snow-back, .gt-snow-front {
@@ -509,19 +472,19 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 .gt-snow-back {
   z-index: 9;
   background-image: url('/assets/underwater_snow_b.png');
-  opacity: 0.5;
+  opacity: 0.45;
   animation: gt-snow-back 110s linear infinite;
 }
 .gt-snow-front {
   z-index: 240;
   background-image: url('/assets/underwater_snow_a.png');
-  opacity: 0.6;
+  opacity: 0.55;
   animation: gt-snow-front 72s linear infinite;
 }
 @keyframes gt-snow-back { from { background-position: 0 0; } to { background-position: -240px 240px; } }
 @keyframes gt-snow-front { from { background-position: 0 0; } to { background-position: 240px 480px; } }
 
-/* 자갈 — 캔버스에 1회 베이크한 스프라이트 (스크립트가 생성) */
+/* 자갈 — 캔버스에 베이크한 스프라이트 (스크립트가 현재 폭에 맞춰 생성) */
 .gt-gravel { bottom: 0; left: 0; right: 0; height: 50px; z-index: 15; }
 .gt-gravel .gravel-underlay {
   position: absolute; left: 0; right: 0; bottom: 0; height: 80px; z-index: 1;
@@ -533,24 +496,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   image-rendering: pixelated;
 }
 
-/* 바닥 윤슬(코스틱) — 16프레임 */
-.gt-caustics {
-  bottom: 0; left: 0; z-index: 20;
-  width: 320px; height: 80px;
-  background: url('/assets/underwater_caustics.png') 0 0 / 320px 1280px no-repeat;
-  image-rendering: pixelated;
-  opacity: 0.6;
-  animation: gt-caustics 2.4s steps(16, end) infinite;
-}
-@keyframes gt-caustics { from { background-position: 0 0; } to { background-position: 0 -1280px; } }
-
-/* 깊이 헤이즈 */
-.gt-depth-haze {
-  inset: 0; z-index: 60;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(28,62,92,0.05) 45%, rgba(24,54,84,0.12) 75%, rgba(18,42,68,0.18) 100%);
-}
-
-/* 수초 — 실제 게임 seaweed 스프라이트, 바닥에 뿌리내려 흔들림 */
+/* 수초 — 실제 게임 seaweed 스프라이트, 바닥에 뿌리내려 흔들림(크기 고정) */
 .gt-plants { inset: 0; z-index: 100; }
 .gt-plants img {
   position: absolute; bottom: 44px;
@@ -559,15 +505,15 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   transform-origin: bottom center;
   animation: gt-sway 5.2s ease-in-out infinite;
 }
-.gt-plants img:nth-child(1) { left: 18px;  height: 122px; filter: blur(1.5px); opacity: 0.82; animation-delay: -0.5s; }
-.gt-plants img:nth-child(2) { left: 96px;  height: 150px; filter: blur(1px);   opacity: 0.9;  animation-delay: -2.1s; }
-.gt-plants img:nth-child(3) { left: 188px; height: 132px; filter: blur(0.6px); opacity: 0.95; animation-delay: -1.2s; }
+.gt-plants img:nth-child(1) { left: 8%;  height: 116px; filter: blur(1.2px); opacity: 0.82; animation-delay: -0.5s; }
+.gt-plants img:nth-child(2) { left: 44%; height: 146px; filter: blur(0.8px); opacity: 0.9;  animation-delay: -2.1s; }
+.gt-plants img:nth-child(3) { left: 76%; height: 126px; filter: blur(0.5px); opacity: 0.95; animation-delay: -1.2s; }
 @keyframes gt-sway {
   0%, 100% { transform: rotate(-2.5deg); }
   50% { transform: rotate(2.5deg); }
 }
 
-/* 새우 2마리 — 위치는 스크립트가 transform 으로 제어 */
+/* 새우 2마리 — 크기 고정. 위치는 스크립트가 transform 으로 제어 */
 .gt-shrimp-layer { inset: 0; z-index: 160; }
 .gt-shrimp {
   position: absolute; top: 0; left: 0;
@@ -580,20 +526,12 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   background-repeat: no-repeat;
   background-size: 256px 32px;
   image-rendering: pixelated;
-  transform: scale(1.3);
+  transform: scale(1.5);
   transform-origin: center;
   animation: swim-frames 0.8s steps(8) infinite;
 }
 .gt-shrimp[data-color="red"]  .sprite { background-image: url('/assets/shrimp-swim-red.png'); }
 .gt-shrimp[data-color="blue"] .sprite { background-image: url('/assets/shrimp-swim-blue.png'); }
-
-/* 유리벽 비네트 (전경) */
-.gt-vignette {
-  inset: 0; z-index: 280;
-  background:
-    linear-gradient(90deg, rgba(4,10,18,0.20) 0px, rgba(4,10,18,0) 26px, rgba(4,10,18,0) calc(100% - 26px), rgba(4,10,18,0.20) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0) 82%, rgba(2,5,9,0.14) 100%);
-}
 
 /* ---------- 카드 목록 (가이드/소식) ---------- */
 .card-list { list-style: none; padding: 0; display: grid; gap: 12px; }
