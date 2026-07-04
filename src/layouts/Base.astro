@@ -1,11 +1,14 @@
 ---
-import { NAV, GAME_URL, withBase } from '../config/site.js';
+import { NAV, TAB_NAV, GAME_URL, withBase } from '../config/site.js';
 import '../styles/global.css';
 
 const { title, description = '새우 키우기 시뮬레이션 게임 Shrimprium 공식 사이트' } = Astro.props;
 const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 새우 키우기 시뮬레이션';
 const currentPath = Astro.url.pathname;
 const isCurrent = (href) => currentPath.startsWith(withBase(href));
+// 홈(/)은 접두사 매칭이 항상 참이라 탭바에선 정확 일치로 판정.
+const isTabCurrent = (href) =>
+  href === '/' ? currentPath === withBase('/') : currentPath.startsWith(withBase(href));
 ---
 <!DOCTYPE html>
 <html lang="ko">
@@ -29,9 +32,10 @@ const isCurrent = (href) => currentPath.startsWith(withBase(href));
   <header class="site-header">
     <div class="inner">
       <a class="site-logo" href={withBase('/')}>
-        <span class="logo-ico">🦐</span>SHRIMPRIUM
+        <span class="logo-ico">🦐</span>
+        <span class="logo-text">SHRIMPRIUM<span class="logo-sub">AQUARIUM RPG</span></span>
       </a>
-      <a class="play-btn" href={GAME_URL}>▶ 플레이하기</a>
+      <a class="play-btn" href={GAME_URL}>▶ PLAY</a>
     </div>
     <nav class="site-nav" aria-label="주요 메뉴">
       <div class="inner">
@@ -47,6 +51,7 @@ const isCurrent = (href) => currentPath.startsWith(withBase(href));
   </main>
 
   <footer class="site-footer">
+    <p class="save-dots" aria-hidden="true">SAVE <i></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i></p>
     <nav>
       <a href={withBase('/privacy.html')}>개인정보처리방침</a>
       <a href={withBase('/support/')}>문의/지원</a>
@@ -54,5 +59,15 @@ const isCurrent = (href) => currentPath.startsWith(withBase(href));
     <p>© {new Date().getFullYear()} Shrimprium</p>
     <p class="font-credit">Galmuri font © Minseo Lee · SIL OFL 1.1</p>
   </footer>
+
+  <!-- 모바일 하단 탭바 (앱 스타일) -->
+  <nav class="tab-bar" aria-label="하단 메뉴">
+    {TAB_NAV.map((item) => (
+      <a class="tab-item" href={withBase(item.href)} aria-current={isTabCurrent(item.href) ? 'page' : undefined}>
+        <span class="tab-ico">{item.icon}</span>
+        <span class="tab-label">{item.label}</span>
+      </a>
+    ))}
+  </nav>
 </body>
 </html>

@@ -1,9 +1,43 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { withBase } from '../config/site.js';
+import { withBase, GAME_URL } from '../config/site.js';
+import { BREEDS, gradeOf, spriteUrl, overlayUrl } from '../data/wiki.js';
+
+// 위키 미리보기: 별점 높은 순 8종
+const featured = [...BREEDS].sort((a, b) => b.stars - a.stars).slice(0, 8);
+const spriteStyle = (b) => {
+  const layers = [];
+  if (b.overlay) layers.push(`url('${withBase(overlayUrl(b.overlay))}')`);
+  layers.push(`url('${withBase(spriteUrl(b.sprite))}')`);
+  return `background-image:${layers.join(',')}`;
+};
+const starText = (n) => '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
+
+const latestNews = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 2);
+const fmt = (d) => d.toISOString().slice(0, 10);
+
+// 채널 리스트형 메인 메뉴
+const MENU = [
+  { icon: '📖', name: '새우 위키', desc: '품종 32종 · 유전자 · 교배 레시피', href: '/wiki/', state: 'on', act: '문서 보기' },
+  { icon: '🎮', name: '새우 팡팡', desc: '같은 색 새우 3매치 퍼즐', href: '/game/', state: 'on', act: 'PLAY' },
+  { icon: '🎨', name: '디자인 스튜디오', desc: '새우·배경·블록 도트 에디터', href: '/studio/', state: 'on', act: '만들기' },
+  { icon: '🐚', name: '수조 갤러리', desc: '수조 자랑 · 브리더 팔로우', href: '/gallery/', state: 'soon', act: '준비중' },
+  { icon: '🌿', name: '사육 가이드', desc: '물잡이부터 번식까지', href: '/guide/', state: 'on', act: '읽기' },
+  { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/', state: 'on', act: '입장하기' },
+];
+
+// 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결
+const ABXY = [
+  { key: 'Y', color: 'yellow', label: 'PANG', href: '/game/' },
+  { key: 'X', color: 'blue', label: 'WIKI', href: '/wiki/' },
+  { key: 'B', color: 'grape', label: 'ART', href: '/studio/' },
+  { key: 'A', color: 'pink', label: 'SHOW', href: '/gallery/' },
+];
 ---
 <Base>
-  <!-- 반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
+  <!-- ── HERO: 라이브 수조 캠 ──
+       반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
        폭이 넓어지면 새우는 크기 그대로 더 넓은 수조를 돌아다닌다. 게임 기능 없음. -->
   <section class="gametank" id="gametank" aria-label="새우가 헤엄치는 수조">
     <div class="gt-snow-back" aria-hidden="true"></div>
@@ -18,7 +52,313 @@ import { withBase } from '../config/site.js';
       <div class="gt-shrimp" data-color="blue"><i class="sprite"></i></div>
     </div>
     <div class="gt-snow-front" aria-hidden="true"></div>
+
+    <!-- 게임 HUD 오버레이 -->
+    <div class="gt-hud">
+      <span class="hud-chip live">● LIVE</span>
+      <span class="hud-chip">🌡 24.5°C</span>
+      <span class="hud-chip">pH 7.2</span>
+    </div>
+    <div class="gt-caption">
+      <p class="cap-eng">▸ NOW SWIMMING · TANK CAM</p>
+      <p class="cap-title">오늘도 새우들은 평화롭습니다</p>
+    </div>
   </section>
+
+  <!-- ── 콘솔 데크: 수조가 화면, 아래는 기기 본체 ── -->
+  <section class="console-deck" aria-label="게임 시작 컨트롤">
+    <div class="deck-top" aria-hidden="true">
+      <span class="grill"></span>
+      <span class="deck-label">SHRIMPRIUM · MODEL-01</span>
+      <span class="grill"></span>
+    </div>
+    <div class="deck-main">
+      <div class="dpad" aria-hidden="true">
+        <i class="d-up"></i><i class="d-left"></i><i class="d-mid"></i><i class="d-right"></i><i class="d-down"></i>
+      </div>
+      <a class="start-wrap" href={GAME_URL}>
+        <span class="start-btn">▶</span>
+        <span class="btn-label">GAME START</span>
+      </a>
+      <div class="abxy">
+        {ABXY.map((b) => (
+          <a class="arc-wrap" href={withBase(b.href)}>
+            <span class={`arc-btn ${b.color}`}>{b.key}</span>
+            <span class="btn-label">{b.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="deck-screws" aria-hidden="true"><i></i><i></i></div>
+  </section>
+
+  <!-- ── MAIN MENU: 채널 리스트 ── -->
+  <div class="px-card theme-grape menu-card">
+    <div class="px-head">
+      <p class="px-title">MAIN MENU</p>
+      <span class="px-meta">{MENU.length} CH</span>
+    </div>
+    <ul class="menu-list">
+      {MENU.map((m) => (
+        <li>
+          <a class="menu-row" href={withBase(m.href)}>
+            <span class="m-ico">{m.icon}</span>
+            <span class="m-txt">
+              <span class="m-name">{m.name}</span>
+              <span class="m-desc">{m.desc}</span>
+            </span>
+            <span class="m-state">
+              {m.state === 'on' && <span class="m-on">● ON</span>}
+              {m.state === 'soon' && <span class="m-soon">● SOON</span>}
+              <span class="m-act">{m.act}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- ── SHRIMP DEX 레일 ── -->
+  <div class="rail-head">
+    <h2>SHRIMP DEX</h2>
+    <a class="more" href={withBase('/wiki/')}>전체 {BREEDS.length}종 →</a>
+  </div>
+  <div class="rail">
+    {featured.map((b) => (
+      <a class="rail-card" href={withBase('/wiki/')}>
+        <span class="r-tank"><i class="shrimp4" style={`--z:1.4;${spriteStyle(b)}`}></i></span>
+        <span class="r-name">{b.name}</span>
+        <span class="r-stars">{starText(b.stars)} · {gradeOf(b.stars).label}</span>
+      </a>
+    ))}
+  </div>
+
+  <!-- ── INSERT COIN: 콘테스트 예고 ── -->
+  <div class="event-box">
+    <p class="ev-coin">🪙 INSERT COIN</p>
+    <p class="ev-title">새우 콘테스트 준비 중</p>
+    <p class="ev-desc">갤러리가 열리면 여러분의 수조로 이 자리가 채워집니다</p>
+  </div>
+
+  <!-- ── 최신 소식 ── -->
+  <div class="rail-head">
+    <h2>DEV LOG</h2>
+    <a class="more" href={withBase('/news/')}>더 보기 →</a>
+  </div>
+  <ul class="card-list">
+    {latestNews.map((post) => (
+      <li>
+        <a class="card" href={withBase(`/news/${post.id}/`)}>
+          <p class="card-meta">{fmt(post.data.date)}</p>
+          <p class="card-title">{post.data.title}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <style>
+    /* HUD 오버레이 — gametank의 pointer-events:none 규칙을 덮어씀 */
+    .gt-hud {
+      top: 12px; left: 12px; right: 12px;
+      z-index: 300;
+      display: flex;
+      gap: 7px;
+      pointer-events: none;
+    }
+    .hud-chip {
+      font-family: var(--pixel9);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      background: rgba(8, 6, 16, 0.65);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 5px 11px;
+    }
+    .hud-chip.live {
+      color: #fff;
+      background: linear-gradient(180deg, #ff6e7a, #e0304d);
+      border-color: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 14px rgba(255, 90, 110, 0.55);
+      animation: live-pulse 1.6s ease-in-out infinite;
+    }
+    .hud-chip:nth-child(2) { margin-left: auto; }
+    .gt-caption {
+      left: 0; right: 0; bottom: 0;
+      z-index: 310;
+      padding: 40px 18px 18px;
+      background: linear-gradient(180deg, transparent, rgba(5, 8, 14, 0.82) 70%);
+      pointer-events: none;
+    }
+    .cap-eng {
+      font-family: var(--pixel9);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--warn);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+      margin-bottom: 4px;
+    }
+    .cap-title {
+      font-family: var(--pixel11);
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 14px rgba(255, 95, 168, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
+      margin-bottom: 12px;
+    }
+    /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
+    section.gametank { border-radius: var(--r) var(--r) 0 0; }
+    .console-deck {
+      position: relative;
+      background: linear-gradient(180deg, #262040, #171029 70%, #110b20);
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 20px 20px;
+      padding: 8px 16px 22px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 -5px 0 rgba(0, 0, 0, 0.35);
+    }
+    .deck-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 2px 12px;
+    }
+    .grill {
+      width: 72px; height: 17px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.3px, transparent 1.6px);
+      background-size: 7px 6px;
+    }
+    .deck-label {
+      font-family: var(--pixel9);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .deck-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* D-패드 (장식) */
+    .dpad {
+      flex: 0 0 auto;
+      width: 82px; height: 82px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));
+    }
+    .dpad i { background: linear-gradient(180deg, #3d3358, #282040); border: 2px solid #0d0718; }
+    .dpad .d-up    { grid-area: 1 / 2; border-radius: 5px 5px 0 0; border-bottom: none; }
+    .dpad .d-down  { grid-area: 3 / 2; border-radius: 0 0 5px 5px; border-top: none; }
+    .dpad .d-left  { grid-area: 2 / 1; border-radius: 5px 0 0 5px; border-right: none; }
+    .dpad .d-right { grid-area: 2 / 3; border-radius: 0 5px 5px 0; border-left: none; }
+    .dpad .d-mid   { grid-area: 2 / 2; border: none; background: radial-gradient(circle at 50% 42%, #1d1631 30%, #322851 75%); }
+
+    /* 오락실 돔 버튼 공통 */
+    .btn-label {
+      font-family: var(--pixel9);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .start-wrap, .arc-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      flex: 0 0 auto;
+    }
+    .start-wrap:hover, .arc-wrap:hover { text-decoration: none; }
+
+    .start-btn {
+      --ec: #14532d;
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--pixel11); font-size: 25px; font-weight: 700;
+      color: #04240f;
+      background: radial-gradient(circle at 35% 28%, #b9ffcf, #4bef82 55%, #23a852);
+      border: 3px solid #0d0718;
+      box-shadow: 0 6px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      transition: transform 0.06s, box-shadow 0.06s;
+      animation: start-glow 1.8s ease-in-out infinite;
+    }
+    .start-wrap:active .start-btn {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      animation: none;
+    }
+    @keyframes start-glow {
+      50% { box-shadow: 0 6px 0 var(--ec), 0 0 36px rgba(98, 255, 142, 0.7), inset 0 3px 4px rgba(255, 255, 255, 0.5); }
+    }
+    .start-wrap .btn-label { color: var(--ok); text-shadow: 0 0 8px rgba(98, 255, 142, 0.5); }
+
+    .abxy {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 10px;
+    }
+    .arc-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--pixel11); font-size: 14px; font-weight: 700;
+      border: 3px solid #0d0718;
+      box-shadow: 0 5px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+      transition: transform 0.06s, box-shadow 0.06s;
+    }
+    .arc-wrap:active .arc-btn { transform: translateY(4px); box-shadow: 0 1px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5); }
+    .arc-btn.yellow { --ec: #8a6511; color: #4a3403; background: radial-gradient(circle at 35% 28%, #ffe9a8, #ffc94d 55%, #d09a1e); }
+    .arc-btn.blue   { --ec: #114a8a; color: #03274a; background: radial-gradient(circle at 35% 28%, #a8dcff, #4da9ff 55%, #1e6fd0); }
+    .arc-btn.grape  { --ec: #45298a; color: #2a1554; background: radial-gradient(circle at 35% 28%, #d9c8ff, #a37dff 55%, #6c46cf); }
+    .arc-btn.pink   { --ec: #8a1150; color: #4a0325; background: radial-gradient(circle at 35% 28%, #ffb8d9, #ff5fa8 55%, #d02a7a); }
+
+    .deck-screws i {
+      position: absolute;
+      bottom: 9px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #0d0718;
+      box-shadow: inset 0 0 0 2px #2e2549;
+    }
+    .deck-screws i:first-child { left: 12px; }
+    .deck-screws i:last-child { right: 12px; }
+
+    .menu-card { margin-top: 22px; }
+
+    /* INSERT COIN — 콘테스트 예고 */
+    .event-box {
+      margin-top: 26px;
+      padding: 22px 18px;
+      text-align: center;
+      border: 2px dashed rgba(228, 220, 250, 0.26);
+      border-radius: var(--r);
+      color: var(--muted);
+    }
+    .ev-coin {
+      font-family: var(--pixel9);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+      animation: coin-blink 1.3s steps(2) infinite;
+      margin-bottom: 6px;
+    }
+    @keyframes coin-blink { 50% { opacity: 0.35; } }
+    .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+    .ev-desc { font-size: 13px; margin: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      .ev-coin, .start-btn, .hud-chip.live { animation: none; }
+    }
+  </style>
 
   <script>
     const tank = document.getElementById('gametank');

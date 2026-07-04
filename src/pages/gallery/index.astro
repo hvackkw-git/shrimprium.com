@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config/site.js';
+import { BREEDS, spriteUrl } from '../../data/wiki.js';
+
+// 티저용 미리보기 수조 3개 (컨셉 목업)
+const mock = [
+  { owner: '새우장인', title: '오로라 계통 5세대', likes: 128, breeds: ['aurora_shrimp', 'blue_velvet', 'white_pearl'] },
+  { owner: '체리농장', title: '레드 외길 인생', likes: 96, breeds: ['cherry_red', 'crystalred_shrimp', 'dark_red'] },
+  { owner: '수초숲', title: '초록이들의 정글', likes: 87, breeds: ['green_jade', 'radioactive_shrimp', 'yellow_goldenback'] },
+];
+---
+<Base title="수조 갤러리" description="내 수조를 자랑하고 다른 브리더를 팔로우하는 Shrimprium 수조 갤러리 (준비중)">
+  <h1>수조 갤러리</h1>
+  <p class="ga-sub">내 수조를 공유하고, 마음에 드는 브리더를 <b>팔로우</b>하는 공간입니다. 지금 오픈을 준비하고 있어요.</p>
+
+  <div class="px-card theme-cyan" style="margin-bottom: 20px;">
+    <div class="px-head"><span class="px-ico">🐚</span><p class="px-title">이런 기능이 열려요</p><span class="px-meta">준비중</span></div>
+    <div class="px-body ga-plan">
+      <p>📸 <b>수조 자랑하기</b> — 게임 속 내 수조 스크린샷과 계통 정보를 올려요.</p>
+      <p>➕ <b>팔로우</b> — 취향이 맞는 브리더를 팔로우하고 새 수조 소식을 받아봐요.</p>
+      <p>🎨 <b>디자인 공유</b> — <a href={withBase('/studio/')}>스튜디오</a>에서 만든 새우·배경·블록 디자인을 함께 공개해요.</p>
+      <p>❤️ <b>좋아요 랭킹</b> — 주간 인기 수조가 홈에 소개돼요.</p>
+    </div>
+  </div>
+
+  <div class="rail-head"><h2>미리보기</h2><span class="more">컨셉 목업</span></div>
+  <ul class="ga-grid">
+    {mock.map((m) => (
+      <li class="ga-card" aria-hidden="true">
+        <div class="ga-tank">
+          {m.breeds.map((b, i) => (
+            <i class="shrimp4" style={`--z:1;background-image:url('${withBase(spriteUrl(b))}');animation-delay:${i * -0.3}s`}></i>
+          ))}
+        </div>
+        <div class="ga-info">
+          <p class="ga-title">{m.title}</p>
+          <p class="ga-owner">🦐 {m.owner} <span class="ga-likes">❤️ {m.likes}</span></p>
+          <button class="px-btn ga-follow" disabled>＋ 팔로우</button>
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  <p class="ga-note">오픈 소식은 <a href={withBase('/news/')}>개발로그</a>와 <a href={withBase('/community/')}>커뮤니티</a>에서 가장 먼저 알려드릴게요.</p>
+</Base>
+
+<style>
+  .ga-sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+  .ga-sub b { color: var(--info); }
+  .ga-plan p { font-size: 13px; }
+
+  .ga-grid {
+    list-style: none; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;
+  }
+  .ga-card {
+    margin: 0; overflow: hidden;
+    background: linear-gradient(180deg, rgba(32, 23, 54, 0.85), rgba(16, 11, 30, 0.85));
+    border: 1px solid var(--line); border-radius: 14px;
+    opacity: 0.85;
+  }
+  .ga-tank {
+    display: flex; align-items: center; justify-content: space-around;
+    height: 96px; padding: 0 8px; overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #0e3346 0%, #0a2433 60%, #071824 100%);
+  }
+  .ga-info { padding: 10px 12px 12px; }
+  .ga-title { font-size: 13px; font-weight: 700; }
+  .ga-owner { font-size: 11px; color: var(--muted); font-family: var(--pixel9); margin: 3px 0 8px; }
+  .ga-likes { margin-left: 8px; color: var(--crit); }
+  .ga-follow { font-size: 11px; padding: 6px 10px; opacity: 0.6; cursor: not-allowed; }
+</style>
