@@ -27,14 +27,12 @@ const MENU = [
   { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/', state: 'on', act: '입장하기' },
 ];
 
-// 수조 채팅 목업 — 새우들이 떠드는 중
-const CHAT = [
-  { who: '체리새우', color: '#ff5fa8', msg: '밥 주세요 밥 밥' },
-  { who: '야생새우', color: '#c8a675', msg: '오늘 물맛 좋다' },
-  { who: '블루벨벳', color: '#57d4ff', msg: '수초 뒤가 명당임' },
-  { who: '알비노', color: '#f0f0f8', msg: '나 방금 탈피함 ㅎㅎ' },
-  { who: '오로라', color: '#b79cff', msg: '⭐ 각도 맞추는 중' },
-  { who: '골든백', color: '#ffd166', msg: '등 라인 관리 꿀팁 공유함' },
+// 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결
+const ABXY = [
+  { key: 'Y', color: 'yellow', label: 'PANG', href: '/game/' },
+  { key: 'X', color: 'blue', label: 'WIKI', href: '/wiki/' },
+  { key: 'B', color: 'grape', label: 'ART', href: '/studio/' },
+  { key: 'A', color: 'pink', label: 'SHOW', href: '/gallery/' },
 ];
 ---
 <Base>
@@ -64,21 +62,34 @@ const CHAT = [
     <div class="gt-caption">
       <p class="cap-eng">▸ NOW SWIMMING · TANK CAM</p>
       <p class="cap-title">오늘도 새우들은 평화롭습니다</p>
-      <a class="px-btn primary cap-start" href={GAME_URL}>▶ GAME START</a>
     </div>
   </section>
 
-  <!-- ── 프로필 카드 ── -->
-  <section class="profile-card">
-    <span class="pf-avatar"><i class="shrimp4" style={`--z:1.5;background-image:url('${withBase(spriteUrl('cherry_red'))}')`}></i></span>
-    <div class="pf-info">
-      <p class="pf-name">SHRIMPRIUM <span class="pf-check">✓</span></p>
-      <p class="pf-bio">새우 키우기 · 교배 시뮬레이션 · 픽셀 수조</p>
-      <div class="pf-tags">
-        <span>#방치형</span><span>#유전교배</span><span>#도트새우</span>
+  <!-- ── 콘솔 데크: 수조가 화면, 아래는 기기 본체 ── -->
+  <section class="console-deck" aria-label="게임 시작 컨트롤">
+    <div class="deck-top" aria-hidden="true">
+      <span class="grill"></span>
+      <span class="deck-label">SHRIMPRIUM · MODEL-01</span>
+      <span class="grill"></span>
+    </div>
+    <div class="deck-main">
+      <div class="dpad" aria-hidden="true">
+        <i class="d-up"></i><i class="d-left"></i><i class="d-mid"></i><i class="d-right"></i><i class="d-down"></i>
+      </div>
+      <a class="start-wrap" href={GAME_URL}>
+        <span class="start-btn">▶</span>
+        <span class="btn-label">GAME START</span>
+      </a>
+      <div class="abxy">
+        {ABXY.map((b) => (
+          <a class="arc-wrap" href={withBase(b.href)}>
+            <span class={`arc-btn ${b.color}`}>{b.key}</span>
+            <span class="btn-label">{b.label}</span>
+          </a>
+        ))}
       </div>
     </div>
-    <a class="px-btn pink pf-play" href={GAME_URL}>▶ PLAY</a>
+    <div class="deck-screws" aria-hidden="true"><i></i><i></i></div>
   </section>
 
   <!-- ── MAIN MENU: 채널 리스트 ── -->
@@ -122,28 +133,11 @@ const CHAT = [
     ))}
   </div>
 
-  <!-- ── EVENT 자리 ── -->
+  <!-- ── INSERT COIN: 콘테스트 예고 ── -->
   <div class="event-box">
-    <span class="ad">EVENT</span>
+    <p class="ev-coin">🪙 INSERT COIN</p>
     <p class="ev-title">새우 콘테스트 준비 중</p>
-    <p class="ev-desc">이 자리에 여러분의 수조가 걸립니다</p>
-    <p class="ev-fine">갤러리 오픈과 함께 시작돼요 🤍</p>
-  </div>
-
-  <!-- ── TANK CHAT ── -->
-  <div class="px-card theme-cyan chat-card">
-    <div class="px-head">
-      <p class="px-title">TANK CHAT</p>
-      <span class="px-meta">수조 속 대화</span>
-    </div>
-    <div class="chat-body">
-      {CHAT.map((c) => (
-        <p class="chat-line"><b style={`color:${c.color}`}>{c.who}</b> {c.msg}</p>
-      ))}
-      <div class="chat-input" aria-hidden="true">
-        <span>🗨 새우어(語) 번역기 개발 중…</span>
-      </div>
-    </div>
+    <p class="ev-desc">갤러리가 열리면 여러분의 수조로 이 자리가 채워집니다</p>
   </div>
 
   <!-- ── 최신 소식 ── -->
@@ -213,108 +207,156 @@ const CHAT = [
       text-shadow: 0 0 14px rgba(255, 95, 168, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
       margin-bottom: 12px;
     }
-    .cap-start {
-      pointer-events: auto;
-      font-size: 14px;
-      letter-spacing: 0.14em;
-      padding: 12px 26px;
-    }
-
-    /* 프로필 카드 */
-    .profile-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 14px;
-      padding: 14px 16px;
-      background: linear-gradient(180deg, rgba(32, 23, 54, 0.9), rgba(16, 11, 30, 0.9));
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-    }
-    .pf-avatar {
-      flex: 0 0 auto;
-      width: 62px; height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #0e3346, #071824);
-      border: 2px solid var(--pink);
-      box-shadow: 0 0 16px rgba(255, 95, 168, 0.45);
-    }
-    .pf-info { min-width: 0; }
-    .pf-name {
-      font-family: var(--pixel11);
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.08em;
-      margin: 0;
-    }
-    .pf-check {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 15px; height: 15px;
-      font-size: 9px;
-      color: #05240f;
-      background: var(--info);
-      border-radius: 50%;
-      vertical-align: 1px;
-    }
-    .pf-bio { color: var(--pink); font-size: 12.5px; font-weight: 600; margin: 1px 0 6px; }
-    .pf-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .pf-tags span {
-      font-family: var(--pixel9);
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--panel-deep);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 3px 9px;
-    }
-    .pf-play { margin-left: auto; flex: 0 0 auto; font-size: 12px; padding: 10px 16px; }
-    @media (max-width: 480px) {
-      .pf-play { display: none; }
-    }
-
-    .menu-card { margin-top: 14px; }
-
-    /* EVENT 박스 — 점선 광고 자리 패러디 */
-    .event-box {
+    /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
+    section.gametank { border-radius: var(--r) var(--r) 0 0; }
+    .console-deck {
       position: relative;
+      background: linear-gradient(180deg, #262040, #171029 70%, #110b20);
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 20px 20px;
+      padding: 8px 16px 22px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 -5px 0 rgba(0, 0, 0, 0.35);
+    }
+    .deck-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 2px 12px;
+    }
+    .grill {
+      width: 72px; height: 17px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.3px, transparent 1.6px);
+      background-size: 7px 6px;
+    }
+    .deck-label {
+      font-family: var(--pixel9);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .deck-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* D-패드 (장식) */
+    .dpad {
+      flex: 0 0 auto;
+      width: 82px; height: 82px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));
+    }
+    .dpad i { background: linear-gradient(180deg, #3d3358, #282040); border: 2px solid #0d0718; }
+    .dpad .d-up    { grid-area: 1 / 2; border-radius: 5px 5px 0 0; border-bottom: none; }
+    .dpad .d-down  { grid-area: 3 / 2; border-radius: 0 0 5px 5px; border-top: none; }
+    .dpad .d-left  { grid-area: 2 / 1; border-radius: 5px 0 0 5px; border-right: none; }
+    .dpad .d-right { grid-area: 2 / 3; border-radius: 0 5px 5px 0; border-left: none; }
+    .dpad .d-mid   { grid-area: 2 / 2; border: none; background: radial-gradient(circle at 50% 42%, #1d1631 30%, #322851 75%); }
+
+    /* 오락실 돔 버튼 공통 */
+    .btn-label {
+      font-family: var(--pixel9);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .start-wrap, .arc-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      flex: 0 0 auto;
+    }
+    .start-wrap:hover, .arc-wrap:hover { text-decoration: none; }
+
+    .start-btn {
+      --ec: #14532d;
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--pixel11); font-size: 25px; font-weight: 700;
+      color: #04240f;
+      background: radial-gradient(circle at 35% 28%, #b9ffcf, #4bef82 55%, #23a852);
+      border: 3px solid #0d0718;
+      box-shadow: 0 6px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      transition: transform 0.06s, box-shadow 0.06s;
+      animation: start-glow 1.8s ease-in-out infinite;
+    }
+    .start-wrap:active .start-btn {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      animation: none;
+    }
+    @keyframes start-glow {
+      50% { box-shadow: 0 6px 0 var(--ec), 0 0 36px rgba(98, 255, 142, 0.7), inset 0 3px 4px rgba(255, 255, 255, 0.5); }
+    }
+    .start-wrap .btn-label { color: var(--ok); text-shadow: 0 0 8px rgba(98, 255, 142, 0.5); }
+
+    .abxy {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 10px;
+    }
+    .arc-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--pixel11); font-size: 14px; font-weight: 700;
+      border: 3px solid #0d0718;
+      box-shadow: 0 5px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+      transition: transform 0.06s, box-shadow 0.06s;
+    }
+    .arc-wrap:active .arc-btn { transform: translateY(4px); box-shadow: 0 1px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5); }
+    .arc-btn.yellow { --ec: #8a6511; color: #4a3403; background: radial-gradient(circle at 35% 28%, #ffe9a8, #ffc94d 55%, #d09a1e); }
+    .arc-btn.blue   { --ec: #114a8a; color: #03274a; background: radial-gradient(circle at 35% 28%, #a8dcff, #4da9ff 55%, #1e6fd0); }
+    .arc-btn.grape  { --ec: #45298a; color: #2a1554; background: radial-gradient(circle at 35% 28%, #d9c8ff, #a37dff 55%, #6c46cf); }
+    .arc-btn.pink   { --ec: #8a1150; color: #4a0325; background: radial-gradient(circle at 35% 28%, #ffb8d9, #ff5fa8 55%, #d02a7a); }
+
+    .deck-screws i {
+      position: absolute;
+      bottom: 9px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #0d0718;
+      box-shadow: inset 0 0 0 2px #2e2549;
+    }
+    .deck-screws i:first-child { left: 12px; }
+    .deck-screws i:last-child { right: 12px; }
+
+    .menu-card { margin-top: 22px; }
+
+    /* INSERT COIN — 콘테스트 예고 */
+    .event-box {
       margin-top: 26px;
       padding: 22px 18px;
       text-align: center;
-      border: 2px dashed rgba(228, 220, 250, 0.28);
+      border: 2px dashed rgba(228, 220, 250, 0.26);
       border-radius: var(--r);
       color: var(--muted);
     }
-    .event-box .ad {
-      position: absolute;
-      top: 10px; right: 14px;
+    .ev-coin {
       font-family: var(--pixel9);
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      color: rgba(228, 220, 250, 0.4);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+      animation: coin-blink 1.3s steps(2) infinite;
+      margin-bottom: 6px;
     }
+    @keyframes coin-blink { 50% { opacity: 0.35; } }
     .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
-    .ev-desc { font-size: 13px; margin-bottom: 2px; }
-    .ev-fine { font-family: var(--pixel9); font-size: 11px; margin: 0; opacity: 0.8; }
-
-    /* TANK CHAT */
-    .chat-card { margin-top: 26px; }
-    .chat-body { padding: 2px 16px 16px; }
-    .chat-line { font-size: 13.5px; margin-bottom: 9px; }
-    .chat-line b { font-weight: 700; margin-right: 6px; }
-    .chat-input {
-      margin-top: 14px;
-      padding: 11px 14px;
-      font-size: 12.5px;
-      color: var(--muted);
-      background: var(--panel-deep);
-      border: 1px solid var(--line);
-      border-radius: 999px;
+    .ev-desc { font-size: 13px; margin: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      .ev-coin, .start-btn, .hud-chip.live { animation: none; }
     }
   </style>
 

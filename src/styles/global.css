@@ -48,9 +48,9 @@
   --gold: #ffd166; --gold-d: #a8862f;
   --grape: #b79cff; --grape-d: #5e4d99;
 
-  /* 라운드 + 글로우 */
-  --r: 18px;
-  --r-s: 12px;
+  /* 라운드 + 글로우 (도트 감성을 위해 과하지 않게) */
+  --r: 14px;
+  --r-s: 10px;
   --glow-ok:   0 0 16px rgba(98, 255, 142, 0.35);
   --glow-pink: 0 0 16px rgba(255, 95, 168, 0.40);
   --glow-info: 0 0 16px rgba(87, 212, 255, 0.30);
@@ -64,7 +64,8 @@
 html { color-scheme: dark; }
 
 body {
-  font-family: var(--sans);
+  font-family: var(--pixel11);
+  text-rendering: geometricPrecision;
   background:
     radial-gradient(120% 60% at 50% 0%, rgba(87, 60, 160, 0.16) 0%, transparent 60%),
     linear-gradient(180deg, #0d0918 0%, var(--bg) 44%, #060409 100%);
