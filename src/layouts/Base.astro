@@ -32,9 +32,10 @@ const isTabCurrent = (href) =>
   <header class="site-header">
     <div class="inner">
       <a class="site-logo" href={withBase('/')}>
-        <span class="logo-ico">🦐</span>SHRIMPRIUM
+        <span class="logo-ico">🦐</span>
+        <span class="logo-text">SHRIMPRIUM<span class="logo-sub">AQUARIUM RPG</span></span>
       </a>
-      <a class="play-btn" href={GAME_URL}>▶ 플레이하기</a>
+      <a class="play-btn" href={GAME_URL}>▶ PLAY</a>
     </div>
     <nav class="site-nav" aria-label="주요 메뉴">
       <div class="inner">
@@ -50,6 +51,7 @@ const isTabCurrent = (href) =>
   </main>
 
   <footer class="site-footer">
+    <p class="save-dots" aria-hidden="true">SAVE <i></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i></p>
     <nav>
       <a href={withBase('/privacy.html')}>개인정보처리방침</a>
       <a href={withBase('/support/')}>문의/지원</a>

@@ -17,17 +17,29 @@ const starText = (n) => '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
 const latestNews = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 2);
 const fmt = (d) => d.toISOString().slice(0, 10);
 
-const QUICK = [
-  { icon: '📖', label: '새우위키', href: '/wiki/' },
-  { icon: '🎮', label: '미니게임', href: '/game/', badge: 'NEW' },
-  { icon: '🎨', label: '스튜디오', href: '/studio/', badge: 'NEW' },
-  { icon: '🐚', label: '수조갤러리', href: '/gallery/' },
-  { icon: '🌿', label: '사육가이드', href: '/guide/' },
-  { icon: '💬', label: '커뮤니티', href: '/community/' },
+// 채널 리스트형 메인 메뉴
+const MENU = [
+  { icon: '📖', name: '새우 위키', desc: '품종 32종 · 유전자 · 교배 레시피', href: '/wiki/', state: 'on', act: '문서 보기' },
+  { icon: '🎮', name: '새우 팡팡', desc: '같은 색 새우 3매치 퍼즐', href: '/game/', state: 'on', act: 'PLAY' },
+  { icon: '🎨', name: '디자인 스튜디오', desc: '새우·배경·블록 도트 에디터', href: '/studio/', state: 'on', act: '만들기' },
+  { icon: '🐚', name: '수조 갤러리', desc: '수조 자랑 · 브리더 팔로우', href: '/gallery/', state: 'soon', act: '준비중' },
+  { icon: '🌿', name: '사육 가이드', desc: '물잡이부터 번식까지', href: '/guide/', state: 'on', act: '읽기' },
+  { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/', state: 'on', act: '입장하기' },
+];
+
+// 수조 채팅 목업 — 새우들이 떠드는 중
+const CHAT = [
+  { who: '체리새우', color: '#ff5fa8', msg: '밥 주세요 밥 밥' },
+  { who: '야생새우', color: '#c8a675', msg: '오늘 물맛 좋다' },
+  { who: '블루벨벳', color: '#57d4ff', msg: '수초 뒤가 명당임' },
+  { who: '알비노', color: '#f0f0f8', msg: '나 방금 탈피함 ㅎㅎ' },
+  { who: '오로라', color: '#b79cff', msg: '⭐ 각도 맞추는 중' },
+  { who: '골든백', color: '#ffd166', msg: '등 라인 관리 꿀팁 공유함' },
 ];
 ---
 <Base>
-  <!-- 반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
+  <!-- ── HERO: 라이브 수조 캠 ──
+       반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
        폭이 넓어지면 새우는 크기 그대로 더 넓은 수조를 돌아다닌다. 게임 기능 없음. -->
   <section class="gametank" id="gametank" aria-label="새우가 헤엄치는 수조">
     <div class="gt-snow-back" aria-hidden="true"></div>
@@ -42,22 +54,62 @@ const QUICK = [
       <div class="gt-shrimp" data-color="blue"><i class="sprite"></i></div>
     </div>
     <div class="gt-snow-front" aria-hidden="true"></div>
+
+    <!-- 게임 HUD 오버레이 -->
+    <div class="gt-hud">
+      <span class="hud-chip live">● LIVE</span>
+      <span class="hud-chip">🌡 24.5°C</span>
+      <span class="hud-chip">pH 7.2</span>
+    </div>
+    <div class="gt-caption">
+      <p class="cap-eng">▸ NOW SWIMMING · TANK CAM</p>
+      <p class="cap-title">오늘도 새우들은 평화롭습니다</p>
+      <a class="px-btn primary cap-start" href={GAME_URL}>▶ GAME START</a>
+    </div>
   </section>
 
-  <!-- 앱형 퀵메뉴 -->
-  <nav class="quick-menu" aria-label="바로가기 메뉴">
-    {QUICK.map((q) => (
-      <a class="quick-item" href={withBase(q.href)}>
-        <span class="q-ico">{q.icon}</span>
-        <span>{q.label}</span>
-        {q.badge && <span class="q-badge">{q.badge}</span>}
-      </a>
-    ))}
-  </nav>
+  <!-- ── 프로필 카드 ── -->
+  <section class="profile-card">
+    <span class="pf-avatar"><i class="shrimp4" style={`--z:1.5;background-image:url('${withBase(spriteUrl('cherry_red'))}')`}></i></span>
+    <div class="pf-info">
+      <p class="pf-name">SHRIMPRIUM <span class="pf-check">✓</span></p>
+      <p class="pf-bio">새우 키우기 · 교배 시뮬레이션 · 픽셀 수조</p>
+      <div class="pf-tags">
+        <span>#방치형</span><span>#유전교배</span><span>#도트새우</span>
+      </div>
+    </div>
+    <a class="px-btn pink pf-play" href={GAME_URL}>▶ PLAY</a>
+  </section>
 
-  <!-- 위키 미리보기 레일 -->
+  <!-- ── MAIN MENU: 채널 리스트 ── -->
+  <div class="px-card theme-grape menu-card">
+    <div class="px-head">
+      <p class="px-title">MAIN MENU</p>
+      <span class="px-meta">{MENU.length} CH</span>
+    </div>
+    <ul class="menu-list">
+      {MENU.map((m) => (
+        <li>
+          <a class="menu-row" href={withBase(m.href)}>
+            <span class="m-ico">{m.icon}</span>
+            <span class="m-txt">
+              <span class="m-name">{m.name}</span>
+              <span class="m-desc">{m.desc}</span>
+            </span>
+            <span class="m-state">
+              {m.state === 'on' && <span class="m-on">● ON</span>}
+              {m.state === 'soon' && <span class="m-soon">● SOON</span>}
+              <span class="m-act">{m.act}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- ── SHRIMP DEX 레일 ── -->
   <div class="rail-head">
-    <h2>희귀 새우 도감</h2>
+    <h2>SHRIMP DEX</h2>
     <a class="more" href={withBase('/wiki/')}>전체 {BREEDS.length}종 →</a>
   </div>
   <div class="rail">
@@ -70,26 +122,33 @@ const QUICK = [
     ))}
   </div>
 
-  <!-- 즐길거리 -->
-  <div class="rail-head"><h2>즐길거리</h2></div>
-  <div class="feature-grid">
-    <a class="px-card theme-pink home-feature" href={withBase('/game/')}>
-      <div class="px-head"><span class="px-ico">🎮</span><p class="px-title">새우 팡팡</p><span class="px-meta">미니게임</span></div>
-      <div class="px-body"><p>같은 색 새우를 3마리 이상 모아 터뜨리는 픽셀 퍼즐. 최고 기록에 도전해 보세요!</p></div>
-    </a>
-    <a class="px-card theme-grape home-feature" href={withBase('/studio/')}>
-      <div class="px-head"><span class="px-ico">🎨</span><p class="px-title">디자인 스튜디오</p><span class="px-meta">도트 에디터</span></div>
-      <div class="px-body"><p>나만의 새우·배경·플랫폼 블록을 도트로 직접 그리고 PNG로 저장하세요.</p></div>
-    </a>
-    <a class="px-card theme-cyan home-feature" href={withBase('/gallery/')}>
-      <div class="px-head"><span class="px-ico">🐚</span><p class="px-title">수조 자랑하기</p><span class="px-meta">준비중</span></div>
-      <div class="px-body"><p>내 수조를 공유하고 다른 브리더를 팔로우하는 공간. 오픈 준비 중입니다.</p></div>
-    </a>
+  <!-- ── EVENT 자리 ── -->
+  <div class="event-box">
+    <span class="ad">EVENT</span>
+    <p class="ev-title">새우 콘테스트 준비 중</p>
+    <p class="ev-desc">이 자리에 여러분의 수조가 걸립니다</p>
+    <p class="ev-fine">갤러리 오픈과 함께 시작돼요 🤍</p>
   </div>
 
-  <!-- 최신 소식 -->
+  <!-- ── TANK CHAT ── -->
+  <div class="px-card theme-cyan chat-card">
+    <div class="px-head">
+      <p class="px-title">TANK CHAT</p>
+      <span class="px-meta">수조 속 대화</span>
+    </div>
+    <div class="chat-body">
+      {CHAT.map((c) => (
+        <p class="chat-line"><b style={`color:${c.color}`}>{c.who}</b> {c.msg}</p>
+      ))}
+      <div class="chat-input" aria-hidden="true">
+        <span>🗨 새우어(語) 번역기 개발 중…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 최신 소식 ── -->
   <div class="rail-head">
-    <h2>최신 소식</h2>
+    <h2>DEV LOG</h2>
     <a class="more" href={withBase('/news/')}>더 보기 →</a>
   </div>
   <ul class="card-list">
@@ -103,15 +162,160 @@ const QUICK = [
     ))}
   </ul>
 
-  <div class="home-cta">
-    <a class="px-btn primary" href={GAME_URL}>▶ 지금 플레이하기</a>
-  </div>
-
   <style>
-    .home-feature { display: block; text-decoration: none; }
-    .home-feature:hover { text-decoration: none; }
-    .home-cta { display: flex; justify-content: center; margin-top: 30px; }
-    .home-cta .px-btn { font-size: 14px; padding: 13px 26px; }
+    /* HUD 오버레이 — gametank의 pointer-events:none 규칙을 덮어씀 */
+    .gt-hud {
+      top: 12px; left: 12px; right: 12px;
+      z-index: 300;
+      display: flex;
+      gap: 7px;
+      pointer-events: none;
+    }
+    .hud-chip {
+      font-family: var(--pixel9);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      background: rgba(8, 6, 16, 0.65);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 5px 11px;
+    }
+    .hud-chip.live {
+      color: #fff;
+      background: linear-gradient(180deg, #ff6e7a, #e0304d);
+      border-color: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 14px rgba(255, 90, 110, 0.55);
+      animation: live-pulse 1.6s ease-in-out infinite;
+    }
+    .hud-chip:nth-child(2) { margin-left: auto; }
+    .gt-caption {
+      left: 0; right: 0; bottom: 0;
+      z-index: 310;
+      padding: 40px 18px 18px;
+      background: linear-gradient(180deg, transparent, rgba(5, 8, 14, 0.82) 70%);
+      pointer-events: none;
+    }
+    .cap-eng {
+      font-family: var(--pixel9);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--warn);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+      margin-bottom: 4px;
+    }
+    .cap-title {
+      font-family: var(--pixel11);
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 14px rgba(255, 95, 168, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
+      margin-bottom: 12px;
+    }
+    .cap-start {
+      pointer-events: auto;
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      padding: 12px 26px;
+    }
+
+    /* 프로필 카드 */
+    .profile-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, rgba(32, 23, 54, 0.9), rgba(16, 11, 30, 0.9));
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+    }
+    .pf-avatar {
+      flex: 0 0 auto;
+      width: 62px; height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #0e3346, #071824);
+      border: 2px solid var(--pink);
+      box-shadow: 0 0 16px rgba(255, 95, 168, 0.45);
+    }
+    .pf-info { min-width: 0; }
+    .pf-name {
+      font-family: var(--pixel11);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      margin: 0;
+    }
+    .pf-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px; height: 15px;
+      font-size: 9px;
+      color: #05240f;
+      background: var(--info);
+      border-radius: 50%;
+      vertical-align: 1px;
+    }
+    .pf-bio { color: var(--pink); font-size: 12.5px; font-weight: 600; margin: 1px 0 6px; }
+    .pf-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pf-tags span {
+      font-family: var(--pixel9);
+      font-size: 10px;
+      color: var(--muted);
+      background: var(--panel-deep);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 9px;
+    }
+    .pf-play { margin-left: auto; flex: 0 0 auto; font-size: 12px; padding: 10px 16px; }
+    @media (max-width: 480px) {
+      .pf-play { display: none; }
+    }
+
+    .menu-card { margin-top: 14px; }
+
+    /* EVENT 박스 — 점선 광고 자리 패러디 */
+    .event-box {
+      position: relative;
+      margin-top: 26px;
+      padding: 22px 18px;
+      text-align: center;
+      border: 2px dashed rgba(228, 220, 250, 0.28);
+      border-radius: var(--r);
+      color: var(--muted);
+    }
+    .event-box .ad {
+      position: absolute;
+      top: 10px; right: 14px;
+      font-family: var(--pixel9);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(228, 220, 250, 0.4);
+    }
+    .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+    .ev-desc { font-size: 13px; margin-bottom: 2px; }
+    .ev-fine { font-family: var(--pixel9); font-size: 11px; margin: 0; opacity: 0.8; }
+
+    /* TANK CHAT */
+    .chat-card { margin-top: 26px; }
+    .chat-body { padding: 2px 16px 16px; }
+    .chat-line { font-size: 13.5px; margin-bottom: 9px; }
+    .chat-line b { font-weight: 700; margin-right: 6px; }
+    .chat-input {
+      margin-top: 14px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      background: var(--panel-deep);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
   </style>
 
   <script>
