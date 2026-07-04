@@ -1,6 +1,30 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { withBase } from '../config/site.js';
+import { withBase, GAME_URL } from '../config/site.js';
+import { BREEDS, gradeOf, spriteUrl, overlayUrl } from '../data/wiki.js';
+
+// 위키 미리보기: 별점 높은 순 8종
+const featured = [...BREEDS].sort((a, b) => b.stars - a.stars).slice(0, 8);
+const spriteStyle = (b) => {
+  const layers = [];
+  if (b.overlay) layers.push(`url('${withBase(overlayUrl(b.overlay))}')`);
+  layers.push(`url('${withBase(spriteUrl(b.sprite))}')`);
+  return `background-image:${layers.join(',')}`;
+};
+const starText = (n) => '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
+
+const latestNews = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 2);
+const fmt = (d) => d.toISOString().slice(0, 10);
+
+const QUICK = [
+  { icon: '📖', label: '새우위키', href: '/wiki/' },
+  { icon: '🎮', label: '미니게임', href: '/game/', badge: 'NEW' },
+  { icon: '🎨', label: '스튜디오', href: '/studio/', badge: 'NEW' },
+  { icon: '🐚', label: '수조갤러리', href: '/gallery/' },
+  { icon: '🌿', label: '사육가이드', href: '/guide/' },
+  { icon: '💬', label: '커뮤니티', href: '/community/' },
+];
 ---
 <Base>
   <!-- 반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
@@ -19,6 +43,76 @@ import { withBase } from '../config/site.js';
     </div>
     <div class="gt-snow-front" aria-hidden="true"></div>
   </section>
+
+  <!-- 앱형 퀵메뉴 -->
+  <nav class="quick-menu" aria-label="바로가기 메뉴">
+    {QUICK.map((q) => (
+      <a class="quick-item" href={withBase(q.href)}>
+        <span class="q-ico">{q.icon}</span>
+        <span>{q.label}</span>
+        {q.badge && <span class="q-badge">{q.badge}</span>}
+      </a>
+    ))}
+  </nav>
+
+  <!-- 위키 미리보기 레일 -->
+  <div class="rail-head">
+    <h2>희귀 새우 도감</h2>
+    <a class="more" href={withBase('/wiki/')}>전체 {BREEDS.length}종 →</a>
+  </div>
+  <div class="rail">
+    {featured.map((b) => (
+      <a class="rail-card" href={withBase('/wiki/')}>
+        <span class="r-tank"><i class="shrimp4" style={`--z:1.4;${spriteStyle(b)}`}></i></span>
+        <span class="r-name">{b.name}</span>
+        <span class="r-stars">{starText(b.stars)} · {gradeOf(b.stars).label}</span>
+      </a>
+    ))}
+  </div>
+
+  <!-- 즐길거리 -->
+  <div class="rail-head"><h2>즐길거리</h2></div>
+  <div class="feature-grid">
+    <a class="px-card theme-pink home-feature" href={withBase('/game/')}>
+      <div class="px-head"><span class="px-ico">🎮</span><p class="px-title">새우 팡팡</p><span class="px-meta">미니게임</span></div>
+      <div class="px-body"><p>같은 색 새우를 3마리 이상 모아 터뜨리는 픽셀 퍼즐. 최고 기록에 도전해 보세요!</p></div>
+    </a>
+    <a class="px-card theme-grape home-feature" href={withBase('/studio/')}>
+      <div class="px-head"><span class="px-ico">🎨</span><p class="px-title">디자인 스튜디오</p><span class="px-meta">도트 에디터</span></div>
+      <div class="px-body"><p>나만의 새우·배경·플랫폼 블록을 도트로 직접 그리고 PNG로 저장하세요.</p></div>
+    </a>
+    <a class="px-card theme-cyan home-feature" href={withBase('/gallery/')}>
+      <div class="px-head"><span class="px-ico">🐚</span><p class="px-title">수조 자랑하기</p><span class="px-meta">준비중</span></div>
+      <div class="px-body"><p>내 수조를 공유하고 다른 브리더를 팔로우하는 공간. 오픈 준비 중입니다.</p></div>
+    </a>
+  </div>
+
+  <!-- 최신 소식 -->
+  <div class="rail-head">
+    <h2>최신 소식</h2>
+    <a class="more" href={withBase('/news/')}>더 보기 →</a>
+  </div>
+  <ul class="card-list">
+    {latestNews.map((post) => (
+      <li>
+        <a class="card" href={withBase(`/news/${post.id}/`)}>
+          <p class="card-meta">{fmt(post.data.date)}</p>
+          <p class="card-title">{post.data.title}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div class="home-cta">
+    <a class="px-btn primary" href={GAME_URL}>▶ 지금 플레이하기</a>
+  </div>
+
+  <style>
+    .home-feature { display: block; text-decoration: none; }
+    .home-feature:hover { text-decoration: none; }
+    .home-cta { display: flex; justify-content: center; margin-top: 30px; }
+    .home-cta .px-btn { font-size: 14px; padding: 13px 26px; }
+  </style>
 
   <script>
     const tank = document.getElementById('gametank');

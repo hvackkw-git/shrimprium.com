@@ -1,0 +1,311 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config/site.js';
+---
+<Base title="새우 팡팡" description="같은 색 새우 3마리를 모아 터뜨리는 Shrimprium 미니게임">
+  <h1>새우 팡팡</h1>
+  <p class="game-sub">같은 색 새우를 <b>가로/세로 3마리</b> 이상 모으면 팡! 30번의 이동 안에 최고 점수를 노려보세요.</p>
+
+  <div class="m3-hud">
+    <span class="hud-box">점수 <b id="m3Score">0</b></span>
+    <span class="hud-box">이동 <b id="m3Moves">30</b></span>
+    <span class="hud-box gold">최고 <b id="m3Best">0</b></span>
+  </div>
+
+  <div class="m3-wrap">
+    <div class="m3-board" id="m3Board" data-assets={withBase('/assets/shrimp')}></div>
+    <div class="m3-over" id="m3Over" hidden>
+      <div class="m3-over-card">
+        <p class="over-title" id="m3OverTitle">게임 종료!</p>
+        <p class="over-score">점수 <b id="m3FinalScore">0</b></p>
+        <p class="over-best" id="m3NewBest" hidden>🏆 신기록 달성!</p>
+        <button class="px-btn primary" id="m3Restart">다시 하기</button>
+      </div>
+    </div>
+  </div>
+  <p class="m3-tip">💡 새우를 탭한 뒤 옆 칸을 탭하거나, 원하는 방향으로 스와이프하세요. 연쇄 폭발은 점수가 배로 올라갑니다.</p>
+
+  <script>
+    const COLS = 8, ROWS = 8, KINDS = 5, START_MOVES = 30;
+    const SPRITES = ['cherry_red', 'blue_velvet', 'yellow_goldenback', 'green_jade', 'purple_galaxy'];
+    const TINTS = ['#ff4757', '#3F6FF3', '#F3C83F', '#3F9A3F', '#7A3FB3'];
+    const BEST_KEY = 'shrimprium-m3-best';
+
+    const board = document.getElementById('m3Board');
+    const ASSETS = board.dataset.assets;
+    const scoreEl = document.getElementById('m3Score');
+    const movesEl = document.getElementById('m3Moves');
+    const bestEl = document.getElementById('m3Best');
+    const overEl = document.getElementById('m3Over');
+
+    let grid = [];        // grid[r][c] = { kind, el } | null
+    let tile = 0;         // 타일 픽셀 크기
+    let score = 0, moves = START_MOVES, busy = false, selected = null;
+    let best = Number(localStorage.getItem(BEST_KEY) || 0);
+    bestEl.textContent = best;
+
+    const pos = (r, c) => `translate(${c * tile}px, ${r * tile}px)`;
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
+    function makeTile(kind, r, c) {
+      const el = document.createElement('div');
+      el.className = 'm3-tile';
+      el.style.setProperty('--tint', TINTS[kind]);
+      el.style.transform = pos(r, c);
+      const spr = document.createElement('i');
+      spr.style.backgroundImage = `url('${ASSETS}/shrimp-4frame-${SPRITES[kind]}.png')`;
+      el.appendChild(spr);
+      board.appendChild(el);
+      return { kind, el };
+    }
+
+    function layout() {
+      tile = board.clientWidth / COLS;
+      board.style.setProperty('--ts', tile + 'px');
+      for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+        const t = grid[r]?.[c];
+        if (t) t.el.style.transform = pos(r, c);
+      }
+    }
+
+    function randKindAvoid(r, c) {
+      let k;
+      do { k = Math.floor(Math.random() * KINDS); }
+      while (
+        (c >= 2 && grid[r][c - 1]?.kind === k && grid[r][c - 2]?.kind === k) ||
+        (r >= 2 && grid[r - 1][c]?.kind === k && grid[r - 2][c]?.kind === k)
+      );
+      return k;
+    }
+
+    function init() {
+      board.querySelectorAll('.m3-tile').forEach((el) => el.remove());
+      grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+      tile = board.clientWidth / COLS;
+      board.style.setProperty('--ts', tile + 'px');
+      for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+        grid[r][c] = makeTile(randKindAvoid(r, c), r, c);
+      }
+      score = 0; moves = START_MOVES; busy = false; selected = null;
+      scoreEl.textContent = '0'; movesEl.textContent = moves;
+      overEl.hidden = true;
+    }
+
+    function findMatches() {
+      const hit = new Set();
+      const scan = (line) => {
+        let run = [line[0]];
+        for (let i = 1; i <= line.length; i++) {
+          const cur = line[i], prev = line[i - 1];
+          if (cur && grid[cur.r][cur.c].kind === grid[prev.r][prev.c].kind) { run.push(cur); continue; }
+          if (run.length >= 3) run.forEach((p) => hit.add(p.r * COLS + p.c));
+          run = cur ? [cur] : [];
+        }
+      };
+      for (let r = 0; r < ROWS; r++) scan(Array.from({ length: COLS }, (_, c) => ({ r, c })));
+      for (let c = 0; c < COLS; c++) scan(Array.from({ length: ROWS }, (_, r) => ({ r, c })));
+      return hit;
+    }
+
+    async function resolve() {
+      let chain = 0;
+      for (;;) {
+        const hit = findMatches();
+        if (!hit.size) break;
+        chain++;
+        score += hit.size * 10 * chain;
+        scoreEl.textContent = score;
+        // 팡 애니메이션
+        for (const idx of hit) {
+          const t = grid[Math.floor(idx / COLS)][idx % COLS];
+          t.el.classList.add('pop');
+        }
+        await sleep(240);
+        for (const idx of hit) {
+          const r = Math.floor(idx / COLS), c = idx % COLS;
+          grid[r][c].el.remove();
+          grid[r][c] = null;
+        }
+        // 중력 + 새 새우 스폰
+        for (let c = 0; c < COLS; c++) {
+          let write = ROWS - 1;
+          for (let r = ROWS - 1; r >= 0; r--) {
+            if (grid[r][c]) {
+              if (write !== r) { grid[write][c] = grid[r][c]; grid[r][c] = null; }
+              write--;
+            }
+          }
+          for (let r = write, spawn = 1; r >= 0; r--, spawn++) {
+            const t = makeTile(Math.floor(Math.random() * KINDS), -spawn, c);
+            grid[r][c] = t;
+          }
+        }
+        await sleep(20);
+        for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+          grid[r][c].el.style.transform = pos(r, c);
+        }
+        await sleep(220);
+      }
+      return chain > 0;
+    }
+
+    async function trySwap(a, b) {
+      if (busy) return;
+      if (Math.abs(a.r - b.r) + Math.abs(a.c - b.c) !== 1) return;
+      busy = true; clearSelect();
+      const ta = grid[a.r][a.c], tb = grid[b.r][b.c];
+      ta.el.style.transform = pos(b.r, b.c);
+      tb.el.style.transform = pos(a.r, a.c);
+      grid[a.r][a.c] = tb; grid[b.r][b.c] = ta;
+      await sleep(200);
+      if (findMatches().size) {
+        moves--; movesEl.textContent = moves;
+        await resolve();
+        if (moves <= 0) gameOver();
+      } else {
+        grid[a.r][a.c] = ta; grid[b.r][b.c] = tb;
+        ta.el.style.transform = pos(a.r, a.c);
+        tb.el.style.transform = pos(b.r, b.c);
+        await sleep(200);
+      }
+      busy = false;
+    }
+
+    function clearSelect() {
+      if (selected) grid[selected.r][selected.c]?.el.classList.remove('sel');
+      selected = null;
+    }
+
+    function gameOver() {
+      document.getElementById('m3FinalScore').textContent = score;
+      const isBest = score > best;
+      if (isBest) { best = score; localStorage.setItem(BEST_KEY, best); bestEl.textContent = best; }
+      document.getElementById('m3NewBest').hidden = !isBest;
+      overEl.hidden = false;
+    }
+
+    // 입력: 탭-탭 또는 스와이프
+    let down = null;
+    const cellAt = (e) => {
+      const rect = board.getBoundingClientRect();
+      const c = Math.floor((e.clientX - rect.left) / tile);
+      const r = Math.floor((e.clientY - rect.top) / tile);
+      return (r >= 0 && r < ROWS && c >= 0 && c < COLS) ? { r, c } : null;
+    };
+    board.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      down = { cell: cellAt(e), x: e.clientX, y: e.clientY };
+    });
+    board.addEventListener('pointerup', (e) => {
+      if (!down || !down.cell || busy) { down = null; return; }
+      const dx = e.clientX - down.x, dy = e.clientY - down.y;
+      const from = down.cell;
+      down = null;
+      if (Math.hypot(dx, dy) > tile * 0.4) {
+        // 스와이프
+        const to = Math.abs(dx) > Math.abs(dy)
+          ? { r: from.r, c: from.c + Math.sign(dx) }
+          : { r: from.r + Math.sign(dy), c: from.c };
+        if (to.r >= 0 && to.r < ROWS && to.c >= 0 && to.c < COLS) trySwap(from, to);
+        return;
+      }
+      // 탭
+      if (!selected) {
+        selected = from;
+        grid[from.r][from.c].el.classList.add('sel');
+      } else if (selected.r === from.r && selected.c === from.c) {
+        clearSelect();
+      } else if (Math.abs(selected.r - from.r) + Math.abs(selected.c - from.c) === 1) {
+        trySwap(selected, from);
+      } else {
+        clearSelect();
+        selected = from;
+        grid[from.r][from.c].el.classList.add('sel');
+      }
+    });
+
+    document.getElementById('m3Restart').addEventListener('click', init);
+    new ResizeObserver(layout).observe(board);
+    init();
+  </script>
+</Base>
+
+<style>
+  .game-sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .game-sub b { color: var(--warn); }
+
+  .m3-hud { display: flex; gap: 8px; margin-bottom: 12px; }
+  .hud-box {
+    flex: 1; text-align: center; font-size: 12px; color: var(--muted);
+    background: var(--panel-deep); border: 2px solid #000; box-shadow: var(--px-bevel);
+    padding: 8px 6px;
+  }
+  .hud-box b { display: block; color: var(--text); font-size: 16px; }
+  .hud-box.gold b { color: var(--gold); }
+
+  .m3-wrap { position: relative; max-width: 440px; margin: 0 auto; }
+  .m3-board {
+    position: relative; width: 100%; aspect-ratio: 1;
+    border: 3px solid #000; overflow: hidden;
+    box-shadow: inset 0 0 0 2px rgba(121, 215, 255, 0.3), var(--px-pop);
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px var(--ts, 48px)),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px var(--ts, 48px)),
+      linear-gradient(180deg, #0e3346 0%, #0a2433 60%, #071824 100%);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .m3-board :global(.m3-tile) {
+    position: absolute; top: 0; left: 0;
+    width: var(--ts); height: var(--ts);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.18s ease;
+    will-change: transform;
+  }
+  .m3-board :global(.m3-tile::before) {
+    content: ""; position: absolute; inset: 7%;
+    background: color-mix(in srgb, var(--tint) 16%, transparent);
+    border: 2px solid color-mix(in srgb, var(--tint) 45%, #000);
+    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.08), inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+  }
+  .m3-board :global(.m3-tile i) {
+    position: relative;
+    width: 76%; height: 76%;
+    background-repeat: no-repeat;
+    background-size: 800% 100%; /* 시트 256×32 · 프레임 32×32 */
+    background-position: 0 0;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+  .m3-board :global(.m3-tile.sel::before) {
+    border-color: var(--gold);
+    box-shadow: inset 0 0 0 2px var(--gold), inset 2px 2px 0 rgba(255, 255, 255, 0.12);
+    animation: m3-blink 0.6s steps(2) infinite;
+  }
+  @keyframes m3-blink { 50% { filter: brightness(1.5); } }
+  .m3-board :global(.m3-tile.pop::before),
+  .m3-board :global(.m3-tile.pop i) { animation: m3-pop 0.24s steps(4) forwards; }
+  @keyframes m3-pop {
+    40% { transform: scale(1.25); filter: brightness(2); }
+    100% { transform: scale(0); filter: brightness(2); opacity: 0; }
+  }
+  .m3-board :global(.m3-tile.pop::before) { background: color-mix(in srgb, var(--tint) 60%, #fff); }
+
+  .m3-over {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(4, 8, 12, 0.78);
+  }
+  .m3-over[hidden] { display: none; }
+  .m3-over-card {
+    text-align: center; padding: 26px 30px;
+    background: var(--panel-body); border: 3px solid #000;
+    box-shadow: inset 0 0 0 2px var(--gold), var(--px-pop);
+  }
+  .over-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .over-score { color: var(--muted); margin-bottom: 6px; }
+  .over-score b { color: var(--text); font-size: 22px; }
+  .over-best { color: var(--gold); font-family: var(--pixel9); font-size: 12px; margin-bottom: 10px; }
+  .m3-tip { margin-top: 14px; font-size: 12px; color: var(--muted); }
+</style>

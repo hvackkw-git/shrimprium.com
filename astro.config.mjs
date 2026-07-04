@@ -5,4 +5,6 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: process.env.SITE_URL ?? 'https://shrimprium.com',
   base: process.env.BASE_PATH ?? '/',
+  // 구 도감 주소 → 새 위키
+  redirects: { '/shrimpedia/': '/wiki/' },
 });
