@@ -82,11 +82,10 @@ const ABXY = [
       font-size: 10px;
       letter-spacing: 0.06em;
       color: var(--text);
-      background: rgba(8, 6, 16, 0.65);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 999px;
-      padding: 5px 11px;
+      background: rgba(8, 6, 16, 0.85);
+      border: 2px solid #0d0718;
+      padding: 4px 10px;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
     }
     /* INSERT COIN — 아케이드 대기화면처럼 프레임 없이 큼직한 도트 텍스트 */
     .gt-insert-coin {
@@ -130,16 +129,26 @@ const ABXY = [
       text-shadow: 0 0 14px rgba(255, 209, 102, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
       margin-bottom: 12px;
     }
-    /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
-    section.gametank { border-radius: var(--r) var(--r) 0 0; }
+    /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 — 도트 게임기 스타일 ── */
+    section.gametank {
+      border-radius: 0;
+      border: 3px solid #0d0718;
+      border-bottom: none;
+      box-shadow:
+        inset 0 0 0 2px rgba(87, 212, 255, 0.22),
+        inset 0 0 40px rgba(0, 0, 0, 0.4);
+    }
     .console-deck {
       position: relative;
-      background: linear-gradient(180deg, #262040, #171029 70%, #110b20);
-      border: 1px solid var(--line);
-      border-top: none;
-      border-radius: 0 0 20px 20px;
+      background: #1e1735;
+      border: 3px solid #0d0718;
+      border-radius: 0;
       padding: 8px 16px 22px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 -5px 0 rgba(0, 0, 0, 0.35);
+      box-shadow:
+        inset 0 3px 0 rgba(255, 255, 255, 0.07),
+        inset 4px 0 0 rgba(255, 255, 255, 0.04),
+        inset -4px -6px 0 rgba(0, 0, 0, 0.35),
+        0 8px 0 rgba(0, 0, 0, 0.4);
     }
     .deck-top {
       display: flex;
@@ -149,9 +158,9 @@ const ABXY = [
       padding: 6px 2px 12px;
     }
     .grill {
-      width: 72px; height: 17px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.3px, transparent 1.6px);
-      background-size: 7px 6px;
+      width: 72px; height: 12px;
+      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 3px, transparent 3px 8px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
     }
     .deck-label {
       font-family: var(--pixel9);
@@ -176,12 +185,16 @@ const ABXY = [
       grid-template-rows: repeat(3, 1fr);
       filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));
     }
-    .dpad i { background: linear-gradient(180deg, #3d3358, #282040); border: 2px solid #0d0718; }
-    .dpad .d-up    { grid-area: 1 / 2; border-radius: 5px 5px 0 0; border-bottom: none; }
-    .dpad .d-down  { grid-area: 3 / 2; border-radius: 0 0 5px 5px; border-top: none; }
-    .dpad .d-left  { grid-area: 2 / 1; border-radius: 5px 0 0 5px; border-right: none; }
-    .dpad .d-right { grid-area: 2 / 3; border-radius: 0 5px 5px 0; border-left: none; }
-    .dpad .d-mid   { grid-area: 2 / 2; border: none; background: radial-gradient(circle at 50% 42%, #1d1631 30%, #322851 75%); }
+    .dpad i {
+      background: #342a4e;
+      border: 3px solid #0d0718;
+      box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.14), inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+    }
+    .dpad .d-up    { grid-area: 1 / 2; border-bottom: none; }
+    .dpad .d-down  { grid-area: 3 / 2; border-top: none; }
+    .dpad .d-left  { grid-area: 2 / 1; border-right: none; }
+    .dpad .d-right { grid-area: 2 / 3; border-left: none; }
+    .dpad .d-mid   { grid-area: 2 / 2; border: none; background: #2b2244; box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.35); }
 
     /* 오락실 돔 버튼 공통 */
     .btn-label {
@@ -203,25 +216,33 @@ const ABXY = [
     .start-btn {
       --ec: #14532d;
       width: 76px; height: 76px;
-      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-family: var(--pixel11); font-size: 25px; font-weight: 700;
       color: #04240f;
-      background: radial-gradient(circle at 35% 28%, #b9ffcf, #4bef82 55%, #23a852);
+      background: #4bef82;
       border: 3px solid #0d0718;
-      box-shadow: 0 6px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      box-shadow:
+        0 6px 0 var(--ec),
+        inset 3px 3px 0 #b9ffcf,
+        inset -4px -4px 0 #23a852;
       transition: transform 0.06s, box-shadow 0.06s;
-      animation: start-glow 1.8s ease-in-out infinite;
+      animation: start-blink 1.2s steps(2) infinite;
     }
     .start-wrap:active .start-btn {
       transform: translateY(5px);
-      box-shadow: 0 1px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 1px 0 var(--ec), inset 3px 3px 0 #23a852, inset -4px -4px 0 #b9ffcf;
       animation: none;
     }
-    @keyframes start-glow {
-      50% { box-shadow: 0 6px 0 var(--ec), 0 0 36px rgba(98, 255, 142, 0.7), inset 0 3px 4px rgba(255, 255, 255, 0.5); }
+    @keyframes start-blink {
+      50% {
+        box-shadow:
+          0 6px 0 var(--ec),
+          inset 3px 3px 0 #b9ffcf,
+          inset -4px -4px 0 #23a852,
+          0 0 0 4px rgba(98, 255, 142, 0.4);
+      }
     }
-    .start-wrap .btn-label { color: var(--ok); text-shadow: 0 0 8px rgba(98, 255, 142, 0.5); }
+    .start-wrap .btn-label { color: var(--ok); text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6); }
 
     .abxy {
       flex: 0 0 auto;
@@ -231,26 +252,30 @@ const ABXY = [
     }
     .arc-btn {
       width: 40px; height: 40px;
-      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-family: var(--pixel11); font-size: 14px; font-weight: 700;
       border: 3px solid #0d0718;
-      box-shadow: 0 5px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+      box-shadow:
+        0 5px 0 var(--ec),
+        inset 2px 2px 0 var(--hi),
+        inset -3px -3px 0 var(--lo);
       transition: transform 0.06s, box-shadow 0.06s;
     }
-    .arc-wrap:active .arc-btn { transform: translateY(4px); box-shadow: 0 1px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5); }
-    .arc-btn.yellow { --ec: #8a6511; color: #4a3403; background: radial-gradient(circle at 35% 28%, #ffe9a8, #ffc94d 55%, #d09a1e); }
-    .arc-btn.blue   { --ec: #114a8a; color: #03274a; background: radial-gradient(circle at 35% 28%, #a8dcff, #4da9ff 55%, #1e6fd0); }
-    .arc-btn.grape  { --ec: #45298a; color: #2a1554; background: radial-gradient(circle at 35% 28%, #d9c8ff, #a37dff 55%, #6c46cf); }
-    .arc-btn.pink   { --ec: #8a1150; color: #4a0325; background: radial-gradient(circle at 35% 28%, #ffb8d9, #ff5fa8 55%, #d02a7a); }
+    .arc-wrap:active .arc-btn {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 var(--ec), inset 2px 2px 0 var(--lo), inset -3px -3px 0 var(--hi);
+    }
+    .arc-btn.yellow { --ec: #8a6511; --hi: #ffe9a8; --lo: #d09a1e; color: #4a3403; background: #ffc94d; }
+    .arc-btn.blue   { --ec: #114a8a; --hi: #a8dcff; --lo: #1e6fd0; color: #03274a; background: #4da9ff; }
+    .arc-btn.grape  { --ec: #45298a; --hi: #d9c8ff; --lo: #6c46cf; color: #2a1554; background: #a37dff; }
+    .arc-btn.pink   { --ec: #8a1150; --hi: #ffb8d9; --lo: #d02a7a; color: #4a0325; background: #ff5fa8; }
 
     .deck-screws i {
       position: absolute;
       bottom: 9px;
       width: 9px; height: 9px;
-      border-radius: 50%;
       background: #0d0718;
-      box-shadow: inset 0 0 0 2px #2e2549;
+      box-shadow: inset 2px 2px 0 #2e2549;
     }
     .deck-screws i:first-child { left: 12px; }
     .deck-screws i:last-child { right: 12px; }
