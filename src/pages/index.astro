@@ -55,7 +55,7 @@ const ABXY = [
 
     <!-- 게임 HUD 오버레이 -->
     <div class="gt-hud">
-      <span class="hud-chip live">● LIVE</span>
+      <span class="hud-coin">INSERT COIN</span>
       <span class="hud-chip">🌡 24.5°C</span>
       <span class="hud-chip">pH 7.2</span>
     </div>
@@ -135,7 +135,7 @@ const ABXY = [
 
   <!-- ── INSERT COIN: 콘테스트 예고 ── -->
   <div class="event-box">
-    <p class="ev-coin">🪙 INSERT COIN</p>
+    <p class="ev-coin">🪙 COMING SOON</p>
     <p class="ev-title">새우 콘테스트 준비 중</p>
     <p class="ev-desc">갤러리가 열리면 여러분의 수조로 이 자리가 채워집니다</p>
   </div>
@@ -176,12 +176,14 @@ const ABXY = [
       border-radius: 999px;
       padding: 5px 11px;
     }
-    .hud-chip.live {
-      color: #fff;
-      background: linear-gradient(180deg, #ff6e7a, #e0304d);
-      border-color: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 14px rgba(255, 90, 110, 0.55);
-      animation: live-pulse 1.6s ease-in-out infinite;
+    .hud-coin {
+      align-self: center;
+      font-family: var(--pixel9);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.65), 1px 1px 0 rgba(0, 0, 0, 0.7);
+      animation: coin-blink 1.3s steps(2) infinite;
     }
     .hud-chip:nth-child(2) { margin-left: auto; }
     .gt-caption {
@@ -356,7 +358,7 @@ const ABXY = [
     .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
     .ev-desc { font-size: 13px; margin: 0; }
     @media (prefers-reduced-motion: reduce) {
-      .ev-coin, .start-btn, .hud-chip.live { animation: none; }
+      .ev-coin, .start-btn, .hud-coin { animation: none; }
     }
   </style>
 
