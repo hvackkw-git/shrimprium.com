@@ -1,31 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { withBase, GAME_URL } from '../config/site.js';
-import { BREEDS, gradeOf, spriteUrl, overlayUrl } from '../data/wiki.js';
-
-// 위키 미리보기: 별점 높은 순 8종
-const featured = [...BREEDS].sort((a, b) => b.stars - a.stars).slice(0, 8);
-const spriteStyle = (b) => {
-  const layers = [];
-  if (b.overlay) layers.push(`url('${withBase(overlayUrl(b.overlay))}')`);
-  layers.push(`url('${withBase(spriteUrl(b.sprite))}')`);
-  return `background-image:${layers.join(',')}`;
-};
-const starText = (n) => '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
-
-const latestNews = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 2);
-const fmt = (d) => d.toISOString().slice(0, 10);
-
-// 채널 리스트형 메인 메뉴
-const MENU = [
-  { icon: '📖', name: '새우 위키', desc: '품종 32종 · 유전자 · 교배 레시피', href: '/wiki/', state: 'on', act: '문서 보기' },
-  { icon: '🎮', name: '새우 팡팡', desc: '같은 색 새우 3매치 퍼즐', href: '/game/', state: 'on', act: 'PLAY' },
-  { icon: '🎨', name: '디자인 스튜디오', desc: '새우·배경·블록 도트 에디터', href: '/studio/', state: 'on', act: '만들기' },
-  { icon: '🐚', name: '수조 갤러리', desc: '수조 자랑 · 브리더 팔로우', href: '/gallery/', state: 'soon', act: '준비중' },
-  { icon: '🌿', name: '사육 가이드', desc: '물잡이부터 번식까지', href: '/guide/', state: 'on', act: '읽기' },
-  { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/', state: 'on', act: '입장하기' },
-];
 
 // 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결
 const ABXY = [
@@ -55,7 +30,7 @@ const ABXY = [
 
     <!-- 게임 HUD 오버레이 -->
     <div class="gt-hud">
-      <span class="hud-chip live">● LIVE</span>
+      <span class="hud-coin">INSERT COIN</span>
       <span class="hud-chip">🌡 24.5°C</span>
       <span class="hud-chip">pH 7.2</span>
     </div>
@@ -92,70 +67,6 @@ const ABXY = [
     <div class="deck-screws" aria-hidden="true"><i></i><i></i></div>
   </section>
 
-  <!-- ── MAIN MENU: 채널 리스트 ── -->
-  <div class="px-card theme-grape menu-card">
-    <div class="px-head">
-      <p class="px-title">MAIN MENU</p>
-      <span class="px-meta">{MENU.length} CH</span>
-    </div>
-    <ul class="menu-list">
-      {MENU.map((m) => (
-        <li>
-          <a class="menu-row" href={withBase(m.href)}>
-            <span class="m-ico">{m.icon}</span>
-            <span class="m-txt">
-              <span class="m-name">{m.name}</span>
-              <span class="m-desc">{m.desc}</span>
-            </span>
-            <span class="m-state">
-              {m.state === 'on' && <span class="m-on">● ON</span>}
-              {m.state === 'soon' && <span class="m-soon">● SOON</span>}
-              <span class="m-act">{m.act}</span>
-            </span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-
-  <!-- ── SHRIMP DEX 레일 ── -->
-  <div class="rail-head">
-    <h2>SHRIMP DEX</h2>
-    <a class="more" href={withBase('/wiki/')}>전체 {BREEDS.length}종 →</a>
-  </div>
-  <div class="rail">
-    {featured.map((b) => (
-      <a class="rail-card" href={withBase('/wiki/')}>
-        <span class="r-tank"><i class="shrimp4" style={`--z:1.4;${spriteStyle(b)}`}></i></span>
-        <span class="r-name">{b.name}</span>
-        <span class="r-stars">{starText(b.stars)} · {gradeOf(b.stars).label}</span>
-      </a>
-    ))}
-  </div>
-
-  <!-- ── INSERT COIN: 콘테스트 예고 ── -->
-  <div class="event-box">
-    <p class="ev-coin">🪙 INSERT COIN</p>
-    <p class="ev-title">새우 콘테스트 준비 중</p>
-    <p class="ev-desc">갤러리가 열리면 여러분의 수조로 이 자리가 채워집니다</p>
-  </div>
-
-  <!-- ── 최신 소식 ── -->
-  <div class="rail-head">
-    <h2>DEV LOG</h2>
-    <a class="more" href={withBase('/news/')}>더 보기 →</a>
-  </div>
-  <ul class="card-list">
-    {latestNews.map((post) => (
-      <li>
-        <a class="card" href={withBase(`/news/${post.id}/`)}>
-          <p class="card-meta">{fmt(post.data.date)}</p>
-          <p class="card-title">{post.data.title}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
-
   <style>
     /* HUD 오버레이 — gametank의 pointer-events:none 규칙을 덮어씀 */
     .gt-hud {
@@ -176,12 +87,14 @@ const ABXY = [
       border-radius: 999px;
       padding: 5px 11px;
     }
-    .hud-chip.live {
-      color: #fff;
-      background: linear-gradient(180deg, #ff6e7a, #e0304d);
-      border-color: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 14px rgba(255, 90, 110, 0.55);
-      animation: live-pulse 1.6s ease-in-out infinite;
+    .hud-coin {
+      align-self: center;
+      font-family: var(--pixel9);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.65), 1px 1px 0 rgba(0, 0, 0, 0.7);
+      animation: coin-blink 1.3s steps(2) infinite;
     }
     .hud-chip:nth-child(2) { margin-left: auto; }
     .gt-caption {
@@ -204,7 +117,7 @@ const ABXY = [
       font-size: 19px;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 0 14px rgba(255, 95, 168, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
+      text-shadow: 0 0 14px rgba(255, 209, 102, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
       margin-bottom: 12px;
     }
     /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
@@ -332,31 +245,9 @@ const ABXY = [
     .deck-screws i:first-child { left: 12px; }
     .deck-screws i:last-child { right: 12px; }
 
-    .menu-card { margin-top: 22px; }
-
-    /* INSERT COIN — 콘테스트 예고 */
-    .event-box {
-      margin-top: 26px;
-      padding: 22px 18px;
-      text-align: center;
-      border: 2px dashed rgba(228, 220, 250, 0.26);
-      border-radius: var(--r);
-      color: var(--muted);
-    }
-    .ev-coin {
-      font-family: var(--pixel9);
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      color: var(--gold);
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
-      animation: coin-blink 1.3s steps(2) infinite;
-      margin-bottom: 6px;
-    }
     @keyframes coin-blink { 50% { opacity: 0.35; } }
-    .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
-    .ev-desc { font-size: 13px; margin: 0; }
     @media (prefers-reduced-motion: reduce) {
-      .ev-coin, .start-btn, .hud-chip.live { animation: none; }
+      .start-btn, .hud-coin { animation: none; }
     }
   </style>
 
