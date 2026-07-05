@@ -21,9 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set Pages source to GitHub Actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X PUT /repos/${{ github.repository }}/pages \
+            --field build_type=workflow --silent || true
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
