@@ -41,7 +41,7 @@
 
   /* 네온 팔레트 */
   --ok: #62ff8e;   --ok-d: #1d7a41;    /* GAME START 그린 */
-  --pink: #ff5fa8; --pink-d: #a12a63;  /* 팔로우/LIVE 핑크 */
+  --pink: #ff5fa8; --pink-d: #a12a63;  /* ABXY 버튼 등 포인트 핑크 */
   --warn: #ffd166;
   --crit: #ff6e7a; --crit-d: #93363f;
   --info: #57d4ff; --info-d: #22688c;
@@ -53,6 +53,7 @@
   --r-s: 10px;
   --glow-ok:   0 0 16px rgba(98, 255, 142, 0.35);
   --glow-pink: 0 0 16px rgba(255, 95, 168, 0.40);
+  --glow-gold: 0 0 16px rgba(255, 209, 102, 0.40);
   --glow-info: 0 0 16px rgba(87, 212, 255, 0.30);
   --edge: 0 3px 0 rgba(0, 0, 0, 0.55);        /* 버튼 아래 하드 엣지 */
 
@@ -119,8 +120,8 @@ h1::before {
   content: "◄►";
   font-family: var(--pixel9);
   font-size: 11px;
-  color: var(--pink);
-  text-shadow: 0 0 10px rgba(255, 95, 168, 0.7);
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(255, 209, 102, 0.7);
 }
 h2 {
   font-family: var(--pixel11);
@@ -136,14 +137,14 @@ h2::before {
   content: "◄►";
   font-family: var(--pixel9);
   font-size: 9px;
-  color: var(--pink);
-  text-shadow: 0 0 8px rgba(255, 95, 168, 0.7);
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(255, 209, 102, 0.7);
 }
 h3 { font-size: 15px; color: var(--text); margin: 24px 0 8px; }
 p, li { margin-bottom: 8px; }
 ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 
-::selection { background: rgba(255, 95, 168, 0.4); }
+::selection { background: rgba(255, 209, 102, 0.4); }
 
 /* ---------- 공용 버튼 ---------- */
 .px-btn {
@@ -300,12 +301,12 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   font-family: var(--pixel9);
   font-size: 8px;
   letter-spacing: 0.3em;
-  color: var(--pink);
-  text-shadow: 0 0 8px rgba(255, 95, 168, 0.6);
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
 }
 .site-header .play-btn { margin-left: auto; }
 
-/* 헤더 플레이 버튼 — 네온 핑크 필 */
+/* 헤더 플레이 버튼 — 네온 옐로 필 */
 .play-btn {
   font-family: var(--pixel11);
   font-size: 12px;
@@ -314,15 +315,15 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   padding: 10px 18px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 999px;
-  background: linear-gradient(180deg, #ff7dbb, #f23f92);
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(120, 10, 60, 0.6);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 3px 0 var(--pink-d), var(--glow-pink);
+  background: linear-gradient(180deg, #ffe08a, #f5b52e);
+  color: #4a3403;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 3px 0 var(--gold-d), var(--glow-gold);
   transition: filter 0.12s, transform 0.06s, box-shadow 0.12s;
   white-space: nowrap;
 }
 .play-btn:hover { filter: brightness(1.12); text-decoration: none; }
-.play-btn:active { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), var(--glow-pink); }
+.play-btn:active { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), var(--glow-gold); }
 
 /* ---------- 헤더 아래 가로 메뉴 (필 칩) ---------- */
 .site-nav {
@@ -508,7 +509,7 @@ a.px-card:active { transform: translateY(2px); }
   position: relative;
   margin: 8px 0 0;
   width: 100%;
-  height: clamp(300px, 52vh, 440px);
+  height: clamp(240px, 42vh, 360px);
   overflow: hidden;
   border: 1px solid rgba(87, 212, 255, 0.30);
   border-radius: var(--r);
