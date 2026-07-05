@@ -30,10 +30,10 @@ const ABXY = [
 
     <!-- 게임 HUD 오버레이 -->
     <div class="gt-hud">
-      <span class="hud-chip coin">🪙 INSERT COIN</span>
       <span class="hud-chip">🌡 24.5°C</span>
       <span class="hud-chip">pH 7.2</span>
     </div>
+    <p class="gt-insert-coin" aria-hidden="true">INSERT COIN</p>
     <div class="gt-caption">
       <p class="cap-eng">▸ NOW SWIMMING · TANK CAM</p>
       <p class="cap-title">오늘도 새우들은 평화롭습니다</p>
@@ -73,6 +73,7 @@ const ABXY = [
       top: 12px; left: 12px; right: 12px;
       z-index: 300;
       display: flex;
+      justify-content: flex-end;
       gap: 7px;
       pointer-events: none;
     }
@@ -87,16 +88,25 @@ const ABXY = [
       border-radius: 999px;
       padding: 5px 11px;
     }
-    .hud-chip.coin {
+    /* INSERT COIN — 아케이드 대기화면처럼 프레임 없이 큼직한 도트 텍스트 */
+    .gt-insert-coin {
+      top: 33%;
+      left: 0; right: 0;
+      z-index: 305;
+      margin: 0;
+      text-align: center;
+      font-family: var(--pixel9);
+      font-size: clamp(20px, 3.4vw, 28px);
+      letter-spacing: 0.3em;
+      text-indent: 0.3em; /* letter-spacing 이 오른쪽에만 붙어 생기는 치우침 보정 */
       color: var(--gold);
-      letter-spacing: 0.16em;
-      border-color: rgba(255, 209, 102, 0.5);
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.55);
-      box-shadow: 0 0 14px rgba(255, 209, 102, 0.35);
-      animation: coin-blink 1.3s steps(2) infinite;
+      text-shadow:
+        3px 3px 0 rgba(0, 0, 0, 0.75),
+        0 0 18px rgba(255, 209, 102, 0.65);
+      animation: coin-blink 1.1s steps(2) infinite;
+      pointer-events: none;
     }
-    @keyframes coin-blink { 50% { opacity: 0.35; } }
-    .hud-chip:nth-child(2) { margin-left: auto; }
+    @keyframes coin-blink { 50% { opacity: 0; } }
     .gt-caption {
       left: 0; right: 0; bottom: 0;
       z-index: 310;
@@ -246,7 +256,7 @@ const ABXY = [
     .deck-screws i:last-child { right: 12px; }
 
     @media (prefers-reduced-motion: reduce) {
-      .start-btn, .hud-chip.coin { animation: none; }
+      .start-btn, .gt-insert-coin { animation: none; }
     }
   </style>
 
