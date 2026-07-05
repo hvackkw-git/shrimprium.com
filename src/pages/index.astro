@@ -85,6 +85,7 @@ const ABXY = [
       background: rgba(8, 6, 16, 0.85);
       border: 2px solid #0d0718;
       padding: 4px 10px;
+      text-shadow: 1px 0 0 currentColor;
       box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
     }
     /* INSERT COIN — 아케이드 대기화면처럼 프레임 없이 큼직한 도트 텍스트 */
@@ -94,12 +95,14 @@ const ABXY = [
       z-index: 305;
       margin: 0;
       text-align: center;
-      font-family: var(--pixel9);
+      font-family: var(--pixel11);
+      font-weight: 700;
       font-size: clamp(20px, 3.4vw, 28px);
       letter-spacing: 0.3em;
       text-indent: 0.3em; /* letter-spacing 이 오른쪽에만 붙어 생기는 치우침 보정 */
       color: var(--gold);
       text-shadow:
+        1px 0 0 currentColor,
         3px 3px 0 rgba(0, 0, 0, 0.75),
         0 0 18px rgba(255, 209, 102, 0.65);
       animation: coin-blink 1.1s steps(2) infinite;
@@ -118,7 +121,8 @@ const ABXY = [
       font-size: 10px;
       letter-spacing: 0.22em;
       color: var(--warn);
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+      /* Galmuri9 는 볼드가 없어 1px 더블 스트라이크로 두께를 냄 */
+      text-shadow: 1px 0 0 currentColor, 0 0 10px rgba(255, 209, 102, 0.5);
       margin-bottom: 4px;
     }
     .cap-title {
@@ -168,6 +172,7 @@ const ABXY = [
       letter-spacing: 0.28em;
       color: var(--muted);
       white-space: nowrap;
+      text-shadow: 1px 0 0 currentColor;
     }
     .deck-main {
       display: flex;
@@ -202,6 +207,7 @@ const ABXY = [
       font-size: 9px;
       letter-spacing: 0.14em;
       color: var(--muted);
+      text-shadow: 1px 0 0 currentColor;
     }
     .start-wrap, .arc-wrap {
       display: flex;
@@ -242,7 +248,7 @@ const ABXY = [
           0 0 0 4px rgba(98, 255, 142, 0.4);
       }
     }
-    .start-wrap .btn-label { color: var(--ok); text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6); }
+    .start-wrap .btn-label { color: var(--ok); text-shadow: 1px 0 0 currentColor, 2px 2px 0 rgba(0, 0, 0, 0.6); }
 
     .abxy {
       flex: 0 0 auto;
