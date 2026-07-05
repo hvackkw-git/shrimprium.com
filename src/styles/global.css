@@ -587,8 +587,8 @@ a.px-card:active { transform: translateY(2px); }
   transform-origin: center;
   animation: swim-frames 0.8s steps(8) infinite;
 }
-.gt-shrimp[data-color="red"]  .sprite { background-image: url('/assets/shrimp-swim-red.png'); }
-.gt-shrimp[data-color="blue"] .sprite { background-image: url('/assets/shrimp-swim-blue.png'); }
+.gt-shrimp[data-color="red"]  .sprite { background-image: url('/assets/shrimp/shrimp-4frame-cherry_red.png'); }
+.gt-shrimp[data-color="blue"] .sprite { background-image: url('/assets/shrimp/shrimp-4frame-blue_velvet.png'); }
 
 /* ---------- 카드 목록 (가이드/소식) ---------- */
 .card-list { list-style: none; padding: 0; display: grid; gap: 10px; }
