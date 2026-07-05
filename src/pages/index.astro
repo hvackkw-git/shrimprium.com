@@ -27,12 +27,12 @@ const MENU = [
   { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/', state: 'on', act: '입장하기' },
 ];
 
-// 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결
+// 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결 (슈퍼패미컴 원색: Y초록 X파랑 B노랑 A빨강)
 const ABXY = [
-  { key: 'Y', color: 'yellow', label: 'PANG', href: '/game/' },
+  { key: 'Y', color: 'green', label: 'PANG', href: '/game/' },
   { key: 'X', color: 'blue', label: 'WIKI', href: '/wiki/' },
-  { key: 'B', color: 'grape', label: 'ART', href: '/studio/' },
-  { key: 'A', color: 'pink', label: 'SHOW', href: '/gallery/' },
+  { key: 'B', color: 'yellow', label: 'ART', href: '/studio/' },
+  { key: 'A', color: 'red', label: 'SHOW', href: '/gallery/' },
 ];
 ---
 <Base>
@@ -204,7 +204,7 @@ const ABXY = [
       font-size: 19px;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 0 14px rgba(255, 95, 168, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
+      text-shadow: 0 0 14px rgba(244, 255, 61, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
       margin-bottom: 12px;
     }
     /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
@@ -316,10 +316,10 @@ const ABXY = [
       transition: transform 0.06s, box-shadow 0.06s;
     }
     .arc-wrap:active .arc-btn { transform: translateY(4px); box-shadow: 0 1px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5); }
-    .arc-btn.yellow { --ec: #8a6511; color: #4a3403; background: radial-gradient(circle at 35% 28%, #ffe9a8, #ffc94d 55%, #d09a1e); }
+    .arc-btn.green  { --ec: #0e6b2e; color: #04310f; background: radial-gradient(circle at 35% 28%, #a8f5bc, #2fd05e 55%, #17a344); }
     .arc-btn.blue   { --ec: #114a8a; color: #03274a; background: radial-gradient(circle at 35% 28%, #a8dcff, #4da9ff 55%, #1e6fd0); }
-    .arc-btn.grape  { --ec: #45298a; color: #2a1554; background: radial-gradient(circle at 35% 28%, #d9c8ff, #a37dff 55%, #6c46cf); }
-    .arc-btn.pink   { --ec: #8a1150; color: #4a0325; background: radial-gradient(circle at 35% 28%, #ffb8d9, #ff5fa8 55%, #d02a7a); }
+    .arc-btn.yellow { --ec: #93790c; color: #4a3a02; background: radial-gradient(circle at 35% 28%, #fff0a0, #ffd60a 55%, #d6ac06); }
+    .arc-btn.red    { --ec: #8a1122; color: #4a0310; background: radial-gradient(circle at 35% 28%, #ffb0b8, #ff4d5e 55%, #d01e30); }
 
     .deck-screws i {
       position: absolute;
