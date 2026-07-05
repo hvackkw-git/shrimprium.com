@@ -104,7 +104,7 @@ main {
   z-index: 1;
 }
 
-/* 제목 — 픽셀 폰트 + 네온 캐럿 */
+/* 제목 — 픽셀 폰트 + 게임 메뉴 커서 */
 h1 {
   font-family: var(--pixel11);
   font-size: 23px;
@@ -116,9 +116,9 @@ h1 {
   gap: 10px;
 }
 h1::before {
-  content: "◄►";
+  content: "▶";
   font-family: var(--pixel9);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--yellow);
   text-shadow: 0 0 10px rgba(244, 255, 61, 0.7);
 }
@@ -133,9 +133,9 @@ h2 {
   gap: 8px;
 }
 h2::before {
-  content: "◄►";
+  content: "▶";
   font-family: var(--pixel9);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--yellow);
   text-shadow: 0 0 8px rgba(244, 255, 61, 0.7);
 }
@@ -202,7 +202,7 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
 .px-card.theme-yellow { --ac: var(--yellow); --ac-d: var(--yellow-d); }
 .px-card.theme-grape { --ac: var(--grape); --ac-d: var(--grape-d); }
 
-/* 헤더: 픽셀 레이블 + ◄► 캐럿 */
+/* 헤더: 픽셀 레이블 + ▶ 메뉴 커서 */
 .px-card .px-head {
   display: flex;
   align-items: center;
@@ -211,9 +211,9 @@ ul, ol { padding-left: 1.4em; margin-bottom: 16px; }
   padding: 12px 16px 10px;
 }
 .px-card .px-head::before {
-  content: "◄►";
+  content: "▶";
   font-family: var(--pixel9);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--ac);
   text-shadow: 0 0 8px color-mix(in srgb, var(--ac) 70%, transparent);
 }
