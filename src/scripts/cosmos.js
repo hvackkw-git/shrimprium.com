@@ -6,6 +6,12 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ease = (t) => t * t * (3 - 2 * t);
 const lerp = (a, b, t) => a + (b - a) * t;
 
+const hexCache = new Map();
+function hexRgb(hex) {
+  if (!hexCache.has(hex)) hexCache.set(hex, [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)));
+  return hexCache.get(hex);
+}
+
 // 결정론적 난수 — 새로고침해도 같은 하늘.
 function rng(seed) {
   return () => {
@@ -127,13 +133,13 @@ function bakeNebula(color, radius, seed) {
   const ctx = c.getContext('2d');
   ctx.fillStyle = color;
   const lobes = Array.from({ length: 4 }, () => [(r() - 0.5) * radius, (r() - 0.5) * radius * 0.7, radius * (0.35 + r() * 0.3)]);
-  for (let i = 0; i < 2600; i++) {
+  for (let i = 0; i < 4200; i++) {
     const [lx, ly, lr] = lobes[i % lobes.length];
     const ang = r() * TAU;
     const dist = Math.sqrt(r()) * lr;
     const x = size / 2 + lx + Math.cos(ang) * dist;
     const y = size / 2 + ly + Math.sin(ang) * dist * 0.8;
-    ctx.globalAlpha = 0.05 * (1 - dist / lr) + 0.01;
+    ctx.globalAlpha = 0.07 * (1 - dist / lr) + 0.012;
     const s = r() < 0.9 ? 2 : 3;
     ctx.fillRect(Math.round(x), Math.round(y), s, s);
   }
@@ -147,7 +153,7 @@ export function startCosmos(canvas) {
   const scenes = ambient ? [] : [...document.querySelectorAll('[data-scene]')];
   const rand = rng(7);
 
-  let W = 0, H = 0, dpr = 1, px = 2;
+  let W = 0, H = 0, dpr = 1, px = 2, lightScale = 1;
   let stage = { x: 0, y: 0, r: 1 };
   let pointer = { x: 0, y: 0, tx: 0, ty: 0 };
 
@@ -179,7 +185,29 @@ export function startCosmos(canvas) {
     return [Math.cos(a) * RING[i] * 1.05, Math.sin(a) * RING[i]];
   };
 
+  // 03: 고리가 풀리며 허브들이 수조 곳곳으로 흩어진다.
+  const HUBS = [[-0.1, -0.12], [0.62, -0.78], [1.05, -0.1], [0.55, 0.62], [-0.2, 0.92], [-0.95, 0.5], [-1.08, -0.35], [-0.45, -0.9]];
+
   const nebulae = CYCLE.map((n, i) => ({ node: i, color: n.color, seed: 11 + i, img: null }));
+
+  // 03에서 피어나는 작은 입자 별들. 종마다 다음 단계의 종과 이어진다.
+  const WEB_COUNT = matchMedia('(max-width: 640px)').matches ? 110 : 170;
+  const web = Array.from({ length: WEB_COUNT }, () => {
+    const ang = rand() * TAU;
+    const dist = Math.sqrt(rand()) * 1.2;
+    const species = Math.floor(rand() * CYCLE.length);
+    return {
+      ang, dist, species,
+      color: CYCLE[species].color,
+      phase: rand() * TAU,
+      half: rand() < 0.25 ? (rand() < 0.35 ? 4 : 3) : 0, // 0 = 작은 색 점
+    };
+  });
+  // 연결되지 않고 흩날리는 성간 먼지 (인게임처럼 촘촘하게)
+  const motes = Array.from({ length: WEB_COUNT * 2 }, () => ({
+    ang: rand() * TAU, dist: Math.sqrt(rand()) * 1.45, phase: rand() * TAU,
+    color: CYCLE[Math.floor(rand() * CYCLE.length)].color, size: rand() < 0.8 ? 1 : 2,
+  }));
 
   // 장면별 주인공 위치 (stage 기준 단위 좌표)와 밝기.
   function layout(scene, i, t) {
@@ -193,12 +221,14 @@ export function startCosmos(canvas) {
         if (i === 0) return { x: 0, y: 0, light: 1, half: 11 };
         return { x: a.scatter[0] * 2.4, y: a.scatter[1] * 1.6, light: 0.25, half: 3 };
       case 2: // 질소 순환
-      case 3: { // 성운
+      case 3: { // 성운과 얽힌 연결
+        const hub = (n) => (scene === 2 ? ringPos(n) : [HUBS[n][0] * stage.sx, HUBS[n][1]]);
         if (isNode) {
-          const [x, y] = ringPos(i);
-          return { x: x + drift, y: y + drift, light: 1, half: i === 0 ? 8 : 6 };
+          const [x, y] = hub(i);
+          const wob = scene === 3 && !reduced ? Math.sin(t * 0.4 + a.phase * 3) * 0.05 : 0;
+          return { x: x + drift + wob, y: y + drift - wob, light: 1, half: i === 0 ? 8 : 6 };
         }
-        const [nx, ny] = ringPos(a.orbit.node);
+        const [nx, ny] = hub(a.orbit.node);
         const ang = a.orbit.ang + (reduced ? 0 : t * a.orbit.spin);
         return { x: nx + Math.cos(ang) * a.orbit.dist, y: ny + Math.sin(ang) * a.orbit.dist, light: scene === 3 ? 0.8 : 0.5, half: 3 };
       }
@@ -227,9 +257,10 @@ export function startCosmos(canvas) {
     px = 2;
     const wide = W >= 900;
     stage = wide
-      ? { x: W * 0.66, y: H * 0.5, r: Math.min(W * 0.2, H * 0.34) }
-      : { x: W * 0.5, y: H * 0.36, r: Math.min(W * 0.36, H * 0.24) };
-    for (const n of nebulae) n.img = bakeNebula(n.color, stage.r * 0.38, n.seed);
+      ? { x: W * 0.66, y: H * 0.5, r: Math.min(W * 0.2, H * 0.34), sx: 1.1 }
+      : { x: W * 0.5, y: H * 0.36, r: Math.min(W * 0.36, H * 0.24), sx: 0.82 };
+    lightScale = clamp(stage.r / 260, 0.55, 1.2);
+    for (const n of nebulae) n.img = bakeNebula(n.color, stage.r * 0.7, n.seed);
   }
 
   // 각 섹션이 화면 중앙을 지나는 정도 → 연속 장면 값
@@ -244,20 +275,52 @@ export function startCosmos(canvas) {
     return s;
   }
 
-  function linkLine(x1, y1, x2, y2, alpha, drawn) {
-    if (alpha <= 0.01 || drawn <= 0) return;
+  // 인게임처럼 선은 양 끝 별 근처에서 밝고, 멀어질수록 바닥 밝기(32%)까지 은은해진다.
+  // 선마다 그라데이션을 만들면 느려서, 밝기 단계별로 묶어 한 번에 긋는다.
+  const LIGHT_FLOOR = 0.32;
+  const NEAR = [[0, 0.25, 0.96], [0.25, 0.5, 0.72], [0.5, 0.75, 0.36], [0.75, 1, 0.08]]; // 끝에서의 거리 구간 → 추가 밝기
+  const batch = new Map();
+  function addSeg(color, width, m, x1, y1, x2, y2) {
+    m = Math.round(m * 20) / 20;
+    if (m <= 0) return;
+    const key = color + width + m;
+    let b = batch.get(key);
+    if (!b) batch.set(key, (b = { color, width, m, segs: [] }));
+    b.segs.push(x1, y1, x2, y2);
+  }
+  function linkLine(x1, y1, x2, y2, { alpha = 1, drawn = 1, color = LINK, ra = 60, rb = 60, width = 1 } = {}) {
+    alpha = Math.round(clamp(alpha) * 4) / 4;
+    if (alpha <= 0 || drawn <= 0) return;
     const ex = lerp(x1, x2, drawn), ey = lerp(y1, y2, drawn);
+    const len = Math.hypot(ex - x1, ey - y1);
+    if (len < 0.5) return;
+    const ux = (ex - x1) / len, uy = (ey - y1) / len;
+    addSeg(color, width, alpha * LIGHT_FLOOR, x1, y1, ex, ey);
+    const glow = (ox, oy, dx, dy, r) => {
+      for (const [a, b, v] of NEAR) {
+        const d0 = a * r, d1 = Math.min(b * r, len);
+        if (d0 >= len) break;
+        addSeg(color, width, alpha * (1 - LIGHT_FLOOR) * v, ox + dx * d0, oy + dy * d0, ox + dx * d1, oy + dy * d1);
+      }
+    };
+    glow(x1, y1, ux, uy, ra);
+    if (drawn >= 1) glow(ex, ey, -ux, -uy, rb);
+  }
+  function flushLinks() {
+    ctx.globalAlpha = 1;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = LINK;
-    for (const [w, a] of [[6, 0.05], [3, 0.12]]) {
-      ctx.globalAlpha = alpha * a;
-      ctx.lineWidth = w;
-      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(ex, ey); ctx.stroke();
+    for (const { color, width, m, segs } of batch.values()) {
+      const rgb = hexRgb(color);
+      ctx.beginPath();
+      for (let i = 0; i < segs.length; i += 4) { ctx.moveTo(segs[i], segs[i + 1]); ctx.lineTo(segs[i + 2], segs[i + 3]); }
+      ctx.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.16 * m})`;
+      ctx.lineWidth = width * 4;
+      ctx.stroke();
+      ctx.strokeStyle = `rgba(${rgb.map((c) => Math.round(c * 0.25 + 191)).join(',')},${0.9 * m})`;
+      ctx.lineWidth = width;
+      ctx.stroke();
     }
-    ctx.globalAlpha = alpha * 0.85;
-    ctx.strokeStyle = '#E4FBFF';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(ex, ey); ctx.stroke();
+    batch.clear();
   }
 
   function frame(now) {
@@ -305,6 +368,7 @@ export function startCosmos(canvas) {
         const size = n.img.width * pulse;
         ctx.globalAlpha = neb;
         ctx.drawImage(n.img, p.x - size / 2, p.y - size / 2, size, size);
+        ctx.drawImage(n.img, p.x - size / 2, p.y - size / 2, size, size);
       }
     }
 
@@ -314,13 +378,71 @@ export function startCosmos(canvas) {
       links.forEach(([a, b], i) => {
         const start = i / links.length;
         const drawn = clamp((progress - start) * links.length * 0.9);
-        linkLine(pos[a].x, pos[a].y, pos[b].x, pos[b].y, weight, ease(drawn));
+        linkLine(pos[a].x, pos[a].y, pos[b].x, pos[b].y, { alpha: weight, drawn: ease(drawn), ra: hubR, rb: hubR });
       });
     };
-    const cycleLinks = s < 2 ? clamp(s - 1) : s < 3 ? 1 : 1 - clamp(s - 3);
-    if (s > 1) drawLinks(2, cycleLinks > 0 ? 1 : 0, s < 2 ? clamp(s - 1) : cycleLinks);
+    const hubR = 84 * lightScale, dotR = 40 * lightScale;
+    if (s > 1 && s < 3.2) drawLinks(2, s < 2.5 ? 1 : 1 - clamp((s - 2.5) / 0.6), s < 2 ? clamp(s - 1) : 1);
     if (s > 3) drawLinks(4, 1, clamp(s - 3));
 
+    // 03: 흐르며 섞이는 입자들과 얽힌 연결
+    const webW = clamp(1 - Math.abs(s - 3) * 1.25);
+    if (webW > 0) {
+      const bloom = 0.55 + 0.45 * ease(webW);
+      const pts = web.map((w) => {
+        // 안쪽이 더 빨리 도는 차등 회전 + 작은 소용돌이 → 입자들이 계속 섞인다.
+        const a = w.ang + (reduced ? 0 : t * 0.05 / (0.35 + w.dist));
+        const wx = reduced ? 0 : Math.sin(t * 0.35 + w.phase) * 0.06;
+        const wy = reduced ? 0 : Math.cos(t * 0.29 + w.phase * 1.7) * 0.06;
+        return {
+          x: stage.x + (Math.cos(a) * w.dist * stage.sx * 1.1 + wx) * bloom * stage.r + pointer.x * 8,
+          y: stage.y + (Math.sin(a) * w.dist + wy) * bloom * stage.r + pointer.y * 8,
+          w,
+        };
+      });
+      // 입자 ↔ 다음 단계 입자
+      const near = 0.34 * stage.r;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], next = (a.w.species + 1) % CYCLE.length;
+        for (let j = 0; j < pts.length; j++) {
+          const b = pts[j];
+          if (b.w.species !== next) continue;
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < near) linkLine(a.x, a.y, b.x, b.y, { alpha: webW * 0.7 * (1 - d / near), color: a.w.color, ra: dotR, rb: dotR, width: 0.8 });
+        }
+      }
+      // 허브 ↔ 다음 단계 입자 (멀리까지 부채꼴로 뻗는다)
+      const reach = 1.25 * stage.r;
+      for (let h = 0; h < CYCLE.length; h++) {
+        const hp = pos[h], next = (h + 1) % CYCLE.length;
+        const color = h === 0 ? '#C9A6FF' : CYCLE[h].color;
+        for (const b of pts) {
+          if (b.w.species !== next && !(h === 0 && b.w.species === 3)) continue;
+          const d = Math.hypot(hp.x - b.x, hp.y - b.y);
+          if (d < reach) linkLine(hp.x, hp.y, b.x, b.y, { alpha: webW * Math.sqrt(1 - d / reach), color, ra: hubR, rb: dotR });
+        }
+      }
+      flushLinks();
+      for (const m of motes) {
+        const a = m.ang + (reduced ? 0 : t * 0.04 / (0.35 + m.dist));
+        ctx.globalAlpha = webW * (reduced ? 0.6 : 0.35 + 0.35 * Math.sin(t * 1.3 + m.phase));
+        ctx.fillStyle = m.color;
+        ctx.fillRect(Math.round(stage.x + Math.cos(a) * m.dist * stage.sx * 1.1 * bloom * stage.r), Math.round(stage.y + Math.sin(a) * m.dist * bloom * stage.r), m.size, m.size);
+      }
+      for (const p of pts) {
+        const tw = reduced ? 0.8 : 0.55 + 0.45 * Math.sin(t * 1.7 + p.w.phase);
+        if (p.w.half) drawStar(ctx, p.x, p.y, p.w.color, p.w.half, px, webW * tw);
+        else {
+          ctx.globalAlpha = webW * (0.6 + 0.4 * tw);
+          ctx.fillStyle = p.w.color;
+          ctx.fillRect(Math.round(p.x) - 1, Math.round(p.y) - 1, 3, 3);
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(Math.round(p.x), Math.round(p.y), 1, 1);
+        }
+      }
+    }
+
+    flushLinks();
     // 별
     pos.forEach((p, i) => drawStar(ctx, p.x, p.y, actors[i].color, p.half, px, p.light));
 
