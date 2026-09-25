@@ -7,7 +7,7 @@ author: Crafty Olive
 
 Hello, I'm Crafty Olive.
 
-I have been running my blog for more than ten years, and I care about it a great deal. I'm grateful that so many readers have kept visiting over that time.
+I have been running an HVAC blog for more than ten years.
 
 A blog isn't as flashy as YouTube or Instagram, and it rarely makes much money. Even so, I have always liked what makes a blog different: it is plain, unembellished and free of sensationalism.
 
