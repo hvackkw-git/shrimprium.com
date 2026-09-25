@@ -21,13 +21,13 @@ const WARM = '#FFB38A';
 
 // 수조 안의 질소 순환. 새우의 배설물이 박테리아를 거쳐 수초의 양분이 되고, 수초의 산소가 다시 새우에게.
 const CYCLE = [
-  { label: '새우', color: WARM, size: 1.5 },
+  { label: 'Shrimp', color: WARM, size: 1.5 },
   { label: 'NH₄⁺', color: '#F6E5B8' },
   { label: 'AOB', color: '#8FE3B0' },
   { label: 'NO₂⁻', color: '#FFD098' },
   { label: 'NOB', color: '#B8C8FF' },
   { label: 'NO₃⁻', color: '#A3E8C7' },
-  { label: '수초', color: '#9BE38A', size: 1.2 },
+  { label: 'Plants', color: '#9BE38A', size: 1.2 },
   { label: 'O₂', color: '#7FD4FF' },
 ];
 
@@ -327,7 +327,7 @@ export function startCosmos(canvas) {
     if (labels > 0) {
       ctx.globalAlpha = labels * 0.85;
       ctx.fillStyle = '#DCE7F5';
-      ctx.font = `500 ${W < 640 ? 11 : 13}px Pretendard, system-ui, sans-serif`;
+      ctx.font = `500 ${W < 640 ? 11 : 13}px 'Pretendard Variable', Pretendard, system-ui, sans-serif`;
       ctx.textAlign = 'center';
       CYCLE.forEach((n, i) => {
         const p = pos[i];
