@@ -56,3 +56,5 @@ There were many smaller changes, too. The water panel now opens with a 24-hour c
 Most of this round was about making the tank look the way it works. The simulation has been there from the start, but it was hard to see. Now the chemistry is visible as a map of light, the plants respond visibly to their surroundings, and the rocks and platforms feel like part of a real tank.
 
 There is still more to polish, and I'll keep sharing it here as it comes together.
+
+As one of the benefits for GIGDC prize winners, I'll also be able to improve the game with help from game industry professionals. I'll learn as much as I can and work to make Shrimprium an even better game.
