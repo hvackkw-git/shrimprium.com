@@ -173,8 +173,9 @@ export function startCosmos(canvas) {
   // 정다각형 대신 살짝 어긋난 고리 — 진짜 별자리처럼.
   const RING = [0.84, 0.76, 0.9, 0.78, 0.88, 0.74, 0.86, 0.8];
   const TWIST = [0, 0.03, -0.02, 0.025, -0.03, 0.02, -0.025, 0.015];
+  let spin = 0; // 순환 고리가 천천히 도는 각도
   const ringPos = (i) => {
-    const a = -Math.PI / 2 + (i / CYCLE.length + TWIST[i]) * TAU;
+    const a = -Math.PI / 2 + (i / CYCLE.length + TWIST[i]) * TAU + spin;
     return [Math.cos(a) * RING[i] * 1.05, Math.sin(a) * RING[i]];
   };
 
@@ -261,6 +262,7 @@ export function startCosmos(canvas) {
 
   function frame(now) {
     const t = now / 1000;
+    spin = reduced ? 0 : t * 0.12;
     const s = sceneValue();
     const lo = Math.floor(s), hi = Math.min(lo + 1, 4), k = ease(s - lo);
     const sceneLo = Math.min(lo, 4);
