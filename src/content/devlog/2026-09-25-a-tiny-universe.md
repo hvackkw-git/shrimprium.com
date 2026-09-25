@@ -1,11 +1,11 @@
 ---
-title: 작은 우주로 가는 새 창
+title: A new window into a tiny universe
 date: 2026-09-25
-summary: 현미경 모드의 별자리를 닮은 새 웹사이트를 열었습니다.
+summary: We rebuilt the website around the constellations of microscope mode.
 ---
 
-Shrimprium 웹사이트를 처음부터 다시 만들었습니다.
+The Shrimprium website has been rebuilt from scratch.
 
-게임 속 현미경 모드에서는 수조가 작은 우주처럼 보입니다. 새우와 먹이, 박테리아, 암모니아와 질산염 같은 것들이 하나하나 별이 되고, 서로 영향을 주고받는 관계가 가느다란 빛의 선으로 이어지죠. 새 사이트는 그 장면을 그대로 첫인상으로 삼았습니다. 스크롤을 내리면 흩어진 별들이 하나씩 이어지며 수조 속 생태계가 모습을 드러냅니다.
+In the game's microscope mode, the tank looks like a tiny universe. Shrimp, food, bacteria, ammonia and nitrate each become a star, and the ways they affect one another are drawn as thin lines of light. The new site takes that scene as its first impression: as you scroll, scattered stars link up one by one until the ecosystem inside the tank comes into view.
 
-앞으로 업데이트 소식과 개발 이야기는 이 데브로그에 남기겠습니다.
+From now on, updates and stories from development will be posted here in the devlog.

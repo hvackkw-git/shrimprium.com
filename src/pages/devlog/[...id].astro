@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const fmt = (d) => d.toISOString().slice(0, 10).replaceAll('-', '. ');
+const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 ---
 <Base title={post.data.title} description={post.data.summary}>
   <main class="page">

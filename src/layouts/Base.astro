@@ -2,11 +2,11 @@
 import { CONTACT_EMAIL, url } from '../site.js';
 import '../styles/global.css';
 
-const { title, description = '수조 속 작은 우주에서 새우를 키우는 게임, Shrimprium.', cosmos = 'ambient' } = Astro.props;
-const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — 작은 수조, 작은 우주';
+const { title, description = 'Shrimprium is a pixel shrimp aquarium where the ecosystem actually runs. Raise and breed shrimp in a tiny universe of your own.', cosmos = 'ambient' } = Astro.props;
+const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — A tiny tank, a tiny universe';
 ---
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,7 +37,7 @@ const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — 작은 수�
   <footer class="foot">
     <span>© {new Date().getFullYear()} Shrimprium</span>
     <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-    <a href={url('/privacy.html')}>개인정보처리방침</a>
+    <a href={url('/privacy.html')}>Privacy Policy</a>
   </footer>
 
   <script>

@@ -30,9 +30,14 @@ body {
 
 a { color: inherit; }
 
-/* 강조: 별빛처럼 번지는 그라데이션 글자 */
+/* 강조: 세리프 이탤릭 + 별빛처럼 번지는 그라데이션 */
 em {
-  font-style: normal;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.1em;
+  letter-spacing: -0.01em;
+  padding-right: 0.06em;
   background: linear-gradient(100deg, #bff6ff 0%, #7fddeb 45%, #ffcfb0 100%);
   -webkit-background-clip: text;
   background-clip: text;
