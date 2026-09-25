@@ -1,13 +1,12 @@
 ---
-import { NAV, TAB_NAV, GAME_URL, withBase } from '../config/site.js';
+import { NAV, SUPPORT_EMAIL, withBase } from '../config/site.js';
 import '../styles/global.css';
 
-const { title, description = '새우 키우기 시뮬레이션 게임 Shrimprium 공식 사이트' } = Astro.props;
-const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 새우 키우기 시뮬레이션';
+const { title, description = '생태계가 진짜로 돌아가는 픽셀 새우 수조 시뮬레이션, Shrimprium' } = Astro.props;
+const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 픽셀 새우 수조 시뮬레이션';
 const currentPath = Astro.url.pathname;
-const isCurrent = (href) => currentPath.startsWith(withBase(href));
-// 홈(/)은 접두사 매칭이 항상 참이라 탭바에선 정확 일치로 판정.
-const isTabCurrent = (href) =>
+// 홈(/)은 접두사 매칭이 항상 참이라 정확 일치로 판정.
+const isCurrent = (href) =>
   href === '/' ? currentPath === withBase('/') : currentPath.startsWith(withBase(href));
 ---
 <!DOCTYPE html>
@@ -15,35 +14,26 @@ const isTabCurrent = (href) =>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0f14" />
+  <meta name="theme-color" content="#07111c" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
+  <meta property="og:type" content="website" />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={new URL(currentPath, Astro.site)} />
+  <meta property="og:image" content={new URL(withBase('/assets/og-image.png'), Astro.site)} />
   <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
 </head>
 <body>
-  <!-- 배경 픽셀 기포 -->
-  <div class="bubble-layer" aria-hidden="true">
-    <i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i><i class="px-bubble"></i>
-  </div>
-
   <header class="site-header">
-    <div class="inner">
-      <a class="site-logo" href={withBase('/')}>
-        <span class="logo-ico">🦐</span>
-        <span class="logo-text">SHRIMPRIUM<span class="logo-sub">AQUARIUM RPG</span></span>
-      </a>
-      <a class="play-btn" href={GAME_URL}>▶ PLAY</a>
-    </div>
-    <nav class="site-nav" aria-label="주요 메뉴">
-      <div class="inner">
+    <div class="wrap">
+      <a class="logo" href={withBase('/')}>SHRIMPRIUM</a>
+      <nav aria-label="주요 메뉴">
         {NAV.map((item) => (
-          <a class="site-nav-link" href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+          <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
         ))}
-      </div>
-    </nav>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -51,23 +41,10 @@ const isTabCurrent = (href) =>
   </main>
 
   <footer class="site-footer">
-    <p class="save-dots" aria-hidden="true">SAVE <i></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i></p>
-    <nav>
-      <a href={withBase('/privacy.html')}>개인정보처리방침</a>
-      <a href={withBase('/support/')}>문의/지원</a>
-    </nav>
-    <p>© {new Date().getFullYear()} Shrimprium</p>
-    <p class="font-credit">Galmuri font © Minseo Lee · SIL OFL 1.1</p>
+    <div class="wrap">
+      <p>문의 <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> · <a href={withBase('/privacy.html')}>개인정보처리방침</a></p>
+      <p class="fine">© {new Date().getFullYear()} Shrimprium · Galmuri font © Minseo Lee, SIL OFL 1.1</p>
+    </div>
   </footer>
-
-  <!-- 모바일 하단 탭바 (앱 스타일) -->
-  <nav class="tab-bar" aria-label="하단 메뉴">
-    {TAB_NAV.map((item) => (
-      <a class="tab-item" href={withBase(item.href)} aria-current={isTabCurrent(item.href) ? 'page' : undefined}>
-        <span class="tab-ico">{item.icon}</span>
-        <span class="tab-label">{item.label}</span>
-      </a>
-    ))}
-  </nav>
 </body>
 </html>

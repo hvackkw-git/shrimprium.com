@@ -1,485 +1,73 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { withBase, GAME_URL } from '../config/site.js';
-import { BREEDS, gradeOf, spriteUrl, overlayUrl } from '../data/wiki.js';
+import { GAME_URL, withBase } from '../config/site.js';
 
-// 위키 미리보기: 별점 높은 순 8종
-const featured = [...BREEDS].sort((a, b) => b.stars - a.stars).slice(0, 8);
-const spriteStyle = (b) => {
-  const layers = [];
-  if (b.overlay) layers.push(`url('${withBase(overlayUrl(b.overlay))}')`);
-  layers.push(`url('${withBase(spriteUrl(b.sprite))}')`);
-  return `background-image:${layers.join(',')}`;
-};
-const starText = (n) => '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
+const FEATURES = [
+  { icon: '💧', title: '살아 있는 수질', desc: '질소 순환, pH, 용존산소가 실시간으로 변합니다. 보고 있지 않아도 수조는 계속 돌아가요.' },
+  { icon: '🧬', title: '유전과 교배', desc: '색, 무늬, 투명도가 유전되고 가끔은 돌연변이도 나옵니다. 교배로 새로운 품종을 찾아보세요.' },
+  { icon: '🌿', title: '작은 생태계', desc: '수초가 자라고 미생물이 노폐물을 분해합니다. 유리 상자가 하나의 세계가 됩니다.' },
+  { icon: '🌡️', title: '장비와 꾸미기', desc: '히터, 쿨러, 에어펌프로 환경을 맞추고 장식으로 나만의 수조를 꾸미세요.' },
+  { icon: '🗄️', title: '최대 4개 수조', desc: '선반 시스템으로 여러 수조를 나란히 관리할 수 있습니다.' },
+  { icon: '📱', title: '어디서나 무료', desc: '브라우저, iOS, Android에서 무료로 플레이. 게스트로 바로 시작하거나 Apple·Google로 로그인하세요.' },
+];
 
-const latestNews = (await getCollection('news')).sort((a, b) => b.data.date - a.data.date).slice(0, 2);
+// 히어로에서 헤엄치는 새우 (8프레임 × 32px 스프라이트)
+const SWIMMERS = ['cherry_red', 'blue_velvet', 'yellow_goldenback', 'crystalred_shrimp', 'green_jade'];
+
+const posts = (await getCollection('devlog')).sort((a, b) => b.data.date - a.data.date).slice(0, 3);
 const fmt = (d) => d.toISOString().slice(0, 10);
-
-// 채널 리스트형 메인 메뉴
-const MENU = [
-  { icon: '📖', name: '새우 위키', desc: '품종 32종 · 유전자 · 교배 레시피', href: '/wiki/' },
-  { icon: '🎮', name: '새우 팡팡', desc: '같은 색 새우 3매치 퍼즐', href: '/game/' },
-  { icon: '🎨', name: '디자인 스튜디오', desc: '새우·배경·블록 도트 에디터', href: '/studio/' },
-  { icon: '🐚', name: '수조 갤러리', desc: '수조 자랑 · 브리더 팔로우', href: '/gallery/' },
-  { icon: '🌿', name: '사육 가이드', desc: '물잡이부터 번식까지', href: '/guide/' },
-  { icon: '💬', name: '커뮤니티', desc: '브리더들과 수다떠는 곳', href: '/community/' },
-];
-
-// 콘솔 데크 ABXY 버튼 — 각 섹션으로 연결 (슈퍼패미컴 원색: Y초록 X파랑 B노랑 A빨강)
-const ABXY = [
-  { key: 'Y', color: 'green', label: 'PANG', href: '/game/' },
-  { key: 'X', color: 'blue', label: 'WIKI', href: '/wiki/' },
-  { key: 'B', color: 'yellow', label: 'ART', href: '/studio/' },
-  { key: 'A', color: 'red', label: 'SHOW', href: '/gallery/' },
-];
 ---
 <Base>
-  <!-- ── HERO: 라이브 수조 캠 ──
-       반응형 수조: 자갈 · 수초 · 마린 스노우 · 새우 2마리.
-       폭이 넓어지면 새우는 크기 그대로 더 넓은 수조를 돌아다닌다. 게임 기능 없음. -->
-  <section class="gametank" id="gametank" aria-label="새우가 헤엄치는 수조">
-    <div class="gt-snow-back" aria-hidden="true"></div>
-    <div class="gt-gravel" id="gtGravel" aria-hidden="true"></div>
-    <div class="gt-plants" aria-hidden="true">
-      <img src={withBase('/assets/seaweed/seaweed_s03.png')} alt="" draggable="false" />
-      <img src={withBase('/assets/seaweed/seaweed_s08.png')} alt="" draggable="false" />
-      <img src={withBase('/assets/seaweed/seaweed_s11.png')} alt="" draggable="false" />
+  <section class="hero">
+    <div class="tank" aria-hidden="true">
+      {SWIMMERS.map((name, i) => (
+        <span class="swimmer" style={`--i:${i}; background-image:url(${withBase(`/assets/shrimp/shrimp-4frame-${name}.png`)})`}></span>
+      ))}
     </div>
-    <div class="gt-shrimp-layer" id="gtShrimp" aria-hidden="true">
-      <div class="gt-shrimp" data-color="red"><i class="sprite"></i></div>
-      <div class="gt-shrimp" data-color="blue"><i class="sprite"></i></div>
-    </div>
-    <div class="gt-snow-front" aria-hidden="true"></div>
-
-    <!-- 게임 HUD 오버레이 -->
-    <div class="gt-hud">
-      <span class="hud-chip live">● LIVE</span>
-      <span class="hud-chip">🌡 24.5°C</span>
-      <span class="hud-chip">pH 7.2</span>
-    </div>
-    <div class="gt-caption">
-      <p class="cap-eng">▸ NOW SWIMMING · TANK CAM</p>
-      <p class="cap-title">오늘도 새우들은 평화롭습니다</p>
+    <div class="wrap hero-body">
+      <img class="hero-shrimp" src={withBase('/assets/shrimp-gold.png')} alt="" width="128" height="128" />
+      <h1>SHRIMPRIUM</h1>
+      <p class="tagline">생태계가 진짜로 돌아가는<br />픽셀 새우 수조 시뮬레이션</p>
+      <div class="actions">
+        <a class="btn primary" href={GAME_URL}>▶ 브라우저에서 플레이</a>
+        <a class="btn" href={withBase('/devlog/')}>데브로그 보기</a>
+      </div>
+      <p class="platforms">Web · iOS · Android · 무료</p>
     </div>
   </section>
 
-  <!-- ── 콘솔 데크: 수조가 화면, 아래는 기기 본체 ── -->
-  <section class="console-deck" aria-label="게임 시작 컨트롤">
-    <div class="deck-top" aria-hidden="true">
-      <span class="grill"></span>
-      <span class="deck-label">SHRIMPRIUM · MODEL-01</span>
-      <span class="grill"></span>
-    </div>
-    <div class="deck-main">
-      <div class="dpad" aria-hidden="true">
-        <i class="d-up"></i><i class="d-left"></i><i class="d-mid"></i><i class="d-right"></i><i class="d-down"></i>
-      </div>
-      <a class="start-wrap" href={GAME_URL}>
-        <span class="start-btn">▶</span>
-        <span class="btn-label">GAME START</span>
-      </a>
-      <div class="abxy">
-        {ABXY.map((b) => (
-          <a class="arc-wrap" href={withBase(b.href)}>
-            <span class={`arc-btn ${b.color}`}>{b.key}</span>
-            <span class="btn-label">{b.label}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-    <div class="deck-screws" aria-hidden="true"><i></i><i></i></div>
-  </section>
-
-  <!-- ── MAIN MENU: 채널 리스트 ── -->
-  <div class="px-card theme-grape menu-card">
-    <div class="px-head">
-      <p class="px-title">MAIN MENU</p>
-      <span class="px-meta">{MENU.length} CH</span>
-    </div>
-    <ul class="menu-list">
-      {MENU.map((m) => (
+  <section class="wrap section">
+    <h2>어떤 게임인가요?</h2>
+    <p class="lead">
+      Shrimprium은 유리 수조 속에서 새우를 키우고 교배하는 느긋한 싱글플레이 게임입니다.
+      멈춰 있는 가상 어항이 아니라, 수초와 미생물과 물의 화학이 맞물려 스스로 살아 움직이는 작은 세계예요.
+    </p>
+    <ul class="features">
+      {FEATURES.map((f) => (
         <li>
-          <a class="menu-row" href={withBase(m.href)}>
-            <span class="m-ico">{m.icon}</span>
-            <span class="m-txt">
-              <span class="m-name">{m.name}</span>
-              <span class="m-desc">{m.desc}</span>
-            </span>
+          <span class="f-ico" aria-hidden="true">{f.icon}</span>
+          <h3>{f.title}</h3>
+          <p>{f.desc}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>데브로그</h2>
+      <a href={withBase('/devlog/')}>전체 보기 →</a>
+    </div>
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <a href={withBase(`/devlog/${post.id}/`)}>
+            <time datetime={fmt(post.data.date)}>{fmt(post.data.date)}</time>
+            <span class="post-title">{post.data.title}</span>
           </a>
         </li>
       ))}
     </ul>
-  </div>
-
-  <!-- ── SHRIMP DEX 레일 ── -->
-  <div class="rail-head">
-    <h2>SHRIMP DEX</h2>
-    <a class="more" href={withBase('/wiki/')}>전체 {BREEDS.length}종 →</a>
-  </div>
-  <div class="rail">
-    {featured.map((b) => (
-      <a class="rail-card" href={withBase('/wiki/')}>
-        <span class="r-tank"><i class="shrimp4" style={`--z:1.4;${spriteStyle(b)}`}></i></span>
-        <span class="r-name">{b.name}</span>
-        <span class="r-stars">{starText(b.stars)} · {gradeOf(b.stars).label}</span>
-      </a>
-    ))}
-  </div>
-
-  <!-- ── INSERT COIN: 콘테스트 예고 ── -->
-  <div class="event-box">
-    <p class="ev-coin">🪙 INSERT COIN</p>
-    <p class="ev-title">새우 콘테스트 준비 중</p>
-    <p class="ev-desc">갤러리가 열리면 여러분의 수조로 이 자리가 채워집니다</p>
-  </div>
-
-  <!-- ── 최신 소식 ── -->
-  <div class="rail-head">
-    <h2>DEV LOG</h2>
-    <a class="more" href={withBase('/news/')}>더 보기 →</a>
-  </div>
-  <ul class="card-list">
-    {latestNews.map((post) => (
-      <li>
-        <a class="card" href={withBase(`/news/${post.id}/`)}>
-          <p class="card-meta">{fmt(post.data.date)}</p>
-          <p class="card-title">{post.data.title}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
-
-  <style>
-    /* HUD 오버레이 — gametank의 pointer-events:none 규칙을 덮어씀 */
-    .gt-hud {
-      top: 12px; left: 12px; right: 12px;
-      z-index: 300;
-      display: flex;
-      gap: 7px;
-      pointer-events: none;
-    }
-    .hud-chip {
-      font-family: var(--pixel9);
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      color: var(--text);
-      background: rgba(8, 6, 16, 0.65);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 999px;
-      padding: 5px 11px;
-    }
-    .hud-chip.live {
-      color: #fff;
-      background: linear-gradient(180deg, #ff6e7a, #e0304d);
-      border-color: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 14px rgba(255, 90, 110, 0.55);
-      animation: live-pulse 1.6s ease-in-out infinite;
-    }
-    .hud-chip:nth-child(2) { margin-left: auto; }
-    .gt-caption {
-      left: 0; right: 0; bottom: 0;
-      z-index: 310;
-      padding: 40px 18px 18px;
-      background: linear-gradient(180deg, transparent, rgba(5, 8, 14, 0.82) 70%);
-      pointer-events: none;
-    }
-    .cap-eng {
-      font-family: var(--pixel9);
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      color: var(--warn);
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
-      margin-bottom: 4px;
-    }
-    .cap-title {
-      font-family: var(--pixel11);
-      font-size: 19px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 0 14px rgba(244, 255, 61, 0.45), 0 2px 0 rgba(0, 0, 0, 0.6);
-      margin-bottom: 12px;
-    }
-    /* ── 콘솔 데크: 수조(화면)에 붙는 기기 본체 ── */
-    section.gametank { border-radius: var(--r) var(--r) 0 0; }
-    .console-deck {
-      position: relative;
-      background: linear-gradient(180deg, #262040, #171029 70%, #110b20);
-      border: 1px solid var(--line);
-      border-top: none;
-      border-radius: 0 0 20px 20px;
-      padding: 8px 16px 22px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 -5px 0 rgba(0, 0, 0, 0.35);
-    }
-    .deck-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 6px 2px 12px;
-    }
-    .grill {
-      width: 72px; height: 17px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.3px, transparent 1.6px);
-      background-size: 7px 6px;
-    }
-    .deck-label {
-      font-family: var(--pixel9);
-      font-size: 8px;
-      letter-spacing: 0.28em;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .deck-main {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    /* D-패드 (장식) */
-    .dpad {
-      flex: 0 0 auto;
-      width: 82px; height: 82px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));
-    }
-    .dpad i { background: linear-gradient(180deg, #3d3358, #282040); border: 2px solid #0d0718; }
-    .dpad .d-up    { grid-area: 1 / 2; border-radius: 5px 5px 0 0; border-bottom: none; }
-    .dpad .d-down  { grid-area: 3 / 2; border-radius: 0 0 5px 5px; border-top: none; }
-    .dpad .d-left  { grid-area: 2 / 1; border-radius: 5px 0 0 5px; border-right: none; }
-    .dpad .d-right { grid-area: 2 / 3; border-radius: 0 5px 5px 0; border-left: none; }
-    .dpad .d-mid   { grid-area: 2 / 2; border: none; background: radial-gradient(circle at 50% 42%, #1d1631 30%, #322851 75%); }
-
-    /* 오락실 돔 버튼 공통 */
-    .btn-label {
-      font-family: var(--pixel9);
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-    }
-    .start-wrap, .arc-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      text-decoration: none;
-      flex: 0 0 auto;
-    }
-    .start-wrap:hover, .arc-wrap:hover { text-decoration: none; }
-
-    .start-btn {
-      --ec: #14532d;
-      width: 76px; height: 76px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--pixel11); font-size: 25px; font-weight: 700;
-      color: #04240f;
-      background: radial-gradient(circle at 35% 28%, #b9ffcf, #4bef82 55%, #23a852);
-      border: 3px solid #0d0718;
-      box-shadow: 0 6px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
-      transition: transform 0.06s, box-shadow 0.06s;
-      animation: start-glow 1.8s ease-in-out infinite;
-    }
-    .start-wrap:active .start-btn {
-      transform: translateY(5px);
-      box-shadow: 0 1px 0 var(--ec), 0 0 22px rgba(98, 255, 142, 0.4), inset 0 3px 4px rgba(255, 255, 255, 0.5);
-      animation: none;
-    }
-    @keyframes start-glow {
-      50% { box-shadow: 0 6px 0 var(--ec), 0 0 36px rgba(98, 255, 142, 0.7), inset 0 3px 4px rgba(255, 255, 255, 0.5); }
-    }
-    .start-wrap .btn-label { color: var(--ok); text-shadow: 0 0 8px rgba(98, 255, 142, 0.5); }
-
-    .abxy {
-      flex: 0 0 auto;
-      display: grid;
-      grid-template-columns: repeat(2, auto);
-      gap: 6px 10px;
-    }
-    .arc-btn {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--pixel11); font-size: 14px; font-weight: 700;
-      border: 3px solid #0d0718;
-      box-shadow: 0 5px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5);
-      transition: transform 0.06s, box-shadow 0.06s;
-    }
-    .arc-wrap:active .arc-btn { transform: translateY(4px); box-shadow: 0 1px 0 var(--ec), inset 0 2px 3px rgba(255, 255, 255, 0.5); }
-    .arc-btn.green  { --ec: #0e6b2e; color: #04310f; background: radial-gradient(circle at 35% 28%, #a8f5bc, #2fd05e 55%, #17a344); }
-    .arc-btn.blue   { --ec: #114a8a; color: #03274a; background: radial-gradient(circle at 35% 28%, #a8dcff, #4da9ff 55%, #1e6fd0); }
-    .arc-btn.yellow { --ec: #93790c; color: #4a3a02; background: radial-gradient(circle at 35% 28%, #fff0a0, #ffd60a 55%, #d6ac06); }
-    .arc-btn.red    { --ec: #8a1122; color: #4a0310; background: radial-gradient(circle at 35% 28%, #ffb0b8, #ff4d5e 55%, #d01e30); }
-
-    .deck-screws i {
-      position: absolute;
-      bottom: 9px;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: #0d0718;
-      box-shadow: inset 0 0 0 2px #2e2549;
-    }
-    .deck-screws i:first-child { left: 12px; }
-    .deck-screws i:last-child { right: 12px; }
-
-    .menu-card { margin-top: 22px; }
-
-    /* INSERT COIN — 콘테스트 예고 */
-    .event-box {
-      margin-top: 26px;
-      padding: 22px 18px;
-      text-align: center;
-      border: 2px dashed rgba(228, 220, 250, 0.26);
-      border-radius: var(--r);
-      color: var(--muted);
-    }
-    .ev-coin {
-      font-family: var(--pixel9);
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      color: var(--gold);
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
-      animation: coin-blink 1.3s steps(2) infinite;
-      margin-bottom: 6px;
-    }
-    @keyframes coin-blink { 50% { opacity: 0.35; } }
-    .ev-title { color: var(--text); font-weight: 700; font-size: 15px; margin-bottom: 2px; }
-    .ev-desc { font-size: 13px; margin: 0; }
-    @media (prefers-reduced-motion: reduce) {
-      .ev-coin, .start-btn, .hud-chip.live { animation: none; }
-    }
-  </style>
-
-  <script>
-    const tank = document.getElementById('gametank');
-    const gravelLayer = document.getElementById('gtGravel');
-
-    // ── 자갈: 게임 본체(mountAquarium)의 캔버스 베이크를 이식. 현재 폭에 맞춰 생성 ──
-    const makeRng = (seed) => { let s = seed >>> 0; return () => { s = (Math.imul(s, 1664525) + 1013904223) | 0; return (s >>> 0) / 0x100000000; }; };
-    const shades = [
-      ['#384d65', '#1f2b38', '#17202a', '#10161c'],
-      ['#415c77', '#243342', '#1b2632', '#121a21'],
-      ['#202f3b', '#121a21', '#0e1419', '#090d11'],
-      ['#58687c', '#313a45', '#252c34', '#191d23'],
-    ];
-    const buildGravel = (W) => {
-      const old = gravelLayer.querySelector('.gravel-sprite');
-      if (old) old.remove();
-      const H = 50;
-      const cv = document.createElement('canvas');
-      cv.className = 'gravel-sprite';
-      cv.width = W; cv.height = H;
-      const c = cv.getContext('2d');
-      const rng = makeRng(0x6B5A47); // 시드 고정 — 같은 폭이면 같은 자갈밭
-      const pebble = (cx, cy, rx, ry, alpha) => {
-        const [hi, base, mid, sh] = shades[Math.floor(rng() * shades.length)];
-        c.globalAlpha = alpha;
-        const X = Math.round(cx), Y = Math.round(cy);
-        for (let dy = -ry; dy <= ry; dy++) {
-          const t = dy / (ry + 0.5);
-          const hw = Math.round(rx * Math.sqrt(1 - t * t));
-          const y = Y + dy;
-          const ringHw = (s, o) => { const tt = (dy + ry * o) / (ry * s + 0.5); return tt >= -1 && tt <= 1 ? Math.min(hw, Math.round(rx * s * Math.sqrt(1 - tt * tt))) : -1; };
-          let w1 = ringHw(0.88, 0.22); const w2 = ringHw(0.7, 0.4);
-          if (w1 < w2) w1 = w2;
-          if (w2 >= 0) { c.fillStyle = base; c.fillRect(X - w2, y, w2 * 2 + 1, 1); }
-          if (w1 >= 0) {
-            if (w1 > w2) {
-              c.fillStyle = mid;
-              if (w2 >= 0) { c.fillRect(X - w1, y, w1 - w2, 1); c.fillRect(X + w2 + 1, y, w1 - w2, 1); }
-              else { c.fillRect(X - w1, y, w1 * 2 + 1, 1); }
-            }
-            if (hw > w1) { c.fillStyle = sh; c.fillRect(X - hw, y, hw - w1, 1); c.fillRect(X + w1 + 1, y, hw - w1, 1); }
-          } else { c.fillStyle = sh; c.fillRect(X - hw, y, hw * 2 + 1, 1); }
-          const th = (dy + ry * 0.45) / (ry * 0.38 + 0.5);
-          if (th >= -1 && th <= 1) {
-            const hhw = Math.round(rx * 0.42 * Math.sqrt(1 - th * th));
-            const hx = X - Math.round(rx * 0.15);
-            const x0 = Math.max(X - hw, hx - hhw), x1 = Math.min(X + hw, hx + hhw);
-            c.fillStyle = hi; c.fillRect(x0, y, x1 - x0 + 1, 1);
-          }
-        }
-      };
-      const count = Math.round(W * 0.875); // 게임과 같은 밀도(320px당 280알갱이)
-      for (let i = 0; i < count; i++) {
-        const size = 5 + rng() * 11;
-        const rx = Math.max(2, Math.round(size / 2));
-        const ry = Math.max(2, Math.round((size * 0.85) / 2));
-        const h = ry * 2 + 1;
-        const bottom = rng() * Math.max(0, H - h);
-        pebble(rng() * W, H - bottom - ry - 0.5, rx, ry, 0.55 + rng() * 0.4);
-      }
-      c.globalAlpha = 1;
-      gravelLayer.appendChild(cv);
-    };
-    if (!gravelLayer.querySelector('.gravel-underlay')) {
-      const u = document.createElement('div');
-      u.className = 'gravel-underlay';
-      gravelLayer.appendChild(u);
-    }
-
-    // ── 새우 2마리: 크기 고정. 수조가 넓어지면 더 넓게 돌아다닌다 ──
-    const shrimps = [...document.querySelectorAll('.gt-shrimp')];
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const SIZE = 32, GRAVEL = 50, SURFACE = 16;
-    const rand = (a, b) => a + Math.random() * (b - a);
-
-    const fish = shrimps.map((el, i) => ({
-      el,
-      sprite: el.querySelector('.sprite'),
-      x: rand(40, 160),
-      y: rand(60, 160),
-      vx: rand(-0.4, 0.4) || 0.3,
-      vy: rand(-0.2, 0.2),
-      turnAt: 0,
-      jumpAt: rand(1500, 4000) * (i + 1),
-      face: 1,
-    }));
-
-    const draw = (f) => {
-      f.el.style.transform = `translate(${f.x}px, ${f.y}px)`;
-      f.sprite.style.transform = `scale(${1.5 * f.face}, 1.5)`; // 왼쪽 바라봄 → 오른쪽 갈 때 반전
-    };
-
-    // 자갈 재생성(폭 변화 시) + 새우 경계 적용
-    let lastW = 0;
-    const onResize = () => {
-      const W = Math.round(gravelLayer.clientWidth);
-      if (W && Math.abs(W - lastW) > 8) { lastW = W; buildGravel(W); }
-    };
-    onResize();
-    new ResizeObserver(onResize).observe(tank);
-
-    if (reduce) {
-      fish.forEach(draw);
-    } else {
-      let last = performance.now();
-      const tick = (now) => {
-        const dt = Math.min(now - last, 50); last = now;
-        const xMax = tank.clientWidth - SIZE;
-        const yMin = SURFACE, yMax = tank.clientHeight - GRAVEL - SIZE;
-        for (const f of fish) {
-          if (now > f.turnAt) { f.vx += rand(-0.25, 0.25); f.vy += rand(-0.15, 0.15); f.turnAt = now + rand(700, 2200); }
-          if (now > f.jumpAt) { f.vx += rand(-1.6, 1.6); f.vy -= rand(1.4, 2.6); f.jumpAt = now + rand(2500, 6000); }
-          f.vy += 0.012; f.vx *= 0.985; f.vy *= 0.99;
-          f.vx = Math.max(-2.4, Math.min(2.4, f.vx));
-          f.vy = Math.max(-3, Math.min(2.4, f.vy));
-          f.x += f.vx * dt * 0.06; f.y += f.vy * dt * 0.06;
-          if (f.x < 0) { f.x = 0; f.vx = Math.abs(f.vx); }
-          if (f.x > xMax) { f.x = xMax; f.vx = -Math.abs(f.vx); }
-          if (f.y < yMin) { f.y = yMin; f.vy = Math.abs(f.vy) * 0.6; }
-          if (f.y > yMax) { f.y = yMax; f.vy = -Math.abs(f.vy); }
-          if (Math.abs(f.vx) > 0.05) f.face = f.vx > 0 ? -1 : 1;
-          draw(f);
-        }
-        requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }
-  </script>
+  </section>
 </Base>

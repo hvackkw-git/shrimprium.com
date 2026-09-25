@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config/site.js';
+
+const posts = (await getCollection('devlog')).sort((a, b) => b.data.date - a.data.date);
+const fmt = (d) => d.toISOString().slice(0, 10);
+---
+<Base title="데브로그" description="Shrimprium 데브로그 — 업데이트 소식과 개발 이야기">
+  <section class="wrap section">
+    <h1 class="page-title">데브로그</h1>
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <a href={withBase(`/devlog/${post.id}/`)}>
+            <time datetime={fmt(post.data.date)}>{fmt(post.data.date)}</time>
+            <span class="post-title">{post.data.title}</span>
+            {post.data.description && <span class="post-desc">{post.data.description}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
