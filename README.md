@@ -17,18 +17,25 @@ npm run build    # dist/ 에 정적 빌드
 
 | 경로 | 내용 |
 |---|---|
-| `src/config/site.js` | 메뉴, 게임 URL, 지원 이메일 — 전역 설정은 여기서 수정 |
-| `src/content/guide/` | 가이드 문서 (마크다운 1개 = 글 1개) |
-| `src/content/news/` | 업데이트 소식/공지 |
-| `src/content/faq/` | FAQ 항목 (frontmatter의 `category`로 분류) |
-| `src/data/shrimpedia.json` | 새우 도감 데이터 |
-| `public/privacy.html` | 개인정보처리방침 (게임 리포에서 이전) |
+| `src/pages/index.astro` | 게임 소개 (랜딩) |
+| `src/pages/devlog/` | 데브로그 목록/글 |
+| `src/content/devlog/` | 데브로그 글 (마크다운 1개 = 글 1개) |
+| `src/config/site.js` | 메뉴, 게임 URL, 지원 이메일 |
+| `public/privacy.html` | 개인정보처리방침 |
 
-## 콘텐츠 추가 방법
+## 데브로그 글 추가
 
-- **가이드/소식 글 추가**: 해당 폴더에 `.md` 파일을 추가하면 자동으로 목록에 나타납니다.
-- **FAQ 추가**: `src/content/faq/`에 `.md` 추가. `category`는 `게임플레이` / `저장과 동기화` / `앱과 설치` 중 하나 (새 카테고리는 `src/content.config.ts`와 `src/pages/faq/index.astro`에 추가).
-- **메뉴 추가**: `src/config/site.js`의 `NAV` 배열에 한 줄 추가.
+`src/content/devlog/`에 `YYYY-MM-DD-slug.md` 파일을 추가하면 자동으로 목록과 홈에 나타납니다.
+
+```md
+---
+title: 글 제목
+date: 2026-09-25
+description: 목록에 보일 한 줄 요약 (선택)
+---
+
+본문...
+```
 
 ## 배포 (Cloudflare Pages)
 
