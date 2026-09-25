@@ -190,6 +190,15 @@ export function startCosmos(canvas) {
 
   const nebulae = CYCLE.map((n, i) => ({ node: i, color: n.color, seed: 11 + i, img: null }));
 
+  // 04: 새우 별자리의 선을 따라 몸을 감싸는 자리 (선 위의 한 점 + 수직으로 살짝 벗어남).
+  function bodySpot() {
+    const [a, b] = SHRIMP_EDGES[Math.floor(rand() * SHRIMP_EDGES.length)];
+    const [ax, ay] = SHRIMP[a], [bx, by] = SHRIMP[b];
+    const f = rand(), len = Math.hypot(bx - ax, by - ay) || 1;
+    const off = (rand() + rand() - 1) * 0.16;
+    return [(ax + (bx - ax) * f - ((by - ay) / len) * off) * 1.05, (ay + (by - ay) * f + ((bx - ax) / len) * off) * 1.05];
+  }
+
   // 03에서 피어나는 작은 입자 별들. 종마다 다음 단계의 종과 이어진다.
   const WEB_COUNT = matchMedia('(max-width: 640px)').matches ? 110 : 170;
   const web = Array.from({ length: WEB_COUNT }, () => {
@@ -201,6 +210,7 @@ export function startCosmos(canvas) {
       color: CYCLE[species].color,
       phase: rand() * TAU,
       half: rand() < 0.25 ? (rand() < 0.35 ? 4 : 3) : 0, // 0 = 작은 색 점
+      body: bodySpot(),
     };
   });
   // 연결되지 않고 흩날리는 성간 먼지 (인게임처럼 촘촘하게)
@@ -386,17 +396,22 @@ export function startCosmos(canvas) {
     if (s > 3) drawLinks(4, 1, clamp(s - 3));
 
     // 03: 흐르며 섞이는 입자들과 얽힌 연결
-    const webW = clamp(1 - Math.abs(s - 3) * 1.25);
+    // 04로 넘어가면 입자들이 새우 몸으로 모여든다 (k4). 새우 윤곽이 묻히지 않게 조금 흐리게.
+    const k4 = ease(clamp(s - 3));
+    const webW = s <= 3 ? clamp(1 - (3 - s) * 1.25) : lerp(1, 0.6, k4);
     if (webW > 0) {
-      const bloom = 0.55 + 0.45 * ease(webW);
+      const bloom = s <= 3 ? 0.55 + 0.45 * ease(webW) : 1;
       const pts = web.map((w) => {
         // 안쪽이 더 빨리 도는 차등 회전 + 작은 소용돌이 → 입자들이 계속 섞인다.
         const a = w.ang + (reduced ? 0 : t * 0.05 / (0.35 + w.dist));
         const wx = reduced ? 0 : Math.sin(t * 0.35 + w.phase) * 0.06;
         const wy = reduced ? 0 : Math.cos(t * 0.29 + w.phase * 1.7) * 0.06;
+        const fx = (Math.cos(a) * w.dist * stage.sx * 1.1 + wx) * bloom;
+        const fy = (Math.sin(a) * w.dist + wy) * bloom;
+        const bx = w.body[0] + wx * 0.25, by = w.body[1] + wy * 0.25;
         return {
-          x: stage.x + (Math.cos(a) * w.dist * stage.sx * 1.1 + wx) * bloom * stage.r + pointer.x * 8,
-          y: stage.y + (Math.sin(a) * w.dist + wy) * bloom * stage.r + pointer.y * 8,
+          x: stage.x + lerp(fx, bx, k4) * stage.r + pointer.x * lerp(8, 6, k4),
+          y: stage.y + lerp(fy, by, k4) * stage.r + pointer.y * lerp(8, 6, k4),
           w,
         };
       });
@@ -408,7 +423,7 @@ export function startCosmos(canvas) {
           const b = pts[j];
           if (b.w.species !== next) continue;
           const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < near) linkLine(a.x, a.y, b.x, b.y, { alpha: webW * 0.7 * (1 - d / near), color: a.w.color, ra: dotR, rb: dotR, width: 0.8 });
+          if (d < near) linkLine(a.x, a.y, b.x, b.y, { alpha: webW * lerp(0.7, 0.45, k4) * (1 - d / near), color: a.w.color, ra: dotR, rb: dotR, width: 0.8 });
         }
       }
       // 허브 ↔ 다음 단계 입자 (멀리까지 부채꼴로 뻗는다)
@@ -419,13 +434,25 @@ export function startCosmos(canvas) {
         for (const b of pts) {
           if (b.w.species !== next && !(h === 0 && b.w.species === 3)) continue;
           const d = Math.hypot(hp.x - b.x, hp.y - b.y);
-          if (d < reach) linkLine(hp.x, hp.y, b.x, b.y, { alpha: webW * Math.sqrt(1 - d / reach), color, ra: hubR, rb: dotR });
+          if (d < reach) linkLine(hp.x, hp.y, b.x, b.y, { alpha: webW * (1 - k4) * Math.sqrt(1 - d / reach), color, ra: hubR, rb: dotR });
+        }
+      }
+      // 04: 입자 ↔ 가장 가까운 새우 별
+      if (k4 > 0) {
+        const grab = 0.42 * stage.r;
+        for (const b of pts) {
+          let best = -1, bd = grab;
+          for (let i = 0; i < SHRIMP.length; i++) {
+            const d = Math.hypot(pos[i].x - b.x, pos[i].y - b.y);
+            if (d < bd) { bd = d; best = i; }
+          }
+          if (best >= 0) linkLine(pos[best].x, pos[best].y, b.x, b.y, { alpha: k4 * 0.5 * (1 - bd / grab), color: b.w.color, ra: hubR * 0.6, rb: dotR, width: 0.8 });
         }
       }
       flushLinks();
       for (const m of motes) {
         const a = m.ang + (reduced ? 0 : t * 0.04 / (0.35 + m.dist));
-        ctx.globalAlpha = webW * (reduced ? 0.6 : 0.35 + 0.35 * Math.sin(t * 1.3 + m.phase));
+        ctx.globalAlpha = webW * (1 - 0.7 * k4) * (reduced ? 0.6 : 0.35 + 0.35 * Math.sin(t * 1.3 + m.phase));
         ctx.fillStyle = m.color;
         ctx.fillRect(Math.round(stage.x + Math.cos(a) * m.dist * stage.sx * 1.1 * bloom * stage.r), Math.round(stage.y + Math.sin(a) * m.dist * bloom * stage.r), m.size, m.size);
       }
