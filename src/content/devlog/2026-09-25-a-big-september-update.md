@@ -35,19 +35,15 @@ All 30 platform block materials have been redrawn as natural surfaces such as wo
 
 Not everything made it in. I tried driftwood as a background piece for several days, with many variations, but I've switched it off for now because it didn't sit well with the rest of the tank. I also built a shrimp puzzle minigame with a twelve-stage campaign, then removed its entry point from the game. It was fun, but it pulled attention away from the tank itself.
 
-## 4. Repainted backgrounds
-
-The famous painting backgrounds have been repainted in a consistent pixel style, starting from the original artworks. Van Gogh's café terrace and Ophelia are back in their new form, and Klimt's *The Kiss* has replaced one of the earlier backgrounds.
-
-## 5. Moving shrimp between tanks
+## 4. Moving shrimp between tanks
 
 Players can now pick two tanks and move shrimp between them, and there is a new storage space for shrimp. Tank capacity has been raised to 10, and identical items in the inventory now stack up to 99. Stored shrimp are included in the hourly backup, so they are protected just like the shrimp in your tanks.
 
-## 6. Tanks on air
+## 5. Tanks on air
 
 The community has been redesigned around the idea of a broadcast. Each account can now put up to four tanks on air, and other tanks appear as green monitor cards showing their owner and representative shrimp. Opening one shows the whole tank along with its likes and visits, and a TV hotkey in the tank lets you put it on air directly.
 
-## 7. Smaller things that add up
+## 6. Smaller things that add up
 
 There were many smaller changes, too. The water panel now opens with a 24-hour chart, and after a water change, the game shows what it did to nitrogen, algae, carbonate and nitrifying bacteria. First-time tank setup now places a rock and a feather plant, so a new tank doesn't start out empty. On iOS, I've been preparing new App Store builds along the way.
 
