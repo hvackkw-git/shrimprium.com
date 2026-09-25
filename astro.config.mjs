@@ -1,14 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// SITE_URL/BASE_PATH는 GitHub Pages처럼 서브경로에 배포할 때만 설정 (미설정 시 기본값).
+// GitHub Pages 미리보기처럼 서브경로에 배포할 때만 SITE_URL/BASE_PATH를 설정.
 export default defineConfig({
   site: process.env.SITE_URL ?? 'https://shrimprium.com',
   base: process.env.BASE_PATH ?? '/',
-  // 이전 주소 → 새 데브로그
-  redirects: {
-    '/news/': '/devlog/',
-    '/news/2026-06-12-website-open/': '/devlog/2026-06-12-website-open/',
-    '/about/': '/',
-  },
 });

@@ -1,50 +1,48 @@
 ---
-import { NAV, SUPPORT_EMAIL, withBase } from '../config/site.js';
+import { CONTACT_EMAIL, url } from '../site.js';
 import '../styles/global.css';
 
-const { title, description = '생태계가 진짜로 돌아가는 픽셀 새우 수조 시뮬레이션, Shrimprium' } = Astro.props;
-const pageTitle = title ? `${title} — Shrimprium` : 'Shrimprium — 픽셀 새우 수조 시뮬레이션';
-const currentPath = Astro.url.pathname;
-// 홈(/)은 접두사 매칭이 항상 참이라 정확 일치로 판정.
-const isCurrent = (href) =>
-  href === '/' ? currentPath === withBase('/') : currentPath.startsWith(withBase(href));
+const { title, description = '수조 속 작은 우주에서 새우를 키우는 게임, Shrimprium.', cosmos = 'ambient' } = Astro.props;
+const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — 작은 수조, 작은 우주';
 ---
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#07111c" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#04060b" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
-  <meta property="og:url" content={new URL(currentPath, Astro.site)} />
-  <meta property="og:image" content={new URL(withBase('/assets/og-image.png'), Astro.site)} />
-  <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+  <meta property="og:image" content={new URL(url('/og.png'), Astro.site)} />
+  <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="logo" href={withBase('/')}>SHRIMPRIUM</a>
-      <nav aria-label="주요 메뉴">
-        {NAV.map((item) => (
-          <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
-        ))}
-      </nav>
-    </div>
+  <canvas class="cosmos" data-mode={cosmos} aria-hidden="true"></canvas>
+
+  <header class="top">
+    <a class="brand" href={url('/')}>Shrimprium</a>
+    <a class="devlog-btn" href={url('/devlog/')}>Devlog</a>
   </header>
 
-  <main>
-    <slot />
-  </main>
+  <slot />
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>문의 <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> · <a href={withBase('/privacy.html')}>개인정보처리방침</a></p>
-      <p class="fine">© {new Date().getFullYear()} Shrimprium · Galmuri font © Minseo Lee, SIL OFL 1.1</p>
-    </div>
+  <footer class="foot">
+    <span>© {new Date().getFullYear()} Shrimprium</span>
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    <a href={url('/privacy.html')}>개인정보처리방침</a>
   </footer>
+
+  <script>
+    import { startCosmos } from '../scripts/cosmos.js';
+    startCosmos(document.querySelector('canvas.cosmos'));
+  </script>
 </body>
 </html>

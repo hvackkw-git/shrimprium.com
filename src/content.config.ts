@@ -6,7 +6,7 @@ const devlog = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
-    description: z.string().optional(),
+    summary: z.string().optional(),
   }),
 });
 
