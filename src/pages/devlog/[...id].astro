@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { withBase } from '../../config/site.js';
+import { url } from '../../site.js';
 
 export async function getStaticPaths() {
   const posts = await getCollection('devlog');
@@ -10,15 +10,13 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const date = post.data.date.toISOString().slice(0, 10);
+const fmt = (d) => d.toISOString().slice(0, 10).replaceAll('-', '. ');
 ---
-<Base title={post.data.title} description={post.data.description}>
-  <article class="wrap section post">
-    <time datetime={date}>{date}</time>
-    <h1 class="page-title">{post.data.title}</h1>
-    <div class="prose">
-      <Content />
-    </div>
-    <p class="back"><a href={withBase('/devlog/')}>← 데브로그 목록</a></p>
-  </article>
+<Base title={post.data.title} description={post.data.summary}>
+  <main class="page">
+    <a class="back" href={url('/devlog/')}>← Devlog</a>
+    <time class="date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+    <h1 class="post-title">{post.data.title}</h1>
+    <article class="prose"><Content /></article>
+  </main>
 </Base>

@@ -1,178 +1,261 @@
-/* Galmuri (c) 2019-2022 Minseo Lee — SIL OFL 1.1 (/fonts/galmuri/LICENSE.txt) */
-@font-face {
-  font-family: Galmuri11;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/galmuri/Galmuri11-Bold.woff2') format('woff2');
+:root {
+  --bg: #04060b;
+  --text: #eef3fb;
+  --muted: #93a0b4;
+  --line: rgba(190, 220, 255, 0.12);
+  --glow: #7fddeb;
+  --warm: #ffb38a;
+
+  --sans: 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --gutter: clamp(20px, 5vw, 64px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg: #07111c;
-  --surface: #0e1c2b;
-  --line: rgba(160, 210, 255, 0.12);
-  --text: #e8f1fa;
-  --muted: #8ea3b8;
-  --accent: #ff7a59;
-  --accent-ink: #1a0a05;
-  --link: #7cc8ff;
-
-  --pixel: Galmuri11, ui-monospace, monospace;
-  --sans: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+html {
+  color-scheme: dark;
+  background: radial-gradient(120% 80% at 70% 40%, #0b1424 0%, var(--bg) 60%) fixed var(--bg);
 }
-
-html { color-scheme: dark; }
 
 body {
   font-family: var(--sans);
-  background: var(--bg);
   color: var(--text);
-  font-size: 16px;
+  min-height: 100vh;
   line-height: 1.7;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+/* 강조: 별빛처럼 번지는 그라데이션 글자 */
+em {
+  font-style: normal;
+  background: linear-gradient(100deg, #bff6ff 0%, #7fddeb 45%, #ffcfb0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cosmos {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 상단 */
+.top {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px var(--gutter);
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 24px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.devlog-btn {
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(10, 16, 28, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.devlog-btn:hover { border-color: rgba(127, 221, 235, 0.5); background: rgba(20, 34, 52, 0.7); }
+
+/* 이야기 */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--glow);
+}
+
+.chapter {
+  min-height: 130vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--gutter);
+  max-width: calc(480px + var(--gutter) * 2);
+}
+.chapter h2 {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+.chapter p:not(.num) { color: var(--muted); font-size: 17px; margin-top: 20px; }
+.num {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--glow);
+  margin-bottom: 14px;
+}
+
+.hero {
+  min-height: 100vh;
+  max-width: none;
+  align-items: center;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(44px, 8vw, 96px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  margin-top: 18px;
+}
+.hero .sub { color: var(--muted); font-size: 18px; margin-top: 24px; }
+.scroll-cue {
+  position: absolute;
+  bottom: 36px;
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(transparent, var(--glow));
+  animation: cue 2.4s ease-in-out infinite;
+}
+@keyframes cue {
+  0%, 100% { opacity: 0.2; transform: translateY(-8px); }
+  50% { opacity: 1; transform: translateY(0); }
+}
+
+.finale {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  word-break: keep-all;
-}
-
-main { flex: 1; }
-
-a { color: var(--link); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-
-/* 헤더 */
-.site-header {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(7, 17, 28, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
-}
-.site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.logo { font-family: var(--pixel); font-weight: 700; color: var(--text); letter-spacing: 0.04em; }
-.logo:hover { text-decoration: none; }
-.site-header nav { display: flex; gap: 20px; }
-.site-header nav a { color: var(--muted); font-size: 15px; }
-.site-header nav a:hover { color: var(--text); text-decoration: none; }
-.site-header nav a[aria-current='page'] { color: var(--text); font-weight: 600; }
-
-/* 히어로 */
-.hero {
-  position: relative;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 88px 0 72px;
-  background: linear-gradient(180deg, #0c2a40 0%, var(--bg) 100%);
-  border-bottom: 1px solid var(--line);
+  padding: 0 var(--gutter);
+  background: linear-gradient(transparent, rgba(4, 6, 11, 0.85) 30%);
 }
-.hero-body { position: relative; }
-.hero-shrimp { image-rendering: pixelated; width: 128px; height: 128px; border-radius: 28px; border: 1px solid var(--line); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45); }
-.hero h1 {
-  font-family: var(--pixel);
-  font-size: clamp(32px, 7vw, 56px);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  margin-top: 8px;
-}
-.tagline { color: var(--muted); font-size: 18px; margin-top: 12px; }
-.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--text);
+.finale h2 {
+  font-size: clamp(34px, 5.5vw, 64px);
   font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
 }
-.btn:hover { text-decoration: none; border-color: rgba(160, 210, 255, 0.3); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn.primary:hover { filter: brightness(1.08); }
-.platforms { color: var(--muted); font-size: 13px; margin-top: 16px; letter-spacing: 0.04em; }
-
-/* 히어로 배경에서 헤엄치는 새우: 32px × 8프레임 스프라이트를 2배로 */
-.tank { position: absolute; inset: 0; pointer-events: none; }
-.swimmer {
-  position: absolute;
-  left: 0;
-  top: calc(18% + var(--i) * 15%);
-  width: 64px; height: 64px;
-  background-size: 512px 64px;
-  image-rendering: pixelated;
-  opacity: 0.35;
-  animation:
-    swim-frames 0.9s steps(8) infinite,
-    swim-across calc(22s + var(--i) * 5s) linear calc(var(--i) * -7s) infinite;
+.play {
+  margin-top: 40px;
+  padding: 16px 36px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 0 6px rgba(127, 221, 235, 0.08), 0 0 48px rgba(127, 221, 235, 0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-@keyframes swim-frames { to { background-position: -512px 0; } }
-@keyframes swim-across {
-  from { transform: translateX(-80px); }
-  to   { transform: translateX(calc(100vw + 80px)); }
+.play:hover { transform: translateY(-2px); box-shadow: 0 0 0 8px rgba(127, 221, 235, 0.12), 0 0 64px rgba(127, 221, 235, 0.4); }
+.platforms { color: var(--muted); font-size: 14px; margin-top: 18px; }
+
+/* 스크롤로 떠오르는 글 (지원 브라우저에서만) */
+@supports (animation-timeline: view()) {
+  .chapter > *, .finale > * {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+  .hero > * { animation: none; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(40px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 
-/* 섹션 */
-.section { padding-top: 64px; padding-bottom: 16px; }
-.section h2, .page-title { font-size: 26px; line-height: 1.35; }
-.lead { color: var(--muted); max-width: 680px; margin-top: 12px; }
-.section-head { display: flex; align-items: baseline; justify-content: space-between; }
-
-.features {
-  list-style: none;
+/* 데브로그 */
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 160px var(--gutter) 80px;
+  min-height: calc(100vh - 80px);
+}
+.page-title {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  margin-top: 14px;
+}
+.posts { list-style: none; margin-top: 56px; border-top: 1px solid var(--line); }
+.posts li { border-bottom: 1px solid var(--line); }
+.posts a {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 28px;
+  grid-template-columns: 120px 1fr;
+  column-gap: 24px;
+  padding: 26px 4px;
+  text-decoration: none;
+  transition: background 0.2s;
 }
-.features li {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 22px;
+.posts a:hover { background: rgba(127, 221, 235, 0.04); }
+.posts time { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; padding-top: 2px; }
+.posts strong { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+.posts span { grid-column: 2; color: var(--muted); font-size: 15px; margin-top: 4px; }
+
+.back { color: var(--muted); font-size: 14px; text-decoration: none; }
+.back:hover { color: var(--text); }
+.date { display: block; color: var(--glow); font-size: 14px; margin-top: 40px; }
+.post-title {
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.3;
+  margin-top: 10px;
 }
-.f-ico { font-size: 26px; }
-.features h3 { font-size: 17px; margin-top: 8px; }
-.features p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.prose { margin-top: 40px; font-size: 17px; color: #cdd6e3; }
+.prose > * + * { margin-top: 1.2em; }
+.prose h2 { font-size: 24px; color: var(--text); margin-top: 2em; letter-spacing: -0.02em; }
+.prose h3 { font-size: 19px; color: var(--text); margin-top: 1.6em; }
+.prose a { color: var(--glow); }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose img { max-width: 100%; border-radius: 12px; }
+.prose code { font-size: 0.9em; background: rgba(255, 255, 255, 0.06); padding: 2px 6px; border-radius: 4px; }
 
-/* 데브로그 목록 */
-.post-list { list-style: none; margin-top: 20px; border-top: 1px solid var(--line); }
-.post-list li { border-bottom: 1px solid var(--line); }
-.post-list a { display: grid; grid-template-columns: 110px 1fr; column-gap: 16px; padding: 16px 4px; color: var(--text); }
-.post-list a:hover { text-decoration: none; background: var(--surface); }
-.post-list time { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; padding-top: 1px; }
-.post-title { font-weight: 600; }
-.post-desc { grid-column: 2; color: var(--muted); font-size: 15px; }
-
-/* 데브로그 글 */
-.post { max-width: 720px; }
-.post time { color: var(--muted); font-size: 14px; }
-.post .page-title { margin-top: 4px; }
-.prose { margin-top: 28px; }
-.prose > * + * { margin-top: 1em; }
-.prose h2 { font-size: 21px; margin-top: 2em; }
-.prose h3 { font-size: 18px; margin-top: 1.6em; }
-.prose ul, .prose ol { padding-left: 1.4em; }
-.prose img { max-width: 100%; border-radius: 10px; }
-.prose code { background: var(--surface); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
-.back { margin-top: 48px; }
-
-/* 푸터 */
-.site-footer {
-  margin-top: 80px;
-  padding: 28px 0;
-  border-top: 1px solid var(--line);
+/* 하단 */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: center;
+  padding: 32px var(--gutter);
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
+  background: var(--bg);
 }
-.site-footer .fine { font-size: 12px; margin-top: 4px; opacity: 0.7; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--text); }
 
-@media (max-width: 560px) {
-  .hero { padding: 64px 0 56px; }
-  .post-list a { grid-template-columns: 1fr; }
-  .post-desc { grid-column: 1; }
+/* 좁은 화면: 별자리는 위쪽, 글은 아래쪽 */
+@media (max-width: 899px) {
+  .chapter {
+    padding-top: 45vh;
+    max-width: none;
+  }
+  .chapter p:not(.num) { font-size: 16px; }
+  .chapter h2, .chapter p { text-shadow: 0 0 24px var(--bg), 0 0 8px var(--bg); }
+  .posts a { grid-template-columns: 1fr; }
+  .posts span { grid-column: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .swimmer { animation: none; display: none; }
+  .scroll-cue { animation: none; }
+  .chapter > *, .finale > * { animation: none !important; }
 }

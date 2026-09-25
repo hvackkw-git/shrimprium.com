@@ -1,73 +1,44 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { GAME_URL, withBase } from '../config/site.js';
-
-const FEATURES = [
-  { icon: '💧', title: '살아 있는 수질', desc: '질소 순환, pH, 용존산소가 실시간으로 변합니다. 보고 있지 않아도 수조는 계속 돌아가요.' },
-  { icon: '🧬', title: '유전과 교배', desc: '색, 무늬, 투명도가 유전되고 가끔은 돌연변이도 나옵니다. 교배로 새로운 품종을 찾아보세요.' },
-  { icon: '🌿', title: '작은 생태계', desc: '수초가 자라고 미생물이 노폐물을 분해합니다. 유리 상자가 하나의 세계가 됩니다.' },
-  { icon: '🌡️', title: '장비와 꾸미기', desc: '히터, 쿨러, 에어펌프로 환경을 맞추고 장식으로 나만의 수조를 꾸미세요.' },
-  { icon: '🗄️', title: '최대 4개 수조', desc: '선반 시스템으로 여러 수조를 나란히 관리할 수 있습니다.' },
-  { icon: '📱', title: '어디서나 무료', desc: '브라우저, iOS, Android에서 무료로 플레이. 게스트로 바로 시작하거나 Apple·Google로 로그인하세요.' },
-];
-
-// 히어로에서 헤엄치는 새우 (8프레임 × 32px 스프라이트)
-const SWIMMERS = ['cherry_red', 'blue_velvet', 'yellow_goldenback', 'crystalred_shrimp', 'green_jade'];
-
-const posts = (await getCollection('devlog')).sort((a, b) => b.data.date - a.data.date).slice(0, 3);
-const fmt = (d) => d.toISOString().slice(0, 10);
+import { GAME_URL } from '../site.js';
 ---
-<Base>
-  <section class="hero">
-    <div class="tank" aria-hidden="true">
-      {SWIMMERS.map((name, i) => (
-        <span class="swimmer" style={`--i:${i}; background-image:url(${withBase(`/assets/shrimp/shrimp-4frame-${name}.png`)})`}></span>
-      ))}
-    </div>
-    <div class="wrap hero-body">
-      <img class="hero-shrimp" src={withBase('/assets/shrimp-gold.png')} alt="" width="128" height="128" />
-      <h1>SHRIMPRIUM</h1>
-      <p class="tagline">생태계가 진짜로 돌아가는<br />픽셀 새우 수조 시뮬레이션</p>
-      <div class="actions">
-        <a class="btn primary" href={GAME_URL}>▶ 브라우저에서 플레이</a>
-        <a class="btn" href={withBase('/devlog/')}>데브로그 보기</a>
-      </div>
-      <p class="platforms">Web · iOS · Android · 무료</p>
-    </div>
-  </section>
+<Base cosmos="story">
+  <main class="story">
+    <section class="chapter hero" data-scene="0">
+      <p class="eyebrow">A pixel shrimp aquarium</p>
+      <h1>작은 수조 속,<br /><em>작은 우주</em></h1>
+      <p class="sub">새우를 키우다 보면, 유리 상자 하나가<br />살아 움직이는 세계가 됩니다.</p>
+      <span class="scroll-cue" aria-hidden="true"></span>
+    </section>
 
-  <section class="wrap section">
-    <h2>어떤 게임인가요?</h2>
-    <p class="lead">
-      Shrimprium은 유리 수조 속에서 새우를 키우고 교배하는 느긋한 싱글플레이 게임입니다.
-      멈춰 있는 가상 어항이 아니라, 수초와 미생물과 물의 화학이 맞물려 스스로 살아 움직이는 작은 세계예요.
-    </p>
-    <ul class="features">
-      {FEATURES.map((f) => (
-        <li>
-          <span class="f-ico" aria-hidden="true">{f.icon}</span>
-          <h3>{f.title}</h3>
-          <p>{f.desc}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
+    <section class="chapter" data-scene="1">
+      <p class="num">01</p>
+      <h2>새우 한 마리는<br /><em>별 하나</em>입니다.</h2>
+      <p>현미경으로 들여다본 수조는 밤하늘을 닮았습니다. 새우와 먹이, 보이지 않던 박테리아와 물속의 화학 물질까지 모두 저마다의 빛으로 반짝입니다.</p>
+    </section>
 
-  <section class="wrap section">
-    <div class="section-head">
-      <h2>데브로그</h2>
-      <a href={withBase('/devlog/')}>전체 보기 →</a>
-    </div>
-    <ul class="post-list">
-      {posts.map((post) => (
-        <li>
-          <a href={withBase(`/devlog/${post.id}/`)}>
-            <time datetime={fmt(post.data.date)}>{fmt(post.data.date)}</time>
-            <span class="post-title">{post.data.title}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+    <section class="chapter" data-scene="2">
+      <p class="num">02</p>
+      <h2>그리고 모든 별은<br /><em>이어져</em> 있습니다.</h2>
+      <p>새우가 남긴 암모니아는 박테리아를 거쳐 아질산, 질산이 되고, 수초는 그것을 먹고 산소를 내놓습니다. 그 산소로 새우는 다시 숨을 쉽니다. 실제 수조의 질소 순환이 그대로 흐릅니다.</p>
+    </section>
+
+    <section class="chapter" data-scene="3">
+      <p class="num">03</p>
+      <h2>보고 있지 않아도,<br /><em>우주는 흐릅니다.</em></h2>
+      <p>수질은 실시간으로 변하고, 짙어진 물질은 성운처럼 피어납니다. 온도와 pH, 용존산소를 살피며 작은 균형을 지켜주세요.</p>
+    </section>
+
+    <section class="chapter" data-scene="4">
+      <p class="num">04</p>
+      <h2>잘 돌본 우주에서<br /><em>새우가 태어납니다.</em></h2>
+      <p>색과 무늬, 투명도가 유전되고 가끔은 돌연변이가 나타납니다. 교배를 거듭하며 나만의 품종을 찾아보세요.</p>
+    </section>
+
+    <section class="finale">
+      <h2>당신의 <em>작은 우주</em>를<br />키워보세요.</h2>
+      <a class="play" href={GAME_URL}>지금 플레이</a>
+      <p class="platforms">Web · iOS · Android — 무료</p>
+    </section>
+  </main>
 </Base>
