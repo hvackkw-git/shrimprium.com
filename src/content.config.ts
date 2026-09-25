@@ -7,6 +7,7 @@ const devlog = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     summary: z.string().optional(),
+    author: z.string().optional(),
   }),
 });
 

@@ -15,7 +15,7 @@ const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'shor
 <Base title={post.data.title} description={post.data.summary}>
   <main class="page">
     <a class="back" href={url('/devlog/')}>← Devlog</a>
-    <time class="date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+    <time class="date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}{post.data.author && ` · by ${post.data.author}`}</time>
     <h1 class="post-title">{post.data.title}</h1>
     <article class="prose"><Content /></article>
   </main>
