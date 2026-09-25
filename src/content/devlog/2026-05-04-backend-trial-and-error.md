@@ -1,7 +1,7 @@
 ---
 title: Trial and error in building the backend
 date: 2026-05-04
-summary: What a non-developer learned from cloud saves and sign-in: think in analogies, split the flow into gated steps, and never stop testing.
+summary: "What a non-developer learned from cloud saves and sign-in: think in analogies, split the flow into gated steps, and never stop testing."
 author: Crafty Olive
 ---
 
