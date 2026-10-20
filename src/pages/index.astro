@@ -1,13 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
-import { GAME_URL } from '../site.js';
+import StoreLinks from '../components/StoreLinks.astro';
+import { GAME_URL, APP_STORE_URL, PLAY_STORE_URL } from '../site.js';
+
+const site = Astro.site.href;
+const faq = [
+  ['What is Shrimprium?', 'Shrimprium is a free pixel-art shrimp aquarium simulator. You raise and breed shrimp in a glass tank whose ecosystem actually runs: plants grow, microbes process waste, and water chemistry (the nitrogen cycle, pH, and dissolved oxygen) shifts in real time.'],
+  ['Is Shrimprium free to play?', 'Yes. Shrimprium is free to play. You can start instantly in a web browser as a guest, or sign in with Apple or Google to sync your tank.'],
+  ['What platforms can I play Shrimprium on?', 'Shrimprium runs in any modern web browser and is also available as an app on iOS and Android.'],
+  ["Does the tank keep running while I'm away?", "Yes. The ecosystem simulation continues even when you're not watching. Plants keep growing, microbes keep working, and the water chemistry changes on its own."],
+  ['How do you breed shrimp in Shrimprium?', 'Keep your water healthy and your shrimp well fed, and they breed on their own. A genetics system passes color, pattern, and transparency to offspring through inheritance and mutation, so you can selectively breed new shrimp variations.'],
+  ['Who makes Shrimprium?', 'Shrimprium is made by Crafty Olive, a solo developer and refrigeration and HVAC engineer. It won a gold prize at GIGDC 2026, an indie game competition held in Korea.'],
+];
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Shrimprium',
+    url: site,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    name: 'Shrimprium',
+    url: site,
+    image: new URL('og.png', site).href,
+    description: 'A pixel-art aquarium sim where the ecosystem actually runs. Raise and breed shrimp, decorate your tank, and watch plants, microbes, and water chemistry turn a glass box into a living world.',
+    genre: ['Simulation', 'Casual', 'Aquarium'],
+    applicationCategory: 'Game',
+    operatingSystem: 'Web, iOS, Android',
+    gamePlatform: ['Web browser', 'iOS', 'Android'],
+    playMode: 'SinglePlayer',
+    author: { '@type': 'Person', name: 'Crafty Olive' },
+    award: 'Gold Prize, GIGDC 2026',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    sameAs: [GAME_URL, APP_STORE_URL, PLAY_STORE_URL].filter(Boolean),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
+  },
+];
 ---
-<Base cosmos="story">
+<Base cosmos="story" keywords="shrimp game, shrimp tank game, shrimp tank simulator, aquarium simulator, pixel art aquarium, shrimp keeping, virtual aquarium, ecosystem sim, fish tank game, shrimprium" structuredData={structuredData}>
   <main class="story">
     <section class="chapter hero" data-scene="0">
       <p class="eyebrow">A pixel shrimp aquarium</p>
       <h1>A tiny tank.<br /><em>A tiny universe.</em></h1>
       <p class="sub">Raise a few shrimp, and a glass box<br />slowly becomes a living world.</p>
+      <StoreLinks />
       <span class="scroll-cue" aria-hidden="true"></span>
     </section>
 
@@ -37,8 +79,9 @@ import { GAME_URL } from '../site.js';
 
     <section class="finale">
       <h2>Grow your own<br /><em>tiny universe.</em></h2>
-      <a class="play" href={GAME_URL}>Play now</a>
+      <StoreLinks />
       <p class="platforms">Web · iOS · Android · Free to play</p>
+      <p class="about">Shrimprium is a free pixel-art shrimp aquarium simulator for the web, iOS and Android. Raise and breed shrimp while plants, microbes and water chemistry, from the nitrogen cycle to pH and dissolved oxygen, keep the tank alive even when you look away.</p>
     </section>
   </main>
 </Base>
