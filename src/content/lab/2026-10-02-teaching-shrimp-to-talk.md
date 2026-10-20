@@ -1,7 +1,7 @@
 ---
 title: Teaching shrimp to talk
-date: 2026-10-20T12:00:00Z
-image: ./images/2026-10-20/talking-shrimp.png
+date: 2026-10-02
+image: ./images/2026-10-02/talking-shrimp.png
 imageAlt: Two pixel-art shrimp on the gravel. The owner says "Here's food!", one shrimp answers "food...?" and the other shows a thinking bubble
 ---
 
