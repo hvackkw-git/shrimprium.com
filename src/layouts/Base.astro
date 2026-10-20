@@ -60,7 +60,10 @@ const jsonLd = article && {
 
   <header class="top">
     <a class="brand" href={url('/')}>Shrimprium</a>
-    <a class="devlog-btn" href={url('/devlog/')}>Devlog</a>
+    <nav class="nav">
+      <a class="devlog-btn" href={url('/devlog/')}>Devlog</a>
+      <a class="devlog-btn" href={url('/lab/')}>Lab</a>
+    </nav>
   </header>
 
   <slot />
