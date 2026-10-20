@@ -9,6 +9,9 @@ Hello, I'm Crafty Olive.
 
 Last time I briefly explained how I came to make the shrimp game. Before that, though, the main reason I got into vibe coding was that I wanted to make an Excel-based building thermal energy analysis program I had built much more accessible. I had put a great deal of time and effort into it, but it was hard to use in practice or share with others.
 
+![Spreadsheet calculating wall surface temperatures and heat flux over time with the response factor method](./images/2026-03-11/excel-building-energy-program.png)
+*My Excel-based building thermal energy analysis program, built on the response factor method*
+
 To me, the program felt like something I cared about deeply but had never managed to put to real use. So I began looking for a way to move it to a more accessible platform.
 
 The platform I chose was Roblox. It provides servers and hosting essentially for free, and I expected students to find it relatively easy to get into. It looked like an attractive platform for education and experimentation.
@@ -19,7 +22,12 @@ Just then, vibe coding was starting to spread in earnest. I began by working thr
 
 The biggest lesson from this work was that in areas requiring engineering judgment, such as heat balance, AI tends to oversimplify difficult concepts.
 
-For example, what I wanted to implement in the Roblox game was Hittle's response factor method for calculating heat transfer through walls. At first, the LLM often gave me not code that properly reflected the method, but simplified formulas that produced plausible-looking results. They looked right at a glance but frequently turned out to be wrong on closer engineering review. GPT's implementations were particularly hard to debug, because they ran reasonably well in the game.
+For example, what I wanted to implement in the Roblox game was Hittle's response factor method for calculating heat transfer through walls. At first, the LLM often gave me not code that properly reflected the method, but simplified formulas that produced plausible-looking results.
+
+![Comparison of Hittle's response factor equations, the design intent, with the simplified single-node heat equation GPT implemented](./images/2026-03-11/design-intent-vs-gpt.png)
+*Left: the response factor equations I intended to implement. Right: the equation GPT actually wrote.*
+
+The gap is easy to see side by side. The response factor method tracks how heat travels through a wall over time, step by step, while GPT's version treats the whole wall as a single point with one resistance and one heat capacity. Results like these looked right at a glance but frequently turned out to be wrong on closer engineering review. GPT's implementations were particularly hard to debug, because they ran reasonably well in the game.
 
 So instead of putting in every algorithm at once, I changed course: I broke the equations into steps and implemented and verified them one at a time. It was debugging hell, but the approach worked well. I learned that while AI is undeniably powerful, in areas where engineering consistency matters, the user has to take the structure apart and verify it.
 
