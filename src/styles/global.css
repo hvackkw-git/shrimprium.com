@@ -259,7 +259,9 @@ em {
 .prose h3 { font-size: 19px; color: var(--text); margin-top: 1.6em; }
 .prose a { color: var(--glow); }
 .prose ul, .prose ol { padding-left: 1.3em; }
-.prose img { max-width: 100%; border-radius: 12px; }
+.prose img { max-width: 100%; height: auto; border-radius: 12px; }
+.prose p:has(> img) { text-align: center; margin-top: 2em; margin-bottom: 2em; }
+.prose p:has(> img) em { display: block; margin-top: 10px; font-family: var(--sans); font-size: 14px; font-style: normal; color: var(--muted); }
 .prose table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .prose th, .prose td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
 .prose th { color: var(--text); font-weight: 600; }
