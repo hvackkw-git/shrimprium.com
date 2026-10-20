@@ -117,6 +117,7 @@ em {
 .hero {
   min-height: 100vh;
   max-width: none;
+  padding-bottom: 120px;
   align-items: center;
   text-align: center;
 }
@@ -157,8 +158,15 @@ em {
   line-height: 1.25;
   letter-spacing: -0.035em;
 }
-.play {
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   margin-top: 40px;
+}
+.play {
   padding: 16px 36px;
   border-radius: 999px;
   background: var(--text);
@@ -170,7 +178,27 @@ em {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .play:hover { transform: translateY(-2px); box-shadow: 0 0 0 8px rgba(127, 221, 235, 0.12), 0 0 64px rgba(127, 221, 235, 0.4); }
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 16px;
+  border: 1px solid rgba(190, 220, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(10, 16, 26, 0.6);
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.15;
+  font-size: 16px;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s;
+}
+.store:hover { border-color: rgba(127, 221, 235, 0.5); background: rgba(20, 34, 52, 0.7); }
+.store svg { width: 22px; height: 22px; flex: none; }
+.store span { display: flex; flex-direction: column; text-align: left; }
+.store small { font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 0.02em; }
 .platforms { color: var(--muted); font-size: 14px; margin-top: 18px; }
+.about { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 520px; margin-top: 28px; }
 
 /* 스크롤로 떠오르는 글 (지원 브라우저에서만) */
 @supports (animation-timeline: view()) {
@@ -253,6 +281,7 @@ em {
 
 /* 좁은 화면: 별자리는 위쪽, 글은 아래쪽 */
 @media (max-width: 899px) {
+  .scroll-cue { display: none; }
   .chapter {
     padding-top: 45vh;
     max-width: none;
