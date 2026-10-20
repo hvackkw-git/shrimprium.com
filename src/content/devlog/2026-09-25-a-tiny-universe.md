@@ -1,6 +1,6 @@
 ---
 title: A new window into a tiny universe
-date: 2026-09-25
+date: 2026-09-25T12:00:00Z
 summary: We rebuilt the website around the constellations of microscope mode.
 ---
 

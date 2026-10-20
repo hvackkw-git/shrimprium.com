@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>계정 삭제 / Delete Account — Shrimprium</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.7;
+      padding: 40px 20px 80px;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; color: #e6edf3; margin-bottom: 6px; }
+    .meta { font-size: 0.85rem; opacity: 0.5; margin-bottom: 32px; }
+    h2 { font-size: 1rem; color: #e6edf3; margin: 28px 0 8px; }
+    p, li { font-size: 0.92rem; opacity: 0.82; }
+    ul, ol { padding-left: 1.4em; }
+    li { margin-bottom: 4px; }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .lang-toggle {
+      display: flex; gap: 8px; margin-bottom: 32px;
+    }
+    .lang-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      color: #c9d1d9; border-radius: 6px; padding: 4px 12px;
+      font-size: 0.8rem; cursor: pointer;
+    }
+    .lang-btn.active { background: rgba(255,255,255,0.12); color: #fff; }
+    [data-lang] { display: none; }
+    [data-lang].visible { display: block; }
+    hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 28px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+      <button class="lang-btn" onclick="setLang('en')">English</button>
+    </div>
+
+    <!-- Korean -->
+    <div data-lang="ko" class="visible">
+      <h1>Shrimprium 계정 및 데이터 삭제</h1>
+      <p class="meta">개발자: hvackkw</p>
+
+      <h2>1. 앱에서 삭제하기</h2>
+      <ol>
+        <li>Shrimprium 앱을 엽니다.</li>
+        <li>메뉴(☰)에서 <strong>설정</strong>을 엽니다.</li>
+        <li><strong>계정 삭제</strong> 옆의 <strong>삭제</strong> 버튼을 누릅니다.</li>
+        <li>확인 창과 PIN 확인을 거치면 계정과 데이터가 즉시 삭제됩니다.</li>
+      </ol>
+      <p>게스트(계정 없이 시작하기)로 플레이한 경우에도 같은 방법으로 삭제할 수 있습니다.</p>
+
+      <h2>2. 앱 없이 삭제 요청하기</h2>
+      <p>Google 또는 Apple 계정으로 로그인했고 앱을 사용할 수 없다면, <strong>로그인에 사용한 이메일 주소에서</strong> <a href="mailto:hvackkw@naver.com?subject=Shrimprium%20account%20deletion">hvackkw@naver.com</a>으로 "Shrimprium 계정 삭제"를 요청해 주세요. 보낸 주소가 계정 이메일과 일치하는지 확인한 뒤 삭제합니다. 본인 확인을 위해 다른 주소에서 보낸 요청은 처리하지 않습니다.</p>
+      <p>게스트 계정은 본인 확인 수단이 없어 이메일로 삭제할 수 없습니다. 위 1번의 앱 내 삭제를 이용해 주세요.</p>
+
+      <h2>3. 삭제되는 데이터</h2>
+      <ul>
+        <li>사용자 식별자(UUID)와 Google 또는 Apple 계정 이메일</li>
+        <li>클라우드 세이브(수조 상태, 설정, 플레이 진행 데이터)</li>
+        <li>닉네임, 커뮤니티에 공개하거나 공유한 수조와 미리보기 이미지</li>
+        <li>좋아요·즐겨찾기, 신고, 차단 기록</li>
+      </ul>
+      <p>삭제는 즉시 처리되며, 별도로 보관하는 데이터는 없습니다. 기기에 저장된 로컬 게임 데이터는 앱을 삭제하면 함께 지워집니다.</p>
+
+      <h2>4. 계정은 유지하고 일부 데이터만 삭제하기</h2>
+      <ul>
+        <li>커뮤니티에 공개한 수조는 앱의 커뮤니티 화면에서 <strong>등록 해제</strong>로 언제든 내릴 수 있습니다.</li>
+        <li>그 밖의 데이터 삭제는 위 2번과 같은 방법(로그인 계정 이메일에서 요청)으로 요청해 주세요.</li>
+      </ul>
+
+      <hr />
+      <p><a href="/privacy.html">개인정보처리방침</a> · <a href="https://play.shrimprium.com/">← 게임으로 돌아가기</a></p>
+    </div>
+
+    <!-- English -->
+    <div data-lang="en">
+      <h1>Delete your Shrimprium account and data</h1>
+      <p class="meta">Developer: hvackkw</p>
+
+      <h2>1. Delete in the app</h2>
+      <ol>
+        <li>Open the Shrimprium app.</li>
+        <li>Open <strong>Settings</strong> from the menu (☰).</li>
+        <li>Next to <strong>Delete account</strong>, tap <strong>Delete</strong>.</li>
+        <li>Confirm and enter the PIN shown. Your account and data are deleted immediately.</li>
+      </ol>
+      <p>This also works if you played as a guest (Play without account).</p>
+
+      <h2>2. Request deletion without the app</h2>
+      <p>If you signed in with Google or Apple and can't use the app, email <a href="mailto:hvackkw@naver.com?subject=Shrimprium%20account%20deletion">hvackkw@naver.com</a> <strong>from the email address of that account</strong> with the subject "Shrimprium account deletion". We delete the account after confirming the sender matches the account email. To protect your account, requests from any other address are not processed.</p>
+      <p>Guest accounts have no way to verify ownership, so they can't be deleted by email. Please use in-app deletion (step 1).</p>
+
+      <h2>3. Data that is deleted</h2>
+      <ul>
+        <li>Your user identifier (UUID) and Google or Apple account email</li>
+        <li>Cloud saves (tank state, settings, and play progress)</li>
+        <li>Your nickname and any tanks and preview images you published or shared to the community</li>
+        <li>Likes and favorites, reports, and blocks</li>
+      </ul>
+      <p>Deletion is immediate and no data is retained afterwards. Game data stored locally on your device is removed when you uninstall the app.</p>
+
+      <h2>4. Delete some data but keep your account</h2>
+      <ul>
+        <li>You can take down a published tank at any time with <strong>Unpublish</strong> in the app's community screen.</li>
+        <li>For any other data, email us as in step 2 (from your account's email address).</li>
+      </ul>
+
+      <hr />
+      <p><a href="/privacy.html">Privacy Policy</a> · <a href="https://play.shrimprium.com/">← Back to game</a></p>
+    </div>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.classList.toggle('visible', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === (lang === 'ko' ? '한국어' : 'English'));
+      });
+    }
+    // auto-detect browser language
+    if (navigator.language && !navigator.language.startsWith('ko')) setLang('en');
+  </script>
+</body>
+</html>

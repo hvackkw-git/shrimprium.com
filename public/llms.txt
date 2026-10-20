@@ -1,0 +1,28 @@
+# Shrimprium
+
+> Shrimprium is a free pixel-art shrimp aquarium simulator where the ecosystem actually runs. You raise and breed shrimp in a glass tank and watch plants, microbes, and water chemistry turn it into a living world. Playable in any web browser and as an iOS/Android app.
+
+Shrimprium is a relaxing, single-player aquarium simulation game. Unlike a static virtual fish tank, its ecosystem is genuinely alive and keeps simulating whether or not you are watching: plants grow, microbes process waste, and the water chemistry (nitrogen cycle, pH, dissolved oxygen) shifts in real time. It is free to play, works offline as a Progressive Web App, and saves automatically.
+
+## What you do
+
+- Raise, feed, and breed shrimp in a tank that stays alive on its own.
+- Manage living water chemistry: the nitrogen cycle, pH, and dissolved oxygen.
+- Control temperature with heaters, coolers, and air pumps.
+- Decorate your tank and unlock new species through quests and levels.
+- Selectively breed new shrimp via a genetics system (color, pattern, and transparency inheritance with mutation).
+- Manage up to four tanks on a shelf system.
+- Earn pocket money four times a day — healthier shrimp earn bigger rewards.
+
+## Platforms and access
+
+- Web: play instantly in a modern browser at https://play.shrimprium.com/ (start as a guest, or sign in with Apple or Google).
+- Mobile: available as iOS and Android apps.
+- Offline: installable Progressive Web App with automatic local saves.
+- Price: free to play.
+
+## Links
+
+- [Shrimprium](https://shrimprium.com/): official website and devlog.
+- [Play Shrimprium](https://play.shrimprium.com/): play the game in your browser.
+- [Privacy Policy](https://shrimprium.com/privacy.html): how player data is handled.
