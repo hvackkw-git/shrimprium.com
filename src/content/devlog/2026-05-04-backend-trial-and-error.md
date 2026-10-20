@@ -7,7 +7,7 @@ author: Crafty Olive
 
 Hello, I'm Crafty Olive.
 
-While implementing cloud saves, server integration and sign-in, I've been battling countless bugs. I'm not a developer in this field to begin with, so I'm learning by running into walls and breaking things, again and again.
+While implementing cloud saves, server integration and sign-in, I've been battling countless bugs. Backend development isn't my original field, so I've been learning by running into walls, again and again.
 
 Still, it occurred to me that if there are others like me, people from non-developer backgrounds who are vibe coding, it might be worthwhile to share the trial and error I've been through and the way I work.
 
