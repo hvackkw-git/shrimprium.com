@@ -11,4 +11,4 @@ The plan is for you to get to know the animals and exchange gifts with them. The
 
 I hope this makes every tank truly its owner's own, decorated with things that came from the friendships you built rather than things you simply bought.
 
-Do you have any ideas for this? If so, come and share them on my Discord.
+Do you have any ideas for this? If so, come and share them in the comments on itch.io.
