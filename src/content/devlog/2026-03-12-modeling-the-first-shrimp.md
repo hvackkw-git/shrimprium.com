@@ -35,4 +35,4 @@ The result, by my standards, was two very cute shrimp.
 
 What I took away from this process is that vibe coding alone can achieve a reasonable level of visual appeal and fairly detailed movement.
 
-A higher level of polish and more refined design may eventually call for help from professionals. But for a vibe coding beginner like me who aims to make a game solo, I think this shows that vibe coding alone can produce genuinely appealing results and turn an idea into something real.
+A higher level of polish and more refined design may eventually call for help from professionals. But for a solo developer like me, I think this shows that vibe coding alone can produce genuinely appealing results and turn an idea into something real.

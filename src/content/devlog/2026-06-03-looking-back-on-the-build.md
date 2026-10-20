@@ -19,7 +19,7 @@ So here is how the game was built, in order.
 
 ## 1. The physics model and a tank MVP
 
-My coding skills are basically at a beginner level. I could force things to work with conditionals and loops, but I wouldn't have dared to attempt optimization or a complex project.
+I'm an engineer by training, not a software developer. Before this project, my code was mostly small tools for engineering calculations, and I had never built anything on this scale.
 
 When I got into vibe coding, I asked GPT to recommend tools, and with GPT's help I also set up a way to link GitHub and check results on the web. The tool it recommended at the time was Cursor.
 

@@ -17,7 +17,7 @@ Along the way, I also tried multi-agent automation using Claude Code and Antigra
 
 I pictured several agents with separate roles working in parallel while I managed only the overall direction and the results. In today's development environment, that approach seemed entirely feasible, and I judged that for a project whose structure was already established, the remaining finishing work would suit automation especially well.
 
-In practice, the results fell short of my expectations. That may well be down to my own lack of skill. More detailed specifications might have produced different results, and a clearer structure set out in advance might have made the automation more stable. Even so, the way things went once bugs started appearing was not good.
+In practice, the results fell short of my expectations. More detailed specifications might have produced different results, and a clearer structure set out in advance might have made the automation more stable. Even so, the way things went once bugs started appearing was not good.
 
 Rather than understanding and resolving each problem structurally, the agents often applied one stopgap fix after another just to block the error in front of them. Fixing one thing caused a new anomaly somewhere else, and as those were papered over in turn, the features kept working on the surface while the code underneath grew steadily more complex and unstable.
 
@@ -27,7 +27,7 @@ In the end, I rolled the project back to the point before I had started applying
 
 I believe features have to be built on a structure I can understand myself if future expansion and maintenance are to go smoothly.
 
-What I learned from this is that automation doesn't work wonders at every stage. AI and multi-agent systems are undeniably powerful tools and can be highly productive on repetitive or relatively independent tasks. But at the stage of working directly with a system's core logic and structure, it may be better for a person to stay closely involved and keep control of the context. That may be a matter of my own inexperience, but at least in this project, multi-agent automation did not work as reliably as I had hoped.
+What I learned from this is that automation doesn't work wonders at every stage. AI and multi-agent systems are undeniably powerful tools and can be highly productive on repetitive or relatively independent tasks. But at the stage of working directly with a system's core logic and structure, it may be better for a person to stay closely involved and keep control of the context. At least in this project, multi-agent automation did not work as reliably as I had hoped.
 
 I'm now continuing development by reorganizing the structure and refining the code one piece at a time. It may be somewhat slower, but I've regained the sense that I understand and control the whole, and I believe this approach will lead to a better finished product.
 
