@@ -9,9 +9,15 @@ Hello, I'm Crafty Olive. I recently built a game on Roblox and took it as far as
 
 To get straight to the point: I ran into its limits and decided to stop.
 
+![My building energy game on Roblox, with live heating and cooling energy readouts](./images/2026-03-05/roblox-building-energy-game.png)
+*My Roblox project, which didn't make it*
+
 I'm reasonably happy with how far I got in modeling heat transfer. But installation, accounts and platform requirements all stood between players and the game, and that made it hard to reach the kind of accessibility I wanted, where anyone can click a link and start playing right away.
 
 Then, at the end of February, I visited a reptile exhibition with my son. A shrimp-catching activity there left us, quite suddenly, with eight cherry shrimp to take home.
+
+![My son reaching into a shallow tank with a small net to catch cherry shrimp](./images/2026-03-05/catching-shrimp.png)
+*My son catching shrimp*
 
 The problem was that we had no tank.
 
@@ -20,6 +26,9 @@ I ordered one for next-day delivery and spent the time in between anxiously adju
 Fortunately, all eight are still alive and well.
 
 That was when an idea came to me: what if I took the energy modeling I had been building in Roblox and applied it to a shrimp tank?
+
+![Early prototype of the game: red cherry shrimp with health bars at the bottom of a dark tank under green light](./images/2026-03-05/shrimp-in-the-game.png)
+*Cherry shrimp and their tank, recreated in the game*
 
 Keeping a shrimp tank is genuinely enjoyable. The variables I can control are food, temperature, aeration, bacteria, plants and filtration. What comes out of them is dissolved oxygen, rising ammonia (NH₃) toxicity, nitrogen compounds from the nitrogen cycle, biofilm, microbial growth and changes in the shrimp's condition. These outcomes feed back into one another, and the web of cause and effect is complex enough that it feels like running a small world.
 
