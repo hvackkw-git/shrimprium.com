@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="524" viewBox="0 0 960 524" role="img" aria-labelledby="title desc">
+  <title id="title">How I built Shrimprium with AI in March 2026</title>
+  <desc id="desc">Read the top row left to right: shape the concept with GPT, write a focused specification, implement with Cursor. Then follow the bottom row right to left: run the game and check it on a phone, revisit physics and ecology, refine and repeat. A return arrow leads from refinement back to the specification. Engineering judgment guides every step.</desc>
+  <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#7fddeb" stroke-width="1.3" stroke-linejoin="round"/></marker></defs>
+  <rect width="960" height="524" rx="24" fill="#091321"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="32" y="35" fill="#7fddeb" font-size="15" font-weight="700" letter-spacing="2">SHRIMPRIUM / MARCH 2026</text>
+    <text x="32" y="72" fill="#eff5fc" font-size="30" font-weight="700">One small problem at a time</text>
+    <g fill="none" stroke="#7fddeb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)">
+      <path d="M316 178 H331"/><path d="M622 178 H637"/>
+      <path d="M786 262 V304"/>
+      <path d="M638 390 H622"/><path d="M332 390 H316"/>
+      <path d="M174 306 V284 H480 V263" stroke-dasharray="5 5"/>
+    </g>
+    <g>
+      <rect x="32" y="100" width="284" height="156" rx="16" fill="#111e30" stroke="#2b4157"/>
+      <text x="52" y="134" fill="#7fddeb" font-size="22" font-weight="700">01</text>
+      <text x="52" y="169" fill="#eff5fc" font-size="22" font-weight="700">Shape the concept</text>
+      <text x="52" y="203" fill="#bdcddd" font-size="20"><tspan x="52">Discuss one tank system</tspan><tspan x="52" dy="28">with GPT.</tspan></text>
+    </g>
+<g>
+      <rect x="338" y="100" width="284" height="156" rx="16" fill="#111e30" stroke="#2b4157"/>
+      <text x="358" y="134" fill="#7fddeb" font-size="22" font-weight="700">02</text>
+      <text x="358" y="169" fill="#eff5fc" font-size="22" font-weight="700">Write the specification</text>
+      <text x="358" y="203" fill="#bdcddd" font-size="20"><tspan x="358">Review the design; ask GPT</tspan><tspan x="358" dy="28">for a focused specification.</tspan></text>
+    </g>
+<g>
+      <rect x="644" y="100" width="284" height="156" rx="16" fill="#111e30" stroke="#2b4157"/>
+      <text x="664" y="134" fill="#7fddeb" font-size="22" font-weight="700">03</text>
+      <text x="664" y="169" fill="#eff5fc" font-size="22" font-weight="700">Implement with Cursor</text>
+      <text x="664" y="203" fill="#bdcddd" font-size="20"><tspan x="664">Build the model and</tspan><tspan x="664" dy="28">debug it with Cursor.</tspan></text>
+    </g>
+<g>
+      <rect x="644" y="312" width="284" height="156" rx="16" fill="#111e30" stroke="#2b4157"/>
+      <text x="664" y="346" fill="#7fddeb" font-size="22" font-weight="700">04</text>
+      <text x="664" y="381" fill="#eff5fc" font-size="22" font-weight="700">Run it for real</text>
+      <text x="664" y="415" fill="#bdcddd" font-size="20"><tspan x="664">GitHub; phone testing;</tspan><tspan x="664" dy="28">small fixes with Copilot.</tspan></text>
+    </g>
+<g>
+      <rect x="338" y="312" width="284" height="156" rx="16" fill="#192e36" stroke="#77c7be"/>
+      <text x="358" y="346" fill="#7fddeb" font-size="22" font-weight="700">05</text>
+      <text x="358" y="381" fill="#eff5fc" font-size="22" font-weight="700">Revisit the model</text>
+      <text x="358" y="415" fill="#bdcddd" font-size="20"><tspan x="358">Check physics, ecology</tspan><tspan x="358" dy="28">and how the game feels.</tspan></text>
+    </g>
+<g>
+      <rect x="32" y="312" width="284" height="156" rx="16" fill="#111e30" stroke="#2b4157"/>
+      <text x="52" y="346" fill="#7fddeb" font-size="22" font-weight="700">06</text>
+      <text x="52" y="381" fill="#eff5fc" font-size="22" font-weight="700">Refine and repeat</text>
+      <text x="52" y="415" fill="#bdcddd" font-size="20"><tspan x="52">Revise the specification,</tspan><tspan x="52" dy="28">then implement and test.</tspan></text>
+    </g>
+    <text x="480" y="498" text-anchor="middle" fill="#91a9be" font-size="20">Engineering judgment at every step.</text>
+  </g>
+</svg>

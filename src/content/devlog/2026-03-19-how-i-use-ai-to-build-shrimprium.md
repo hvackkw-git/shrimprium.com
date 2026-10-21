@@ -9,6 +9,9 @@ Lately, when vibe coding, I've moved away from handing everything from A to Z to
 
 I start by thinking through what happens inside the tank: how heat enters and leaves, how food and waste affect water quality, and how bacteria, algae and plants are intertwined.
 
+![Six-step workflow: shape the concept with GPT, write a specification, implement with Cursor, run the game, review physics and ecology, and refine; repeat from the specification](./images/2026-03-19/ai-assisted-development-workflow.svg)
+*My AI-assisted development loop in March 2026, with engineering judgment at every step.*
+
 At first, I discuss it with GPT while loosely organizing my thoughts. Along the way, I sort out what I've missed and where GPT and I see things differently. Once my thinking is reasonably clear, I ask GPT to write a first draft of the conceptual design.
 
 The narrower the scope of that conceptual design, the closer the result is to what I intend. When designing the heat balance, for example, rather than covering every piece of equipment at once, I look at the lighting on its own, or isolate a single device.
