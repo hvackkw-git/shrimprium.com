@@ -38,3 +38,6 @@ What matters, I believe, is not to oppose AI but to understand and use it. Ultim
 That is the direction I will take the blog from now on. Within the single field of refrigeration and HVAC, I will show from my own perspective how I actually use AI, how far it can help, and where human judgment remains essential.
 
 The first project to demonstrate this is the shrimp-keeping game I mentioned in my last post. Rather than simply making the graphics and UI look convincing, I aim to build it with as much engineering validity as possible, including a heat balance model and water quality modeling.
+
+![An engineering notebook beside a planted shrimp tank that transitions into pixel art](./images/2026-03-09/from-engineering-to-a-shrimp-world.png)
+*From engineering knowledge to a tiny shrimp world. AI-generated illustration.*
