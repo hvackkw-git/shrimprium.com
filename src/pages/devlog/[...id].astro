@@ -4,11 +4,16 @@ import Base from '../../layouts/Base.astro';
 import { url } from '../../site.js';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('devlog');
-  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+  const posts = (await getCollection('devlog')).sort((a, b) =>
+    b.data.date.valueOf() - a.data.date.valueOf() || a.id.localeCompare(b.id)
+  );
+  return posts.map((post, index) => ({
+    params: { id: post.id },
+    props: { post, previousPost: posts[index + 1], nextPost: posts[index - 1] },
+  }));
 }
 
-const { post } = Astro.props;
+const { post, previousPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 ---
@@ -18,5 +23,23 @@ const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'shor
     <time class="date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}{post.data.author && ` · by ${post.data.author}`}</time>
     <h1 class="post-title">{post.data.title}</h1>
     <article class="prose"><Content /></article>
+    {(previousPost || nextPost) && (
+      <nav id="post-navigation" class="post-navigation" aria-label="More devlog posts">
+        {previousPost && (
+          <a class="post-navigation-link" href={url(`/devlog/${previousPost.id}/`)} rel="prev">
+            <span class="post-navigation-label"><span aria-hidden="true">← </span>Previous post</span>
+            <strong>{previousPost.data.title}</strong>
+            <time datetime={previousPost.data.date.toISOString()}>{fmt(previousPost.data.date)}</time>
+          </a>
+        )}
+        {nextPost && (
+          <a class="post-navigation-link post-navigation-next" href={url(`/devlog/${nextPost.id}/`)} rel="next">
+            <span class="post-navigation-label">Next post<span aria-hidden="true"> →</span></span>
+            <strong>{nextPost.data.title}</strong>
+            <time datetime={nextPost.data.date.toISOString()}>{fmt(nextPost.data.date)}</time>
+          </a>
+        )}
+      </nav>
+    )}
   </main>
 </Base>

@@ -32,6 +32,9 @@ Not all of the light's electrical power heats the water directly. In reality, on
 
 To capture these characteristics in simplified form, I borrowed the concept of fractions widely used in commercial energy modeling. EnergyPlus, for example, divides the energy from lighting into inputs such as fraction radiant, fraction visible and fraction convected, modeling a complex heat transfer process in a relatively simple form (see the *EnergyPlus Engineering Reference*, U.S. DOE, 2024).
 
+![EnergyPlus diagram showing lighting energy divided into return-air, visible, radiant and convective fractions](./images/2026-03-19/energyplus-lighting-heat-fractions.png)
+*Lighting heat fractions. Source: U.S. DOE (2024), [EnergyPlus 24.1 Input Output Reference, “Lights”](https://bigladdersoftware.com/epx/docs/24-1/input-output-reference/group-internal-gains-people-lights-other.html#lights).*
+
 In this way, I progressively refined the heat balance for the lighting, and this too was worked out through discussion with GPT.
 
 I then turn what we've settled into a specification, again with GPT's help. This specification doesn't cover the overall design, only the part that needs fixing now. If the issue is likely to come up again, I also write it up in a separate .md document so AI agents can refer to it later.
@@ -52,3 +55,6 @@ To sum up, my process looks like this:
 This approach has turned out to suit me well. The main bottleneck in my project is engineering judgment. If I skip detailed instructions or reviews because they're tedious, I can end up having to tear the whole thing apart later. So the more engineering judgment a task involves, the better it is, I think, to break the work into pieces as small as possible.
 
 My game is still changing. Recently I switched it to pixel art. It would have been easier to go with pixel art from the start, but since I didn't, the switch took quite a lot of work. I suppose that was one more piece of trial and error.
+
+![Pixel-art tank with two red shrimp, aquatic plants, gravel and food indicators near the bottom](./images/2026-03-19/pixel-art-tank.png)
+*The tank after the switch to pixel art.*

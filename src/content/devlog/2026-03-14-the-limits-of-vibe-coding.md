@@ -13,6 +13,9 @@ Working on them, I saw the limits of vibe coding far more clearly than its stren
 
 That is what I want to talk about today.
 
+![Two red shrimp in a dark tank with warning bubbles above them and control icons along the left side](./images/2026-03-14/shrimp-warning-indicators.png)
+*Warning indicators above the shrimp.*
+
 ## 1. AI builds the structure, but not the balance
 
 Vibe coding still surprises me all the time. UI scaffolding, basic interactions and even simple system architecture, things that once would have required an expert, AI now proposes in moments.
@@ -34,6 +37,9 @@ For example:
 These were a completely different kind of problem from writing code.
 
 AI can suggest plausible formulas here. But how those formulas actually feel in the game, and whether they are both fun and convincing to play, is something a person has to check, one by one.
+
+![Diagram of a freshwater shrimp study linking polystyrene exposure to measurements of respiration and behavior](./images/2026-03-14/polystyrene-shrimp-study.png)
+*Source: Jozef Kučera et al. (2022), [Polystyrene Microparticles and the Functional Traits of Invertebrates: A Case Study on Freshwater Shrimp Neocardina heteropoda](https://doi.org/10.3390/fishes7060323). Graphical abstract, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).*
 
 ## 2. The hardest part wasn't implementation, it was tuning
 
@@ -59,6 +65,9 @@ In the end, I had to do it myself:
 - and ease it off if it was too harsh.
 
 I repeated that cycle over and over. Adding an in-game debug panel and adjusting the numbers one at a time was, quite literally, grinding manual labor.
+
+![Lab Status panel beneath the tank, showing a green temperature curve and a vertical time marker](./images/2026-03-14/lab-temperature-graph.png)
+*Tracking temperature changes in the in-game Lab Status panel.*
 
 ## 3. AI gives good average answers, but the world I want isn't average
 
