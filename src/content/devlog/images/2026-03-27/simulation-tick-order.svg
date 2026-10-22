@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="270" viewBox="0 0 960 270" role="img" aria-labelledby="title desc">
+<title id="title">One simulation tick</title><desc id="desc">The calculation order described in the March 27 devlog: heat, plants and algae, chemistry, oxygen pump correction, then organism state updates.</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#7fddeb" stroke-width="1.3" stroke-linejoin="round"/></marker></defs>
+<rect width="960" height="270" rx="24" fill="#091321"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="28" y="45" fill="#eff5fc" font-size="29" font-weight="700">One tick, in order</text><text x="932" y="44" text-anchor="end" fill="#7fddeb" font-size="17">MARCH 2026 MODEL</text>
+<rect x="28" y="82" width="164" height="126" rx="15" fill="#111e30" stroke="#2b4157"/>
+<text x="44" y="113" fill="#7fddeb" font-size="19" font-weight="700">01</text>
+<text x="44" y="151" fill="#eff5fc" font-size="20" font-weight="700">Heat</text>
+<text x="44" y="182" fill="#bdcddd" font-size="17">Temperature</text>
+<path d="M196 144 H208" fill="none" stroke="#7fddeb" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="213" y="82" width="164" height="126" rx="15" fill="#111e30" stroke="#2b4157"/>
+<text x="229" y="113" fill="#7fddeb" font-size="19" font-weight="700">02</text>
+<text x="229" y="151" fill="#eff5fc" font-size="20" font-weight="700">Plants &amp; algae</text>
+<text x="229" y="182" fill="#bdcddd" font-size="17">Growth &amp; uptake</text>
+<path d="M381 144 H393" fill="none" stroke="#7fddeb" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="398" y="82" width="164" height="126" rx="15" fill="#111e30" stroke="#2b4157"/>
+<text x="414" y="113" fill="#7fddeb" font-size="19" font-weight="700">03</text>
+<text x="414" y="151" fill="#eff5fc" font-size="20" font-weight="700">Chemistry</text>
+<text x="414" y="182" fill="#bdcddd" font-size="17">Nitrogen &amp; pH</text>
+<path d="M566 144 H578" fill="none" stroke="#7fddeb" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="583" y="82" width="164" height="126" rx="15" fill="#111e30" stroke="#2b4157"/>
+<text x="599" y="113" fill="#7fddeb" font-size="19" font-weight="700">04</text>
+<text x="599" y="151" fill="#eff5fc" font-size="20" font-weight="700">Oxygen pump</text>
+<text x="599" y="182" fill="#bdcddd" font-size="17">DO correction</text>
+<path d="M751 144 H763" fill="none" stroke="#7fddeb" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="768" y="82" width="164" height="126" rx="15" fill="#111e30" stroke="#2b4157"/>
+<text x="784" y="113" fill="#7fddeb" font-size="19" font-weight="700">05</text>
+<text x="784" y="151" fill="#eff5fc" font-size="20" font-weight="700">Organisms</text>
+<text x="784" y="182" fill="#bdcddd" font-size="17">State update</text>
+<text x="480" y="246" text-anchor="middle" fill="#91a9be" font-size="20">Each stage uses the state left by the stages before it.</text></g></svg>

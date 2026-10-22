@@ -17,6 +17,9 @@ The current structure runs in a fixed order every tick. Heat is calculated first
 
 This order matters a great deal, because it isn't just a calculation sequence; it determines cause and effect. If algae are calculated first, for example, the light reaching the plants decreases. When the diminished plants then consume nitrogen, the leftover nitrogen changes, and when nitrification proceeds from that state, the change in pH is different. In the end, what gets calculated first changes the result. (Admittedly, the difference isn't huge.)
 
+![The five stages of each simulation tick: heat, plants and algae, chemistry, oxygen pump correction, then organism state updates](./images/2026-03-27/simulation-tick-order.svg)
+*The calculation order described in this version of the simulation.*
+
 ## 2. The heat balance model
 
 Starting with the physical model, the foundation is a simple one-zone thermal model. It treats the whole tank as a single thermal mass and calculates its temperature from the balance of heat coming in and going out.
@@ -34,6 +37,9 @@ Here, T(t) is the water temperature and T_a is the ambient temperature, which co
 Lighting is where it gets interesting. Most games use lighting simply as a brightness effect, but here I took a few more factors into account. The light affects three things at once: it provides the light that drives plant and algae growth, it generates heat that raises the tank temperature, and it adds to the electricity bill.
 
 In other words, changing a single light changes the ecosystem, the temperature and the economy all at once.
+
+![Lighting branches into three effects: plant and algae growth, heat input to the water, and electricity cost](./images/2026-03-27/lighting-three-effects.svg)
+*One light affects the ecosystem, the water temperature and the energy bill.*
 
 ## 4. The chemistry model
 
@@ -60,6 +66,9 @@ When these two systems intertwine, a feedback loop forms. More algae means fewer
 Shrimp traits come in four types: color (red, blue, yellow, black and brown), transparency, coverage and pattern (Rili, backline and speckle). Breeding different shrimp mixes these traits and passes them on to the next generation.
 
 Without mutation, the population would eventually converge on a particular form, so small variations occur at a low probability to keep new combinations appearing. Later, I plan to add Bee shrimp as well. (Bee shrimp will breed only with other Bee shrimp.)
+
+![Red, yellow, blue and brown shrimp with varied markings in a planted pixel-art tank, beneath a NICE status bubble](./images/2026-03-27/shrimp-color-and-pattern-variation.png)
+*Different colors and markings among the shrimp in the tank.*
 
 ## 7. The game economy
 

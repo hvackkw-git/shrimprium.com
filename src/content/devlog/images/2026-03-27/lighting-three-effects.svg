@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410" role="img" aria-labelledby="title desc">
+<title id="title">One light, three consequences</title><desc id="desc">In the model described in the March 27 devlog, lighting affects plant and algae growth, adds heat to the water, and consumes electricity.</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#7fddeb" stroke-width="1.3" stroke-linejoin="round"/></marker></defs>
+<rect width="960" height="410" rx="24" fill="#091321"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="46" fill="#eff5fc" font-size="29" font-weight="700">One light, three consequences</text>
+<g fill="none" stroke="#ffcf86" stroke-width="3" stroke-linecap="round"><path d="M454 92 H506 L518 116 H442 Z"/><path d="M480 76 V91 M454 128 L444 143 M480 130 V147 M506 128 L516 143"/></g>
+<text x="480" y="180" text-anchor="middle" fill="#ffdc9f" font-size="24" font-weight="700">Lighting</text>
+<g fill="none" stroke="#7fddeb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M480 193 V214 M180 214 H780"/><path d="M180 214 V237" marker-end="url(#arrow)"/><path d="M480 214 V237" marker-end="url(#arrow)"/><path d="M780 214 V237" marker-end="url(#arrow)"/></g>
+<rect x="40" y="246" width="280" height="130" rx="16" fill="#192e36" stroke="#2b4157"/><text x="64" y="284" fill="#92d2b6" font-size="25" font-weight="700">Ecosystem</text><text x="64" y="320" fill="#cdd6e3" font-size="22"><tspan x="64">Light for plant</tspan><tspan x="64" dy="29">and algae growth.</tspan></text>
+<rect x="340" y="246" width="280" height="130" rx="16" fill="#2b2430" stroke="#2b4157"/><text x="364" y="284" fill="#ffbf9d" font-size="25" font-weight="700">Temperature</text><text x="364" y="320" fill="#cdd6e3" font-size="22"><tspan x="364">Heat input to</tspan><tspan x="364" dy="29">the tank water.</tspan></text>
+<rect x="640" y="246" width="280" height="130" rx="16" fill="#111e30" stroke="#2b4157"/><text x="664" y="284" fill="#92cee9" font-size="25" font-weight="700">Energy cost</text><text x="664" y="320" fill="#cdd6e3" font-size="22"><tspan x="664">Electricity use</tspan><tspan x="664" dy="29">adds to the bill.</tspan></text></g></svg>
