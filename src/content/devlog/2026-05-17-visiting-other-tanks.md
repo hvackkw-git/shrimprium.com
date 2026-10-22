@@ -23,7 +23,12 @@ Two directions were possible.
 
 The first was to build the community on real-time synchronization, improving response times between server and client the way RTS games do.
 
+![First-person combat in Red Eclipse, with two opposing players firing across an indoor arena](./images/2026-05-17/red-eclipse-real-time-combat.png)
+*Real-time interaction example: combat in Red Eclipse. Screenshot by TucanHolmes; game by the Red Eclipse Team. [Original and attribution](https://commons.wikimedia.org/wiki/File:Red_Eclipse_v2.0.0_Screenshot.png), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Shown uncropped; resized and converted to WebP for display.*
+
 The second was to drop the idea of players' shrimp meeting each other directly, and instead have guests visit the host's tank and experience that space itself.
+
+For a space-focused comparison, [Palia's official Home Tours description](https://palia.com/news/patch-182) explains how players submit a home plot and visitors explore an instanced version of it.
 
 Put simply, it was a choice between a game where shrimp play together and a game where you visit someone else's tank to look around and try things out.
 
@@ -32,6 +37,9 @@ In the end, I chose the second.
 The first reason was that interaction between shrimp turned out to be less fun than I had expected.
 
 Exploring a tank someone else had made, trying out their contraptions and looking at their logic circuits, on the other hand, was far more enjoyable.
+
+![Illustration of a visitor viewing three planted shrimp tanks with different block-built contraptions in an imagined gallery](./images/2026-05-17/visiting-player-built-tanks.png)
+*AI-generated concept illustration of visiting player-built tanks and exploring their contraptions.*
 
 The second reason was cost.
 

@@ -13,6 +13,9 @@ Until now, save data was stored only in the browser's local storage. If you clea
 
 Now, once you sign in, you can load your save on any device and carry on playing. Since this is still in testing, though, I recommend playing with an anonymous sign-in for now.
 
+![Illustration of a laptop and phone showing the same planted shrimp tank, linked by a glowing cloud](./images/2026-04-28/cloud-saves-across-devices.png)
+*AI-generated illustration of continuing the same tank across devices with cloud saves.*
+
 The cloud save system is built on Supabase. After a lot of wrestling with AI, I went through the whole sequence of creating an OAuth client in the Google Cloud Console, connecting it to Supabase and registering the redirect URLs, and after considerable difficulty got it working. My earlier experience with server and local storage structures while developing a game on Roblox seems to have helped.
 
 Google sign-in will open officially once I've done a bit more internal testing and confirmed that it's stable.

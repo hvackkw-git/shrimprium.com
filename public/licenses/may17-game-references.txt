@@ -1,0 +1,15 @@
+May 17 devlog: third-party game reference images
+
+1. red-eclipse-real-time-combat.png
+Work: Red Eclipse v2.0.0 Screenshot.png
+Screenshot creator: TucanHolmes, 1 June 2020
+Game: Red Eclipse; rights holders: Red Eclipse Team and contributors
+Original: https://upload.wikimedia.org/wikipedia/commons/6/6d/Red_Eclipse_v2.0.0_Screenshot.png
+Source/attribution/license declaration: https://commons.wikimedia.org/wiki/File:Red_Eclipse_v2.0.0_Screenshot.png
+Screenshot license: Creative Commons Attribution-ShareAlike 4.0 International
+License terms: https://creativecommons.org/licenses/by-sa/4.0/
+Legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+Game content licensing: https://www.redeclipse.net/docs/License
+Conditions: credit creator and game rights holders; link source and license; indicate changes; any adapted image remains under CC BY-SA 4.0; no implied endorsement or additional restrictions.
+Original pixels kept uncropped and unedited. Astro converts to WebP and browser scales for display. The displayed derivative remains CC BY-SA 4.0.
+Source SHA-1: 61c7d222dd1c465db404c7d9d2adea3eea784092

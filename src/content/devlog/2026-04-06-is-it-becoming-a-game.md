@@ -27,6 +27,9 @@ From then on, I thought more about aesthetics. Rather than a game with lots of s
 
 A slightly dark, lonely mood, slow jazz playing and a famous painting: this was an atmosphere I loved, and it helped give my tank a more emotional feel.
 
+![Tank selection panel beside two game screens with different painting backgrounds](./images/2026-04-06/painting-background-tanks.png)
+*Choosing between tanks with different painting backgrounds.*
+
 But then another problem appeared. This time the background was too strong, and the shrimp seemed to disappear into it.
 
 That was a real dilemma. I had strengthened the aesthetics because I felt they were lacking, but doing so weakened the presence of the shrimp, who were supposed to be the stars. Yet if I toned the background down again, I felt the atmosphere I wanted would be lost.
@@ -36,6 +39,9 @@ So next I began adding ways to interact directly with the shrimp. Features such 
 Here too, something didn't quite sit right. There was interaction now, but it still felt mechanical. Tap and it reacts, a number goes up, and when the conditions are met the next stage unlocks. Functionally it worked, but it still felt calculated rather than alive.
 
 So recently I've been reworking the shrimp's behavior to flow more like a continuous performance. For example, after a triple jump, a well-timed tap links into a backflip or a front flip.
+
+![Red shrimp glowing among aquatic plants, with NICE reaction bubbles and one shrimp high in the tank](./images/2026-04-06/shrimp-interaction-reactions.png)
+*Shrimp reactions during an interaction.*
 
 There is still a lot to think through. Every time I fix one shortcoming, another appears, and fixing that one creates yet another problem. It feels like an endless cycle.
 

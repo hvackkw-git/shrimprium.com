@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 410" role="img" aria-labelledby="title desc">
+<title id="title">Calculation dimensions of the one-litre tank</title>
+<desc id="desc">A rectangular water volume, 12.5 centimetres long, 10 centimetres wide and 8 centimetres deep. Its top surface area is 0.0125 square metres. Schematic, not to scale.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="#ffbc91"/></marker></defs>
+<rect width="640" height="410" rx="18" fill="#0b1725"/>
+<g stroke="#7fddeb" stroke-width="2.5" stroke-linejoin="round">
+<path d="M140 155L270 65L550 65L420 155Z" fill="#164f5d"/>
+<path d="M140 155L420 155L420 325L140 325Z" fill="#103440"/>
+<path d="M420 155L550 65L550 235L420 325Z" fill="#122b40"/>
+<path d="M140 325L270 235L550 235M270 235V65" fill="none" stroke-dasharray="6 7" opacity=".4"/>
+</g>
+<g fill="#eef3fb" font-family="system-ui,sans-serif" text-anchor="middle">
+<text x="280" y="245" font-size="40" font-weight="700">1 L</text>
+<text x="345" y="111" font-size="24">0.0125 m&#178;</text>
+</g>
+<g stroke="#ffbc91" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)">
+<path d="M140 360H420"/><path d="M100 155V325"/><path d="M452 158L580 69"/>
+</g>
+<g fill="#ffcfb0" font-family="system-ui,sans-serif" font-size="25" text-anchor="middle">
+<text x="280" y="392">12.5 cm</text><text x="55" y="250">8 cm</text>
+<text x="540" y="142">10 cm</text>
+</g></svg>

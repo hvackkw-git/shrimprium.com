@@ -6,6 +6,13 @@ const { title, description = 'A pixel-art aquarium sim where the ecosystem actua
 const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — Grow a Tiny World in a Pixel Shrimp Aquarium';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url('/og.png'), Astro.site);
+const navItems = [
+  { label: 'Devlog', path: '/devlog/' },
+  { label: 'Lab', path: '/lab/' },
+  { label: 'About Me', path: '/about/' },
+];
+const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
+const currentSection = (path) => currentPath === url(path) ? 'page' : currentPath.startsWith(url(path)) ? 'location' : undefined;
 // 데브로그 글이면 article 정보를 구글에 BlogPosting으로 알려줌.
 const jsonLd = article && {
   '@context': 'https://schema.org',
@@ -60,9 +67,10 @@ const jsonLd = article && {
 
   <header class="top">
     <a class="brand" href={url('/')}>Shrimprium</a>
-    <nav class="nav">
-      <a class="devlog-btn" href={url('/devlog/')}>Devlog</a>
-      <a class="devlog-btn" href={url('/lab/')}>Lab</a>
+    <nav class="nav" aria-label="Main navigation">
+      {navItems.map(({ label, path }) => (
+        <a class="devlog-btn" href={url(path)} aria-current={currentSection(path)}>{label}</a>
+      ))}
     </nav>
   </header>
 

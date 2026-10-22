@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../site.js';
+---
+<Base title="Hi, I’m Crafty Olive." description="Kyungwook Kim on engineering, curiosity, art, fatherhood and creating Shrimprium.">
+  <main class="page about-page">
+    <p class="eyebrow">About Me</p>
+    <h1 class="about-title">Hi, I’m <em>Crafty Olive.</em></h1>
+    <article class="prose about-prose">
+      <p>I'm someone who is curious about how the world works.</p>
+      <p>Professionally, I work in energy engineering. I study physical processes that are often invisible to us, through building energy systems, thermodynamics, and heating and cooling technologies, and work to put that understanding into practice in real systems.</p>
+      <p>But technical efficiency is only part of what interests me. I'm drawn to the order that emerges when many elements interact within a complex system.</p>
+      <p>The way heat moves. The ways bacteria and plants affect one another in water. The surprisingly intricate fractals that emerge from simple mathematical rules.</p>
+      <p>To me, these aren't stories from unrelated fields. They all begin with the same curiosity about how nature works.</p>
+
+      <section aria-labelledby="engineering-and-curiosity">
+        <h2 id="engineering-and-curiosity">Engineering and Curiosity</h2>
+        <p>When I understand a phenomenon, I want to try building something that puts it into practice.</p>
+        <p>Studying the theory alone sometimes isn't enough. I feel my understanding deepen when I build a mathematical model, write code, and watch the system in motion.</p>
+        <p>That is what led me to bring a simulation of heat transfer in buildings into a game, and to begin expressing the ecosystem of a small shrimp tank through mathematical models.</p>
+        <p>Of course, reality is always more complex than a model. Even the most detailed model cannot explain every phenomenon.</p>
+        <p>But that incompleteness is part of what interests me. There is always something new to explore between what we think we know and what we still don't understand.</p>
+      </section>
+
+      <section aria-labelledby="science-art-and-a-little-aquarium">
+        <h2 id="science-art-and-a-little-aquarium">Science, Art, and a Little Aquarium</h2>
+        <p>I love jazz and enjoy looking at paintings.</p>
+        <p>Engineering and art are often treated as opposites, but I don't see them that way. A good engineering model has a beautiful structure. A good work of art has an order and harmony that words cannot fully explain.</p>
+        <p>I don't feel the need to separate the two.</p>
+        <p>Shrimprium grew out of that way of thinking. It began as a game about raising little shrimp. Over time, I started adding models of the bacterial nitrogen cycle, plant photosynthesis, changes in dissolved oxygen, inheritance and reproduction, and the movement of light and energy, one by one.</p>
+        <p>Then I added pixel art, jazz, and some of my favourite paintings.</p>
+        <p>For one person, it might simply be a small, relaxing game in which to watch shrimp. For another, it could be a laboratory for exploring the complex interactions of an ecosystem.</p>
+        <p>I hope those two experiences can coexist naturally in the same space.</p>
+      </section>
+
+      <section aria-labelledby="a-world-worth-exploring">
+        <h2 id="a-world-worth-exploring">A World Worth Exploring</h2>
+        <p>I'm also interested in philosophy.</p>
+        <p>I'm especially drawn to the tension between our efforts to understand the world and the fact that it doesn't always yield to a rational explanation.</p>
+        <p>We cannot know everything, and our judgements cannot always be right. That is why I value questions over certainty, and the process of exploration over a finished answer.</p>
+        <p>This attitude also shapes the way I make things. I like experiences that let people experiment, fail, and discover things for themselves, rather than follow a predetermined right answer.</p>
+        <p>I hope that finding a balance in a Shrimprium tank can be that kind of experience.</p>
+      </section>
+
+      <section aria-labelledby="on-creating-things">
+        <h2 id="on-creating-things">On Creating Things</h2>
+        <p>I didn't start out as a professional game developer.</p>
+        <p>I began making a game by building the things I wanted to make, one at a time, drawing on my engineering knowledge and personal curiosity.</p>
+        <p>Along the way, I had to keep learning about unfamiliar fields: programming, graphics, animation, music, and user experience.</p>
+        <p>Generative AI became an important tool in that creative process. With its help, I could write code, learn new ways of making things, and bring ideas to life that would have been difficult to attempt on my own.</p>
+        <p>But I believe it is still my responsibility to decide what to make, why it should exist, and what form it should take.</p>
+        <p>I don't think creating something necessarily means inventing something entirely new. Sometimes, connecting existing knowledge and technology with seemingly unrelated ideas, from your own perspective, is enough to make a new world.</p>
+        <p>Shrimprium is the small world I've made that way.</p>
+      </section>
+
+      <section aria-labelledby="one-more-thing">
+        <h2 id="one-more-thing">One More Thing</h2>
+        <p>I'm also a father.</p>
+        <p>Raising a child has helped me understand a little more clearly what I value.</p>
+        <p>I hope my child won't be afraid of failure. I want them to feel encouraged for having tried something and thought it through, not only for having done it well.</p>
+        <p>And I hope they will feel that the world is a place worth exploring with curiosity.</p>
+        <p>When I think about it, my reasons for making games aren't so different. I want people to try things freely within a small world, discover unexpected outcomes, and enjoy the process itself.</p>
+        <p>Above all, I hope that time can feel a little peaceful and beautiful.</p>
+      </section>
+
+      <div class="about-closing">
+        <p>I plan to keep studying engineering, exploring new technologies, enjoying music and art, and making things that interest me.</p>
+        <p>I don't know where all of that will eventually lead. But that is one of the reasons I enjoy creating.</p>
+        <p><strong>I don't yet know what I'll discover.</strong></p>
+        <p class="about-signature">&mdash; Kyungwook Kim</p>
+      </div>
+    </article>
+    <a class="about-devlog" href={url('/devlog/')}>Read the Devlog <span aria-hidden="true">&rarr;</span></a>
+  </main>
+</Base>
+
+<style>
+  .about-page { max-width: 800px; }
+  .about-title {
+    max-width: 25ch;
+    margin-top: 16px;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .about-prose { line-height: 1.85; word-break: normal; overflow-wrap: break-word; }
+  .about-prose section { margin-top: 56px; }
+  .about-prose h2 { margin-top: 0; line-height: 1.4; scroll-margin-top: 140px; }
+  .about-prose section > * + *, .about-closing > * + * { margin-top: 1.2em; }
+  .about-closing { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .about-signature { color: var(--muted); }
+  .about-devlog {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 12px 20px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--glow);
+    text-decoration: none;
+    background: rgba(10, 16, 28, 0.55);
+  }
+  .about-devlog:hover { border-color: var(--glow); background: rgba(20, 34, 52, 0.7); }
+  .about-devlog:focus-visible { outline: 2px solid var(--glow); outline-offset: 4px; }
+  @media (max-width: 600px) {
+    .about-prose section { margin-top: 40px; }
+    .about-prose h2 { font-size: 22px; }
+  }
+</style>

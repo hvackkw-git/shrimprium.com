@@ -15,6 +15,9 @@ On/off blocks, redstone blocks, piston blocks, signal blocks and more let you pu
 
 I've also implemented new black hole and white hole blocks. A shrimp spirals around a black hole, gets pulled in, and then comes back out through a white hole.
 
+![Connected ON/OFF blocks and dark and bright circular effects in a planted shrimp tank](./images/2026-05-16/logic-blocks-and-portals.png)
+*Logic blocks alongside black hole and white hole blocks in the tank.*
+
 Combining these features, it seems you can now build some quite creative and fun contraptions. Even I had more fun than I expected while testing.
 
 With this logic block update, the game feels much more like a sandbox than before. Looking at it myself, I think it also adds something a little different from the existing features: the joy of building things, the kind of fun you can only get from a game.

@@ -17,6 +17,9 @@ If I had to use an analogy, the relationship between local and server is like th
 
 Local is the personal ledger you hold in your hands. The server is closer to a central vault that stores copies of that ledger, or gathers and keeps many ledgers together.
 
+![Illustration of a personal ledger with copied pages leading to a central vault of ledgers](./images/2026-05-04/local-ledger-and-central-vault.png)
+*AI-generated illustration of the personal ledger and central vault analogy for local and server saves.*
+
 Many things can go wrong in this arrangement.
 
 For example, someone could tamper with a personal ledger and then deposit the false information in the vault. Or a ledger could be stolen or peeked at, or an old ledger could overwrite the latest one.
@@ -77,6 +80,9 @@ This approach worked remarkably well.
 Through it, I found and worked around a problem in iOS Safari/WebKit in which `indexedDB.open()` hangs in a pending state right after an OAuth redirect. (It was a persistent iOS bug and didn't occur in Chrome or other browsers.)
 
 At first I assumed my code was at fault. But once I had gates checking each step, I could see that the code reached a certain step normally and then stalled when accessing browser storage.
+
+![Three sign-in diagnostic panels showing steps 1, 9 and 11, with an IndexedDB read timeout in the final panel](./images/2026-05-04/sign-in-diagnostic-gates.png)
+*Step-by-step diagnostics, ending with a browser storage read timeout.*
 
 If I had simply thought, without gates, that the whole codebase was acting strangely, I don't think I would ever have found the problem.
 
