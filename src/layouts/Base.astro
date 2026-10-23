@@ -2,10 +2,11 @@
 import { CONTACT_EMAIL, url } from '../site.js';
 import '../styles/global.css';
 
-const { title, description = 'A pixel-art aquarium sim where the ecosystem actually runs. Raise and breed shrimp, decorate your tank, and watch plants, microbes, and water chemistry turn a glass box into a living world.', cosmos = 'ambient', article, keywords, structuredData = [] } = Astro.props;
+const { title, description = 'A pixel-art aquarium sim where the ecosystem actually runs. Raise and breed shrimp, decorate your tank, and watch plants, microbes, and water chemistry turn a glass box into a living world.', cosmos = 'ambient', article, keywords, structuredData = [], image, imageAlt } = Astro.props;
 const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — Grow a Tiny World in a Pixel Shrimp Aquarium';
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(url('/og.png'), Astro.site);
+// 글마다 대표 그림이 있으면 링크 미리보기·검색 결과에 그 그림을 씀.
+const ogImage = new URL(image ?? url('/og.png'), Astro.site);
 const navItems = [
   { label: 'Devlog', path: '/devlog/' },
   { label: 'Lab', path: '/lab/' },
@@ -45,9 +46,9 @@ const jsonLd = article && {
   <meta property="og:site_name" content="Shrimprium" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:image" content={ogImage} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Shrimprium, a pixel-art shrimp aquarium sim" />
+  {!image && <meta property="og:image:width" content="1200" />}
+  {!image && <meta property="og:image:height" content="630" />}
+  <meta property="og:image:alt" content={imageAlt ?? 'Shrimprium, a pixel-art shrimp aquarium sim'} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={description} />

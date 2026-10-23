@@ -29,6 +29,7 @@ const shrimpedia = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.coerce.date(),
+    summary: z.string().optional(),
     image: image(),
     imageAlt: z.string().optional(),
   }),

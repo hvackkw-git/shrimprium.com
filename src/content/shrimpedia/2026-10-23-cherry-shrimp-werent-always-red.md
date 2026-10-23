@@ -2,6 +2,7 @@
 title: Cherry shrimp weren't always red
 date: 2026-10-23
 image: ./images/2026-10-23/cherry-history.png
+summary: How the brown wild shrimp became the red cherry shrimp. A short history of Neocaridina davidi in the aquarium hobby, from Amano shrimp in the 1980s to Red Rili, with sources.
 imageAlt: Three pixel-art shrimp from Shrimprium swimming in a dark tank. A brown wild shrimp at the top left, a red cherry shrimp in the middle, and a red Rili shrimp with a white patch on its body at the bottom right
 ---
 

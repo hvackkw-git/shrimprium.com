@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { url } from '../../site.js';
 
@@ -11,9 +11,10 @@ export async function getStaticPaths() {
 
 const { item } = Astro.props;
 const { Content } = await render(item);
+const ogImage = await getImage({ src: item.data.image, width: 1200, format: 'png' });
 const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 ---
-<Base title={item.data.title} description={item.body?.replace(/\s+/g, ' ').trim().slice(0, 155)}>
+<Base title={item.data.title} description={item.data.summary ?? item.body?.replace(/\s+/g, ' ').trim().slice(0, 155)} article={item.data} image={ogImage.src} imageAlt={item.data.imageAlt}>
   <main class="page">
     <a class="back" href={url('/shrimpedia/')}>← Shrimpedia</a>
     <time class="date" datetime={item.data.date.toISOString()}>{fmt(item.data.date)}</time>
