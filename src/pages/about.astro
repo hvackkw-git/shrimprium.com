@@ -3,8 +3,18 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { url } from '../site.js';
 import scene from '../assets/about/shrimprium-colourful-shrimp-tank.png';
+import breeding from '../assets/about/shrimprium-shrimp-breeding-red-blue-purple.png';
+import spectrum from '../assets/about/shrimprium-shrimp-colour-spectrum.png';
+import creating from '../assets/about/shrimprium-wild-to-mech-shrimp.png';
+import family from '../assets/about/shrimprium-berried-shrimp-and-babies.png';
 
 const sceneAlt = 'Eight pixel-art shrimp from Shrimprium swimming across a teal-to-navy tank: purple, Red Rili, blue, red, yellow, brown wild, orange and green.';
+const sectionImages = {
+  breeding: { src: breeding, alt: 'A red shrimp and a blue shrimp from Shrimprium face each other above a row of their babies: one red, one blue and three purple, as the game’s colour genetics predict.' },
+  spectrum: { src: spectrum, alt: 'Seven Shrimprium shrimp arranged in an arc of colour: red, orange, yellow, green, blue, purple and rainbow.' },
+  creating: { src: creating, alt: 'Four Shrimprium shrimp rising from left to right: a brown wild shrimp, a red cherry shrimp, a glitchy digital shrimp and a silver mechanical shrimp.' },
+  family: { src: family, alt: 'A red mother shrimp carrying yellow eggs, followed by four small babies: two red, one Red Rili and one brown like its wild ancestors.' },
+};
 const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 ---
 <Base title="Hi, I’m Crafty Olive." description="Crafty Olive on engineering, curiosity, art, fatherhood and creating Shrimprium." image={ogImage.src} imageAlt={sceneAlt}>
@@ -18,12 +28,14 @@ const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 
       <section aria-labelledby="engineering-and-curiosity">
         <h2 id="engineering-and-curiosity">Engineering and Curiosity</h2>
+        <Image class="about-scene" src={sectionImages.breeding.src} alt={sectionImages.breeding.alt} widths={[800, 1280]} sizes="(max-width: 800px) 100vw, 800px" loading="lazy" />
         <p>Once I understand a phenomenon, I want to build something with it. Reading the theory is rarely enough. My understanding gets deeper when I build the model, write the code, and watch the system run. That's how a simulation of heat transfer in buildings ended up in a game, and how I started describing a small shrimp tank with mathematical models.</p>
         <p>Reality is always more complex than a model, and no model explains everything. I find that gap interesting rather than frustrating. There's always something left to explore between what we think we know and what we don't.</p>
       </section>
 
       <section aria-labelledby="science-art-and-a-little-aquarium">
         <h2 id="science-art-and-a-little-aquarium">Science, Art, and a Little Aquarium</h2>
+        <Image class="about-scene" src={sectionImages.spectrum.src} alt={sectionImages.spectrum.alt} widths={[800, 1280]} sizes="(max-width: 800px) 100vw, 800px" loading="lazy" />
         <p>I love jazz and enjoy looking at paintings. Engineering and art are often treated as opposites, but I've never felt the need to keep them apart.</p>
         <p>Shrimprium grew out of that. It began as a game about raising little shrimp. Over time I added models of the bacterial nitrogen cycle, plant photosynthesis, dissolved oxygen, inheritance and reproduction, and the movement of light and energy, one by one. Then I added pixel art, jazz, and some of my favourite paintings.</p>
         <p>For some people it will simply be a relaxing game for watching shrimp. For others it can be a small lab for poking at the interactions of an ecosystem. I'd like it to work as both.</p>
@@ -32,6 +44,7 @@ const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 
       <section aria-labelledby="on-creating-things">
         <h2 id="on-creating-things">On Creating Things</h2>
+        <Image class="about-scene" src={sectionImages.creating.src} alt={sectionImages.creating.alt} widths={[800, 1280]} sizes="(max-width: 800px) 100vw, 800px" loading="lazy" />
         <p>I didn't start out as a game developer. I began by building the things I wanted to make, one at a time, using what I knew from engineering and learning the rest as I went: programming, graphics, animation, music, and user experience.</p>
         <p>Generative AI has been an important tool along the way. It helped me write code, learn new ways of making things, and attempt ideas I couldn't have managed alone. But deciding what to make, why it should exist, and what form it takes is still my job.</p>
         <p>I don't think making something new always means inventing it from scratch. Sometimes it's enough to connect existing knowledge with ideas that seem unrelated, in your own way. Shrimprium is the small world I made like that.</p>
@@ -39,6 +52,7 @@ const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 
       <section aria-labelledby="one-more-thing">
         <h2 id="one-more-thing">One More Thing</h2>
+        <Image class="about-scene" src={sectionImages.family.src} alt={sectionImages.family.alt} widths={[800, 1280]} sizes="(max-width: 800px) 100vw, 800px" loading="lazy" />
         <p>I'm also a father, and raising a child has made it clearer what I care about. I want my child not to be afraid of failure, to feel good about having tried something and thought it through rather than only about doing it well, and to see the world as a place worth exploring.</p>
         <p>My reasons for making games aren't so different. I want people to try things freely in a small world, run into outcomes they didn't expect, and enjoy the process, ideally with a calm, pleasant time along the way.</p>
       </section>
