@@ -271,6 +271,7 @@ em {
 .prose h2 { font-size: 24px; color: var(--text); margin-top: 2em; letter-spacing: -0.02em; }
 .prose h3 { font-size: 19px; color: var(--text); margin-top: 1.6em; }
 .prose a { color: var(--glow); }
+.prose sup + sup { margin-left: 0.3em; }
 .prose ul, .prose ol { padding-left: 1.3em; }
 
 .post-navigation {
