@@ -1,8 +1,8 @@
 ---
 title: Cherry shrimp weren't always red
 date: 2026-10-23
-image: ./images/2026-10-23/placeholder.png
-imageAlt: Placeholder image
+image: ./images/2026-10-23/cherry-history.png
+imageAlt: Three pixel-art shrimp from Shrimprium swimming in a dark tank. A brown wild shrimp at the top left, a red cherry shrimp in the middle, and a red Rili shrimp with a white patch on its body at the bottom right
 ---
 
 Hi, I'm Crafty Olive.
