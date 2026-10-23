@@ -1,7 +1,7 @@
 ---
 title: Shrimprium wins a gold prize at GIGDC
 date: 2026-09-02
-summary: "Shrimprium won a gold prize at GIGDC, an indie game competition held in Korea. Next, I'm putting resources into the graphics."
+summary: "Shrimprium, my shrimp aquarium game, won a gold prize at GIGDC, an indie game competition held in Korea. Next, I'm putting resources into the graphics."
 author: Crafty Olive
 ---
 

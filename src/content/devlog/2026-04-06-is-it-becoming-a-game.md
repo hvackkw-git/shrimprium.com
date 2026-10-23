@@ -1,7 +1,7 @@
 ---
 title: Is it becoming a game?
 date: 2026-04-06
-summary: Quests, famous paintings, affection and flips. Each fix revealed a new gap between a detailed tank engine and a game people want to play.
+summary: Quests, famous paintings, affection and flips. Each fix revealed a new gap between a detailed tank engine and an aquarium game people want to play.
 author: Crafty Olive
 ---
 
@@ -27,7 +27,7 @@ From then on, I thought more about aesthetics. Rather than a game with lots of s
 
 A slightly dark, lonely mood, slow jazz playing and a famous painting: this was an atmosphere I loved, and it helped give my tank a more emotional feel.
 
-![Tank selection panel beside two game screens with different painting backgrounds](./images/2026-04-06/painting-background-tanks.png)
+![Tank selection panel beside two screens of the Shrimprium aquarium game with different painting backgrounds](./images/2026-04-06/painting-background-tanks.png)
 *Choosing between tanks with different painting backgrounds.*
 
 But then another problem appeared. This time the background was too strong, and the shrimp seemed to disappear into it.
@@ -40,7 +40,7 @@ Here too, something didn't quite sit right. There was interaction now, but it st
 
 So recently I've been reworking the shrimp's behavior to flow more like a continuous performance. For example, after a triple jump, a well-timed tap links into a backflip or a front flip.
 
-![Red shrimp glowing among aquatic plants, with NICE reaction bubbles and one shrimp high in the tank](./images/2026-04-06/shrimp-interaction-reactions.png)
+![In the shrimp tank game Shrimprium, red shrimp glowing among aquatic plants, with NICE reaction bubbles and one shrimp high in the tank](./images/2026-04-06/shrimp-interaction-reactions.png)
 *Shrimp reactions during an interaction.*
 
 There is still a lot to think through. Every time I fix one shortcoming, another appears, and fixing that one creates yet another problem. It feels like an endless cycle.

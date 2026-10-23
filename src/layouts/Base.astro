@@ -2,7 +2,7 @@
 import { CONTACT_EMAIL, url } from '../site.js';
 import '../styles/global.css';
 
-const { title, description = 'A pixel-art aquarium sim where the ecosystem actually runs. Raise and breed shrimp, decorate your tank, and watch plants, microbes, and water chemistry turn a glass box into a living world.', cosmos = 'ambient', article, keywords, structuredData = [], image, imageAlt } = Astro.props;
+const { title, description = 'A pixel-art shrimp tank and aquarium game where the ecosystem actually runs. Raise and breed shrimp, decorate your tank, and watch plants, microbes, and water chemistry turn a glass box into a living world.', cosmos = 'ambient', article, keywords, structuredData = [], image, imageAlt } = Astro.props;
 const pageTitle = title ? `${title} · Shrimprium` : 'Shrimprium — Grow a Tiny World in a Pixel Shrimp Aquarium';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // 글마다 대표 그림이 있으면 링크 미리보기·검색 결과에 그 그림을 씀.

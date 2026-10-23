@@ -1,7 +1,7 @@
 ---
 title: Shrimprium is on the App Store
 date: 2026-06-14
-summary: "My small game is now on the App Store. An introduction to the tiny world inside it, where the player sets the difficulty and the shrimp never die."
+summary: "My small aquarium game is now on the App Store. An introduction to the tiny world inside it, where the player sets the difficulty and the shrimp never die."
 author: Crafty Olive
 ---
 

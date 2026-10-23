@@ -59,5 +59,5 @@ This approach has turned out to suit me well. The main bottleneck in my project 
 
 My game is still changing. Recently I switched it to pixel art. It would have been easier to go with pixel art from the start, but since I didn't, the switch took quite a lot of work. I suppose that was one more piece of trial and error.
 
-![Pixel-art tank with two red shrimp, aquatic plants, gravel and food indicators near the bottom](./images/2026-03-19/pixel-art-tank.png)
+![Early pixel-art shrimp tank game screen with two red shrimp, aquatic plants, gravel and food indicators near the bottom](./images/2026-03-19/pixel-art-tank.png)
 *The tank after the switch to pixel art.*

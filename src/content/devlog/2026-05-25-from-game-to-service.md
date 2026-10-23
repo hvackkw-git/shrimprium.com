@@ -7,7 +7,7 @@ author: Crafty Olive
 
 Hello, I'm Crafty Olive.
 
-Shrimprium, the shrimp aquarium simulation game I've been making, has finally reached a reasonable level of completion as a game and is moving into the app stage.
+Shrimprium, the shrimp aquarium game I've been making, has finally reached a reasonable level of completion as a game and is moving into the app stage.
 
 Every feature I built sparked another idea, and every bug I fixed revealed something else I wanted to improve. So, honestly, it wasn't easy to say the game was done. But amid the endless cycle of game development, I judged that I had reached a point I could be reasonably satisfied with, and decided to move on to the next stage.
 

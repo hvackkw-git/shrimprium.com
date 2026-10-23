@@ -67,7 +67,7 @@ Shrimp traits come in four types: color (red, blue, yellow, black and brown), tr
 
 Without mutation, the population would eventually converge on a particular form, so small variations occur at a low probability to keep new combinations appearing. Later, I plan to add Bee shrimp as well. (Bee shrimp will breed only with other Bee shrimp.)
 
-![Red, yellow, blue and brown shrimp with varied markings in a planted pixel-art tank, beneath a NICE status bubble](./images/2026-03-27/shrimp-color-and-pattern-variation.png)
+![Red, yellow, blue and brown shrimp with varied markings in a planted pixel-art tank in the Shrimprium aquarium game, beneath a NICE status bubble](./images/2026-03-27/shrimp-color-and-pattern-variation.png)
 *Different colors and markings among the shrimp in the tank.*
 
 ## 7. The game economy
