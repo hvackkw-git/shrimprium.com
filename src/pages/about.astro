@@ -2,9 +2,9 @@
 import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { url } from '../site.js';
-import scene from '../assets/about/shrimprium-shrimp-tank-starry-night.png';
+import scene from '../assets/about/shrimprium-colourful-shrimp-tank.png';
 
-const sceneAlt = 'A pixel-art Shrimprium tank in front of Van Gogh’s The Starry Night. Brown, red, Red Rili, yellow and blue shrimp walk on the grass, swim between green, red and purple plants, and rest on an arched piece of driftwood.';
+const sceneAlt = 'Eight pixel-art shrimp from Shrimprium swimming across a teal-to-navy tank: purple, Red Rili, blue, red, yellow, brown wild, orange and green.';
 const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 ---
 <Base title="Hi, I’m Crafty Olive." description="Crafty Olive on engineering, curiosity, art, fatherhood and creating Shrimprium." image={ogImage.src} imageAlt={sceneAlt}>
