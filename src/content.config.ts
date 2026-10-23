@@ -23,4 +23,15 @@ const lab = defineCollection({
   }),
 });
 
-export const collections = { devlog, lab };
+// Shrimpedia: 새우 잡학 사전. Lab과 같은 형식(정사각형 그림 한 장과 짧은 글).
+const shrimpedia = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/shrimpedia' }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    image: image(),
+    imageAlt: z.string().optional(),
+  }),
+});
+
+export const collections = { devlog, lab, shrimpedia };
