@@ -9,8 +9,8 @@ const ogImage = new URL(url('/og.png'), Astro.site);
 const navItems = [
   { label: 'Devlog', path: '/devlog/' },
   { label: 'Lab', path: '/lab/' },
-  { label: 'Shrimpedia', path: '/shrimpedia/' },
-  { label: 'About Me', path: '/about/' },
+  { label: 'Shrimpedia', short: 'Wiki', path: '/shrimpedia/' },
+  { label: 'About Me', short: 'About', path: '/about/' },
 ];
 const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
 const currentSection = (path) => currentPath === url(path) ? 'page' : currentPath.startsWith(url(path)) ? 'location' : undefined;
@@ -69,8 +69,8 @@ const jsonLd = article && {
   <header class="top">
     <a class="brand" href={url('/')}>Shrimprium</a>
     <nav class="nav" aria-label="Main navigation">
-      {navItems.map(({ label, path }) => (
-        <a class="devlog-btn" href={url(path)} aria-current={currentSection(path)}>{label}</a>
+      {navItems.map(({ label, short, path }) => (
+        <a class="devlog-btn" href={url(path)} aria-current={currentSection(path)}>{short ? <><span class="nav-full">{label}</span><span class="nav-short">{short}</span></> : label}</a>
       ))}
     </nav>
   </header>
