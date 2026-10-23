@@ -1,11 +1,17 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { url } from '../site.js';
+import scene from '../assets/about/shrimprium-shrimp-tank-starry-night.png';
+
+const sceneAlt = 'A pixel-art Shrimprium tank in front of Van Gogh’s The Starry Night. Brown, red, Red Rili, yellow and blue shrimp walk on the grass, swim between green, red and purple plants, and rest on an arched piece of driftwood.';
+const ogImage = await getImage({ src: scene, width: 1280, format: 'png' });
 ---
-<Base title="Hi, I’m Crafty Olive." description="Crafty Olive on engineering, curiosity, art, fatherhood and creating Shrimprium.">
+<Base title="Hi, I’m Crafty Olive." description="Crafty Olive on engineering, curiosity, art, fatherhood and creating Shrimprium." image={ogImage.src} imageAlt={sceneAlt}>
   <main class="page about-page">
     <p class="eyebrow">About Me</p>
     <h1 class="about-title">Hi, I’m <em>Crafty Olive.</em></h1>
+    <Image class="about-scene" src={scene} alt={sceneAlt} widths={[800, 1280]} sizes="(max-width: 800px) 100vw, 800px" />
     <article class="prose about-prose">
       <p>I'm someone who is curious about how the world works. Professionally, I work in energy engineering: building energy systems, thermodynamics, and heating and cooling technologies. Most of what I study is invisible, and the work is about putting that understanding into practice in real systems.</p>
       <p>What interests me most is the order that emerges when many parts interact: the way heat moves, the way bacteria and plants affect one another in water, the intricate fractals that grow out of simple mathematical rules. They look like stories from unrelated fields, but for me they all start from the same curiosity.</p>
@@ -56,6 +62,7 @@ import { url } from '../site.js';
     letter-spacing: -0.03em;
     text-wrap: balance;
   }
+  .about-scene { display: block; width: 100%; height: auto; margin-top: 32px; border-radius: 14px; image-rendering: pixelated; }
   .about-prose { line-height: 1.85; word-break: normal; overflow-wrap: break-word; }
   .about-prose section { margin-top: 56px; }
   .about-prose h2 { margin-top: 0; line-height: 1.4; scroll-margin-top: 140px; }
