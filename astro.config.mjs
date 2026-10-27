@@ -11,5 +11,6 @@ const staticPages = ['privacy.html', 'delete-account.html'].map((page) => new UR
 export default defineConfig({
   site,
   base,
-  integrations: [sitemap({ customPages: staticPages })],
+  // 부스 수조 페이지는 개인 링크로만 연다.
+  integrations: [sitemap({ customPages: staticPages, filter: (page) => !page.includes('/booth/') })],
 });

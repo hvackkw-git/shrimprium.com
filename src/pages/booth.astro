@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import StoreLinks from '../components/StoreLinks.astro';
+import { GAME_URL } from '../site.js';
+---
+<Base title="My Booth Tank" description="A shrimp tank made at the Shrimprium booth." noindex>
+  <main class="page booth-page">
+    <p class="eyebrow">Shrimprium Booth</p>
+    <h1 class="page-title">My booth tank</h1>
+    <!-- 부스 링크는 shrimprium.com/booth/#<토큰>. 토큰은 해시에만 있어 이 서버로 보내지지 않는다. -->
+    <div class="booth-tank" data-booth-tank data-game={GAME_URL}>
+      <p class="booth-status" data-booth-status>Opening the tank…</p>
+    </div>
+    <StoreLinks />
+  </main>
+</Base>
+
+<style>
+  .booth-page { text-align: center; }
+  /* 게임 수조는 320×640(1:2). 화면 높이 안에 들어오게 맞춘다. */
+  .booth-tank {
+    position: relative;
+    width: min(100%, calc((100dvh - 240px) / 2), 420px);
+    min-width: 220px;
+    aspect-ratio: 1 / 2;
+    margin: 32px auto 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #080f13;
+    box-shadow: 0 0 0 1px var(--line), 0 12px 40px #0008;
+  }
+  .booth-tank :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .booth-status { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; margin: 0; color: var(--muted); }
+</style>
+
+<script>
+  // 게임의 단일 수조 뷰어(/mytank/<token>?single=1)를 그대로 띄운다.
+  const box = document.querySelector<HTMLElement>('[data-booth-tank]');
+  const status = box?.querySelector<HTMLElement>('[data-booth-status]');
+  const token = location.hash.slice(1);
+  if (box && status) {
+    if (!/^[a-f0-9]{64}$/.test(token)) {
+      status.textContent = 'This booth link is invalid. Please check the address.';
+    } else {
+      const frame = document.createElement('iframe');
+      frame.src = `${box.dataset.game}/mytank/${token}?single=1`;
+      frame.title = 'Booth tank';
+      frame.referrerPolicy = 'no-referrer';
+      frame.allow = 'fullscreen';
+      frame.addEventListener('load', () => status.remove(), { once: true });
+      box.append(frame);
+    }
+  }
+</script>
