@@ -14,6 +14,8 @@ import { GAME_URL } from '../site.js';
 
 <style>
   /* 모바일용: 고정 헤더 아래 남은 화면에 게임 수조(320×640, 1:2)를 딱 맞춘다. 스크롤 없음. */
+  /* 공통 body 의 min-height:100vh 는 주소창이 보일 때 실제 화면(100dvh)보다 길어 빈 스크롤이 생긴다. */
+  :global(body) { min-height: 100dvh; }
   .booth-page {
     --header: 72px;
     height: 100dvh;
