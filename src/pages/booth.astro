@@ -16,14 +16,15 @@ import { GAME_URL } from '../site.js';
 </Base>
 
 <style>
-  .booth-page { text-align: center; }
-  /* 게임 수조는 320×640(1:2). 화면 높이 안에 들어오게 맞춘다. */
+  /* 모바일용: 본게임처럼 수조가 화면 너비를 채운다. */
+  .booth-page { text-align: center; padding-top: 96px; }
+  .booth-page .page-title { font-size: clamp(28px, 7vw, 40px); }
+  /* 게임 수조와 같은 320×640(1:2). */
   .booth-tank {
     position: relative;
-    width: min(100%, calc((100dvh - 240px) / 2), 420px);
-    min-width: 220px;
+    width: min(100%, 420px);
     aspect-ratio: 1 / 2;
-    margin: 32px auto 0;
+    margin: 20px auto 0;
     border-radius: 12px;
     overflow: hidden;
     background: #080f13;
