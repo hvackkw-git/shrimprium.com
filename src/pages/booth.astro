@@ -23,6 +23,8 @@ import { GAME_URL } from '../site.js';
     justify-content: center;
     align-items: flex-start;
   }
+  /* 600px 보다 넓으면 헤더 버튼이 커져 헤더가 84px 이다(global.css). */
+  @media (min-width: 601px) { .booth-page { --header: 84px; } }
   .booth-tank {
     position: relative;
     width: min(100%, calc((100dvh - var(--header) - 8px) / 2));
