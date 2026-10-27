@@ -15,6 +15,7 @@ npm run build    # dist/
 | `src/content/devlog/` | 데브로그 글 (`.md` 하나 = 글 하나) |
 | `src/site.js` | 게임 주소, 문의 이메일 |
 | `public/privacy.html` | 개인정보처리방침 |
+| `src/pages/booth.astro` | 전시 부스 수조 링크 `/booth/#<토큰>` — 게임의 단일 수조 뷰어(`/mytank/<토큰>?single=1`)를 띄움. 검색·사이트맵 제외 |
 
 ## 데브로그 글 쓰기
 
