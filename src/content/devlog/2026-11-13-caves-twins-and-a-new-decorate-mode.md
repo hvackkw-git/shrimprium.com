@@ -54,7 +54,3 @@ Most of last week went into moving the tank's rendering onto the GPU. With that 
 - On phones that use WebGL2 instead of WebGPU, the cave, marine snow, light, floor and plants now draw into the same water canvas, and black water and stranded shrimp glows were fixed.
 - Fixed shrimp freezing at the ends of a slide.
 - I also tried connected platform terrain, then reverted it and returned to the 1.81 release. It needs more time before it's ready.
-
-## Closing thoughts
-
-The GPU work was mostly invisible: the tank looks the same, just lighter on the phone. This round was the opposite, small things you can see and touch. Of all of them, I think the twins will be the most fun to run into.
